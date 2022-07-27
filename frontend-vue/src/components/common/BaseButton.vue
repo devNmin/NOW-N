@@ -1,7 +1,9 @@
 <template>
-    <button :class="{disabled, toggled}" :disabled="disabled" @click.stop="onClick">
+  <div class="button-container">
+    <button :disabled="disabled">
       <slot></slot>
     </button>
+  </div>
 </template>
 
 <script>
@@ -11,21 +13,15 @@ export default {
     disabled: {
       type: Boolean,
       default: false
-    },
-    toggled: {
-      type: Boolean,
-      default: false
-    }
-  },
-  methods: {
-    onClick () {
-      this.$emit('click', !this.toggled)
     }
   }
 }
 </script>
 <style scoped>
 
+.button-container{
+  display:inline-block;
+}
 button{
   background-color: #6dcef5;
   color: white;
@@ -34,6 +30,10 @@ button{
   font-family: 'MaruBuriOTF';
   font-style: normal;
   border-width: 0;
+  width: 300px;
+  height: 50px;
+  font-size: 32px;
+  text-align: center;
 }
 
 button:hover {
@@ -46,15 +46,5 @@ button.disabled{
   background-color: var(--color-grey-100);
   border: 2px solid var(--color-grey-500);
   color: var(--color-grey-500);
-}
-
-button.toggled{
-  background-color: var(--color-grey-900);
-  color: white;
-}
-
-button.toggled:hover{
-  background-color: var(--color-primary);
-  border: 2px solid var(--color-primary);
 }
 </style>

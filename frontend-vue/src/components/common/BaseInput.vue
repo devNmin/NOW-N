@@ -1,14 +1,10 @@
 <template>
-  <div class="input-container" :class="{readonly}">
-    <div v-if="label" class="label">
-      {{label}}
-    </div>
-    <input :type="password? 'password' : 'text'"
-    v-model="inputValue"
+  <div class="input-container">
+    <input
+    :type="type"
+    :value="modelValue"
     :placeholder="placeholder"
-    :readonly="readonly"
-    @change="onKeyup"
-    @keyup.enter="onEnter"
+    @input="updateInput"
     />
   </div>
 </template>
@@ -17,7 +13,7 @@
 
 export default {
   props: {
-    value: {
+    modelValue: {
       type: [String, Number],
       default: ''
     },
@@ -25,39 +21,15 @@ export default {
       type: String,
       default: ''
     },
-    label: {
+    type: {
       type: String,
-      default: ''
-    },
-    password: {
-      type: Boolean,
-      default: false
-    },
-    readonly: {
-      type: Boolean,
-      default: false
+      default: 'text'
     }
   },
-  watch: {
-    value: {
-      immediate: true,
-      handler (val) {
-        this.inputValue = val
-      }
+  methods: {
+    updateInput (event) {
+      this.$emit('update:modelValue', event.target.value)
     }
-  },
-  setup () {
-    const inputValue = ''
-
-    const onKeyup = () => {
-      this.$emit('input', this.inputValue)
-    }
-
-    const onEnter = () => {
-      this.$emit('enter')
-    }
-
-    return { inputValue, onKeyup, onEnter }
   }
 }
 </script>
@@ -65,19 +37,22 @@ export default {
 <style>
 
 .input-container{
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   gap: 8px;
 }
 input {
   font-family: 'MaruBuriOTF';
   font-style: normal;
-  /* margin-top: 60px; */
   background-color: white;
   color: black;
   border-color: #6dcef5;
   border: solid 2px #6dcef5;
   border-radius: 8px;
+  width: 300px;
+  height: 50px;
+  font-size: 25px;
+  padding-left: 20px;
 }
 input:hover{
   border-bottom: 2px solid var(--color-primary);
@@ -88,15 +63,5 @@ input:focus{
 }
 .input::placeholder {
     color: #6dcef5;
-}
-
-.input-container.readonly input {
-  color: var(--color-grey-300);
-  border-bottom: 2px solid var(--color-grey-300);
-}
-
-.input-container.readonly input:hover,
-.input-container.readonly input:focus {
-  border-bottom: 2px solid var(--color-grey-300);
 }
 </style>
