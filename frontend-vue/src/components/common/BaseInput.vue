@@ -68,6 +68,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
 }
 input {
   font-family: 'MaruBuriOTF';
@@ -78,6 +79,10 @@ input {
   border-color: #6dcef5;
   border: solid 2px #6dcef5;
   border-radius: 8px;
+  width: 360px;
+  height: 64px;
+  font-size: 32px;
+  text-align: center;
 }
 input:hover{
   border-bottom: 2px solid var(--color-primary);

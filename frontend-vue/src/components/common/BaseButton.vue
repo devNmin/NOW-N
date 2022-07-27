@@ -34,6 +34,10 @@ button{
   font-family: 'MaruBuriOTF';
   font-style: normal;
   border-width: 0;
+  width: 360px;
+  height: 64px;
+  font-size: 32px;
+  text-align: center;
 }
 
 button:hover {
