@@ -8,6 +8,9 @@
       <router-link to="/users/findpw">비밀번호 찾기</router-link>|
       <router-link to="/users/regist">회원가입</router-link>
     </div>
+    <kakaoLogin></kakaoLogin>
+
+    <GoogleLogin class="google-login"></GoogleLogin>
     <BaseButton @click="onSubmit">로그인</BaseButton>
   </form>
 </template>
@@ -15,9 +18,11 @@
 <script>
 import BaseButton from '../common/BaseButton.vue'
 import BaseInput from '../common/BaseInput.vue'
+import kakaoLogin from '@/components/user/KakaoLogin.vue'
+import GoogleLogin from '@/components/user/GoogleLogin.vue'
 
 export default {
-  components: { BaseButton, BaseInput }
+  components: { BaseButton, BaseInput, kakaoLogin, GoogleLogin }
 
 }
 </script>
