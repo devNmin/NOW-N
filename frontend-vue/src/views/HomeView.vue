@@ -17,6 +17,6 @@ export default {
 .home {
   width:100%;
   height:700px;
-  align-: center;
+  align-items: center;
 }
 </style>
