@@ -27,8 +27,7 @@ export default {
   --color-grey-700: #575a5f;
   --color-grey-900: #2e3033;
 
-  --header-height: 96px;
-  --footer-height: 128px;
+  --header-height: 1rem;
 }
 
 #app {
@@ -41,13 +40,13 @@ export default {
 
 main {
   min-height: calc(100vh - var(--footer-height));
+  width: 100vw;
 }
 main.background {
   background-size: cover;
 }
 
 .container {
-  min-height: calc(100vh - var(--footer-height) - var(--header-height));
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -57,7 +56,6 @@ main.background {
 }
 
 .container-center {
-  min-height: calc(100vh - var(--footer-height) - var(--header-height) - 128px);
   display: flex;
   justify-content: center;
   align-items: center;

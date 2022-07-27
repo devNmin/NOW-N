@@ -1,31 +1,12 @@
 <template>
   <form @submit.prevent>
     <h1>로그인</h1>
-    <BaseInput label="아이디"></BaseInput>
-    <BaseInput label="비밀번호" password></BaseInput>
+    <BaseInput placeholder="아이디"></BaseInput>
+    <BaseInput placeholder="비밀번호" type="password"></BaseInput>
     <div class="login-nav">
       <router-link to="/users/findid">아이디 찾기</router-link>|
       <router-link to="/users/findpw">비밀번호 찾기</router-link>|
       <router-link to="/users/regist">회원가입</router-link>
-    </div>
-    <div class="input-div">
-      <div></div>
-
-      <input class='login-info-box' type="text" placeholder="네이버">
-      <div></div>
-    </div>
-    <div class="input-div">
-      <div></div>
-      <input class='login-info-box' type="text" placeholder="카카오">
-      <div></div>
-    </div>
-    <div class="input-div">
-      <div></div>
-      <input class='login-info-box' type="text" placeholder="구글">
-      <div></div>
-    </div>
-    <div class="input-div">
-      <input class='login-info-box' type="text" placeholder="삼성">
     </div>
     <BaseButton @click="onSubmit">로그인</BaseButton>
   </form>
@@ -47,7 +28,7 @@ form {
   width: 400px;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 10px;
   padding: 48px;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(4px);
