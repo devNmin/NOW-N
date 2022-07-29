@@ -1,8 +1,8 @@
 <template>
   <!-- <div class="followerbox"></div> -->
-  <div>
-    <FollowBar></FollowBar>
-    <div id="leftbox">
+  <div class="grid-container">
+    <FollowBar class="leftbox"></FollowBar>
+    <div class="middlebox">
       <div>
         <h1 class="name1">
           <div class="content"></div> {{ name }} </h1>
@@ -58,23 +58,44 @@
 
 <script>
 import FollowBar from '../common/FollowBar.vue'
+// import { mapGetters } from 'vuex'
 export default {
   components: {
     FollowBar
   },
-  data () {
+  // computed: {
+  //   ...mapGetters([
+  //     'currentUser'
+  //   ])
+  // },
+  setup () {
+    const name = '박승주'
+    const follower = '150k'
+    const following = '10'
+    const profile = '프로필'
+    const information = '#글자 #설명 #예시'
     return {
-      name: '조경민',
-      follower: '150k',
-      following: '10',
-      information: '#글자 #설명 #예시',
-      sex2: '남',
-      height2: '174.4cm',
-      weight2: '85.5kg',
-      goal2: '75.5kg'
+      name,
+      follower,
+      following,
+      profile,
+      information
     }
   }
 }
+//   data () {
+//     return {
+//       name: '조경민',
+//       follower: '150k',
+//       following: '10',
+//       information: '#글자 #설명 #예시',
+//       sex2: '남',
+//       height2: '174.4cm',
+//       weight2: '85.5kg',
+//       goal2: '75.5kg'
+//     }
+//   }
+// }
 // export default {
 //   name: 'Profile',
 //   computed: {
@@ -91,65 +112,81 @@ export default {
 </script>
 
 <style>
+.grid-container {
+  display: grid;
+  grid-template-columns: 350px 600px 600px;
+  column-gap: 50px;
+  grid-template-areas:
+    "leftbox middlebox rightbox"
+}
 .content{
-  display: flex;
+  /* display: flex; */
   align-items: center;
   text-align: center;
   /* position: absolute; */
   margin: auto;
 }
-#leftbox{
+.leftbox{
+  margin: auto
+}
+.middlebox{
   left: 100px;
   display: flex;
   align-items: center;
   text-align: center;
-  margin-left: 300px;
+  /* margin-left: 300px; */
 }
 .rightbox{
   display: flex;
   align-items: center;
   text-align: center;
-  margin-left: 50px;
+  /* margin-left: 50px; */
 }
 .image1{
-  display: flex;
+  /* display: flex; */
   align-items: center;
   position: absolute;
   width: 25vw;
   height: 50vh;
-  /* float: left; */
-  margin-left: 13vw;
-  margin-top: 23vh;
+  top: 150px;
+  left: 500px;
+  /* margin-left: 13vw; */
+  /* margin-top: 23vh; */
   border: 5px solid ;
   border-radius: 50%;
   background: url(https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag-map_of_the_world_%282018%29.png)
 }
 .name1{
-  display: flex;
+  /* display: flex; */
   align-items: center;
-  top: 4vh;
+  top: 13vh;
   position: absolute;
-  margin-left: 23.2vw;
-  margin-top: 11vh;
+  margin-left: 10vw;
+  /* margin-top: 11vh; */
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 2rem;
+  left: 500px;
 }
 .follower1{
   position: absolute;
-  margin-left: 32vw;
-  margin-top: 80vh;
+  margin-left: 20vw;
+  /* margin-top: 80vh; */
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 1rem;
+  top: 530px;
+  left: 510px;
 }
 .following1{
   position: absolute;
-  margin-left: 13vw;
-  margin-top: 80vh;
+  margin-left: 3vw;
+  left: 450px;
+  /* margin-top: 80vh; */
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 1rem;
+  top: 530px;
 }
 .info{
   display: flex;
@@ -158,8 +195,10 @@ export default {
   position: absolute;
   width: 35vw;
   height: 10vh;
-  margin-left: 8vw;
-  margin-top: 86vh;
+  /* margin-left: 8vw; */
+  /* margin-top: 86vh; */
+  top: 550px;
+  left: 430px;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   background: #FFEB3B;
@@ -171,8 +210,9 @@ export default {
   position: absolute;
   width: 30vw;
   height: 35vh;
-  margin-left: 60vw;
+  /* margin-left: 60vw; */
   top: 13vh;
+  left: 1030px;
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
   box-shadow: 13.21px 4.95px 15px rgba(0, 0, 0, 0.25);
@@ -186,8 +226,9 @@ export default {
   position: absolute;
   width: 30vw;
   height: 30vh;
-  margin-left: 60vw;
+  /* margin-left: 60vw; */
   top: 60vh;
+  left: 1030px;
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
   box-shadow: 13.21px 4.95px 15px rgba(0, 0, 0, 0.25);

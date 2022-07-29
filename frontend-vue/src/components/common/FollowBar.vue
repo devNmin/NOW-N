@@ -39,6 +39,8 @@ export default {
     background-color: #EFEFF1;
     width: 350px;
     height: 980px;
+    position: absolute;
+    top: 87.7px;
 }
 
 .followbar #followbar-title{
