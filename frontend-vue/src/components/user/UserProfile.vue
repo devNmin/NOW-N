@@ -20,7 +20,7 @@
     </div>
     <div class="rightbox">
         <h6 class="usertext">
-          <div> 프로필 </div>
+          <!-- <div> 프로필 </div> -->
           <div class="usertext-sex1">
             성별
           </div>
@@ -69,17 +69,25 @@ export default {
   //   ])
   // },
   setup () {
-    const name = '박승주'
+    const name = '조경민'
     const follower = '150k'
     const following = '10'
     const profile = '프로필'
     const information = '#글자 #설명 #예시'
+    const sex2 = '남'
+    const height2 = '174.4cm'
+    const weight2 = '85.5kg'
+    const goal2 = '75.5kg'
     return {
       name,
       follower,
       following,
       profile,
-      information
+      information,
+      sex2,
+      height2,
+      weight2,
+      goal2
     }
   }
 }
@@ -174,7 +182,7 @@ export default {
   /* margin-top: 80vh; */
   font-family: 'MaruBuriOTF';
   font-style: normal;
-  font-size: 1rem;
+  font-size: 20px;
   top: 530px;
   left: 510px;
 }
@@ -185,7 +193,7 @@ export default {
   /* margin-top: 80vh; */
   font-family: 'MaruBuriOTF';
   font-style: normal;
-  font-size: 1rem;
+  font-size: 20px;
   top: 530px;
 }
 .info{
@@ -201,7 +209,7 @@ export default {
   left: 430px;
   font-family: 'MaruBuriOTF';
   font-style: normal;
-  background: #FFEB3B;
+  background: #FFF89C;
   border-radius: 50px;
   font-size: 3vh;
 }
@@ -308,9 +316,9 @@ export default {
 }
 .fatgraph{
   position: absolute;
-  width: 24vw;
-  height: 6vh;
-  left: 3vw;
+  width: 28vw;
+  height: 7vh;
+  left: 1vw;
   top: 25vh;
   background: black;
 }
