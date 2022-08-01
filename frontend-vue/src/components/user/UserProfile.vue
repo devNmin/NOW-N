@@ -7,7 +7,9 @@
         <h1 class="name1">
           <div class="content"></div> {{ name }} </h1>
         <!-- <h1 class="name1"> {{ currentUser.username }} </h1> -->
-        <h2 class="image1"></h2>
+        <h2 class="image1">
+          <img :src="img"/>
+        </h2>
         <h3 class="follower1">팔로워 {{ follower }}</h3>
         <!-- <h3 class="follower1">팔로워 {{ currentUser.follower }}</h3> -->
         <h4 class="following1">팔로잉 {{ following }}</h4>
@@ -78,6 +80,7 @@ export default {
     const height2 = '174.4cm'
     const weight2 = '85.5kg'
     const goal2 = '75.5kg'
+    const image = 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag-map_of_the_world_%282018%29.png'
     return {
       name,
       follower,
@@ -87,7 +90,8 @@ export default {
       sex2,
       height2,
       weight2,
-      goal2
+      goal2,
+      image
     }
   }
 }
