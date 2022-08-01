@@ -49,7 +49,7 @@ input {
   border-color: #6dcef5;
   border: solid 2px #6dcef5;
   border-radius: 8px;
-  width: 300px;
+  width: 340px;
   height: 50px;
   font-size: 25px;
   padding-left: 20px;

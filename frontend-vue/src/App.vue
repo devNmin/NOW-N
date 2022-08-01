@@ -1,5 +1,4 @@
 <template>
-  <BaseHeader></BaseHeader>
   <main :class="{ background }">
     <router-view />
   </main>
@@ -65,5 +64,9 @@ main.background {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+v-application{
+  font-family: 'MaruBuri';
 }
 </style>
