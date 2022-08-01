@@ -1,8 +1,8 @@
 <template>
-  <form @submit.prevent>
+  <form @submit.prevent="login(credentials)">
     <h1>로그인</h1>
-    <BaseInput placeholder="아이디"></BaseInput>
-    <BaseInput placeholder="비밀번호" type="password"></BaseInput>
+    <BaseInput placeholder="아이디" v-model="credentials.username"></BaseInput>
+    <BaseInput placeholder="비밀번호" type="password" v-model="credentials.password"></BaseInput>
     <div class="login-nav">
       <router-link to="/users/findid">아이디 찾기</router-link>|
       <router-link to="/users/findpw">비밀번호 찾기</router-link>|
@@ -15,9 +15,19 @@
 <script>
 import BaseButton from '../common/BaseButton.vue'
 import BaseInput from '../common/BaseInput.vue'
+import { mapActions } from 'vuex'
+import { reactive } from 'vue'
 
 export default {
-  components: { BaseButton, BaseInput }
+  components: { BaseButton, BaseInput },
+
+  setup () {
+    const credentials = reactive({ username: '', password: '' })
+
+    const LoginAction = mapActions(['login'])
+
+    return { LoginAction, credentials }
+  }
 
 }
 </script>

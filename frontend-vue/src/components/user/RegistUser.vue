@@ -31,9 +31,6 @@
     <input class='login-info-box' type="text" placeholder="클래스">
     <div></div>
   </div>
-  <br>
-  <br>
-  <br>
 </template>
 
 <script>

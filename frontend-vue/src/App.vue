@@ -1,16 +1,13 @@
 <template>
-  <BaseHeader></BaseHeader>
   <main :class="{ background }">
     <router-view />
   </main>
 </template>
 
 <script>
-import BaseHeader from '@/components/common/BaseHeader.vue'
 
 export default {
   components: {
-    BaseHeader
   }
 }
 </script>
@@ -59,5 +56,9 @@ main.background {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+v-application{
+  font-family: 'MaruBuri';
 }
 </style>
