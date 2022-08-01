@@ -1,5 +1,4 @@
 <template>
-  <BaseHeader></BaseHeader>
   <main :class="{ background }">
     <router-view />
   </main>
@@ -7,10 +6,16 @@
 
 <script>
 import BaseHeader from '@/components/common/BaseHeader.vue'
-
 export default {
+
   components: {
     BaseHeader
+  },
+  setup () {
+    const veiw = 1
+    return {
+      veiw
+    }
   }
 }
 </script>
@@ -59,5 +64,9 @@ main.background {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+v-application{
+  font-family: 'MaruBuri';
 }
 </style>
