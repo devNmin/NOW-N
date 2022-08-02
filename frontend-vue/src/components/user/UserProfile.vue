@@ -135,6 +135,8 @@ export default {
 
 <style>
 .grid-container {
+  /* height: 1500px;
+  width: 1600px; */
   height: 100%;
   width: 100%;
   display: grid;
@@ -170,7 +172,7 @@ export default {
   background: url(https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag-map_of_the_world_%282018%29.png)
 }
 .name1{
-  margin-left: 4vw;
+  margin-left: 6.5vw;
   margin-top: 11vh;
   font-family: 'MaruBuriOTF';
   font-style: normal;
@@ -181,14 +183,14 @@ export default {
   font-style: normal;
   font-size: 20px;
   float: right;
-  margin-right: 50px;
+  margin-right: 0px;
 
 }
 .following1{
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 20px;
-  margin-right: 190px;
+  margin-right: 230px;
   float: right;
 
 }
@@ -332,6 +334,7 @@ export default {
   background: #6dcef5;
   border-radius: 25px;
   color: white;
+  border-width: 0;
 }
 button:hover {
   background-color: var(--color-grey-900);
