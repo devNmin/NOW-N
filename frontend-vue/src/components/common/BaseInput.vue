@@ -1,12 +1,16 @@
 <template>
-  <div class="input-container">
-    <input
-    :type="type"
-    :value="modelValue"
-    :placeholder="placeholder"
-    @input="updateInput"
-    />
+  <label for="input-box" class="label-box">{{label}}
+  </label>
+  <input
+  class="input-box"
+  :label="label"
+  :type="type"
+  :value="modelValue"
+  @input="updateInput"
+  />
+  <div class="error-box" v-if="authError">{{authError["user.password"]}}
   </div>
+
 </template>
 
 <script>
@@ -17,13 +21,17 @@ export default {
       type: [String, Number],
       default: ''
     },
-    placeholder: {
+    value: {
       type: String,
       default: ''
     },
     type: {
       type: String,
       default: 'text'
+    },
+    label: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -35,33 +43,45 @@ export default {
 </script>
 
 <style>
-
-.input-container{
-  display: inline-block;
-  flex-direction: column;
-  gap: 8px;
-}
-input {
+.input-box {
   font-family: 'MaruBuriOTF';
   font-style: normal;
-  background-color: white;
   color: black;
-  border-color: #6dcef5;
-  border: solid 2px #6dcef5;
-  border-radius: 8px;
-  width: 340px;
-  height: 50px;
-  font-size: 25px;
+  border: 0px;
+  background-color: none;
+  border-bottom: solid 2px #6dcef5;
+  border-radius: 2px;
+  width: 300px;
+  height: 45px;
+  margin: auto;
+  font-size: 20px;
   padding-left: 20px;
+  padding: 0px;
 }
-input:hover{
+.input-box:hover {
   border-bottom: 2px solid var(--color-primary);
 }
-input:focus{
+.input-box:focus {
   outline: none;
   border-bottom: 2px solid var(--color-primary);
 }
-.input::placeholder {
-    color: #6dcef5;
+.label-box {
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  font-size: 20px;
+  text-align: left;
+  width: 300px;
+  height: 20px;
+  margin: auto;
+}
+.error-box {
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  font-size: 10px;
+  color: red;
+  text-align: left;
+  width: 300px;
+  height: 20px;
+  margin: auto;
 }
 </style>

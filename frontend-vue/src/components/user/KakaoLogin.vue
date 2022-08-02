@@ -1,5 +1,5 @@
 <template>
-  <div><img @click="kakaoLogin" src="@\assets\kakao_login_large.png" alt="카카오 로그인">
+  <div><img @click="kakaoLogin" src="@\assets\kakao_login_icon2.png" alt="카카오 로그인">
   </div>
 </template>
 

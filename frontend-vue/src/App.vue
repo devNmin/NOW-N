@@ -1,22 +1,15 @@
 <template>
   <main :class="{ background }">
-    <router-view />
+  <router-link to='/home'>home</router-link>
+  <div></div>
+  <router-link to='/Login'>login</router-link>
+  <router-view></router-view>
   </main>
 </template>
 
 <script>
-import BaseHeader from '@/components/common/BaseHeader.vue'
-export default {
 
-  components: {
-    BaseHeader
-  },
-  setup () {
-    const veiw = 1
-    return {
-      veiw
-    }
-  }
+export default {
 }
 </script>
 <style>
@@ -46,6 +39,7 @@ export default {
 main {
   min-height: calc(100vh - var(--footer-height));
   width: 100vw;
+  background: #198d4d;
 }
 main.background {
   background-size: cover;

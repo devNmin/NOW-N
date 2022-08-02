@@ -1,81 +1,57 @@
 <template>
-  <div class='logo-div'>logo</div>
-  <div class="page-name">비밀번호찾기</div>
-  <div class="input-div">
-    <div></div>
-    <input class='login-info-box' type="text" placeholder="아이디">
-    <div></div>
-  </div>
-  <br>
-  <br>
-  <br>
-    <div class="input-div">
-    <div></div>
-    <input class='login-info-box' type="text" placeholder="이름">
-    <div></div>
-  </div>
-  <br>
-  <br>
-  <br>
-  <div class="input-div">
-    <div></div>
-    <input class='login-info-box' type="text" placeholder="생년월일">
-    <div></div>
-  </div>
-  <br>
-  <br>
-  <br>
-  <div class="input-div">
-    <div></div>
-    <input class='login-info-box' type="text" placeholder="이메일">
-    <div></div>
-  </div>
-  <br>
-  <br>
+    <form @submit.prevent="signup(credentials)"
+    class="account-form">
+      <h1>회원가입</h1>
+      <BaseInput v-model="credentials.user_id" label="Id"></BaseInput>
+      <BaseInput v-model="credentials.name" label="Name"></BaseInput>
+      <BaseInput v-model="credentials.password" label="Password"></BaseInput>
+      <BaseInput v-model="credentials.birth" label="Birth" type="number"></BaseInput>
+      <BaseInput v-model="credentials.password_check" label="Password Check"></BaseInput>
+      <BaseInput v-model="credentials.phone_number" label="Phone Number" type="number"></BaseInput>
+      <BaseInput v-model="credentials.email" label="Email"></BaseInput>
+      <BaseInput v-model="credentials.grade" label="Grade"></BaseInput>
+      <BaseButton>회원가입</BaseButton>
+    </form>
 </template>
 
 <script>
+import { reactive } from 'vue'
+import BaseInput from '../common/BaseInput.vue'
+import BaseButton from '../common/BaseButton.vue'
+import { useStore } from 'vuex'
 export default {
+  name: 'RegistUser',
+  components: { BaseInput, BaseButton },
+  setup () {
+    const store = useStore()
+    const credentials = reactive({
+      user_id: '',
+      password: '',
+      password_check: '',
+      name: '',
+      email: '',
+      birth: 0,
+      phone_number: 0,
+      grade: 0
+    })
 
+    function signup () {
+      store.dispatch('signup', credentials)
+      console.log(store.getters('authError'))
+    }
+    return {
+      credentials,
+      signup
+    }
+  }
 }
 </script>
 
 <style>
-.logo-div {
-  margin: auto;
-  width: 160px;
-  height: 80px;
-  left: 50vw;
-  font-size: 50px;
-  text-align: center;
+.margin-box {
+  width: 10vw;
 }
-.page-name {
-    margin: auto;
-  width: 400px;
-  height: 100px;
-  left: 50vw;
-  font-size: 50px;
-  text-align: center;
-}
-.login-info-box {
-  border: 1px solid #6DCEF5;
-  border-radius: 15px;
-  color: aliceblue;
-  width: 360px;
-  height: 64px;
-  font-size: 32px;
-  text-align: center;
-}
-.input-div {
-  justify-content: space-around;
-  display: flex;
-
-}
-.click-div {
-
-  margin: auto;
-  color: #ffffff;
-  background: #6DCEF5;
-
+.new-div {
+  margin: 200px;
 }
 </style>
