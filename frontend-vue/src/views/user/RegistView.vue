@@ -1,17 +1,17 @@
 <template>
     <div class="container">
         <div class="container-center">
-            <LoginForm></LoginForm>
+            <RegistForm></RegistForm>
         </div>
     </div>
 </template>
 
 <script>
-import LoginForm from '@/components/user/LoginForm.vue'
+import RegistForm from '@/components/user/RegistForm.vue'
 
 export default {
   components: {
-    LoginForm
+    RegistForm
   }
 }
 </script>

@@ -54,7 +54,19 @@ export default {
 </script>
 
 <style>
-.margin-box {
-  width: 10vw;
+
+form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 48px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

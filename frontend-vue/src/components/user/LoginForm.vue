@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="login(credentials)">
     <h1>로그인</h1>
-    <BaseInput placeholder="아이디" v-model="credentials.username"></BaseInput>
+    <BaseInput placeholder="아이디" v-model="credentials.user_id"></BaseInput>
     <BaseInput placeholder="비밀번호" type="password" v-model="credentials.password"></BaseInput>
     <div class="login-nav">
       <router-link to="/users/findid">아이디 찾기</router-link>|
@@ -11,7 +11,7 @@
     <kakaoLogin></kakaoLogin>
 
     <GoogleLogin class="google-login"></GoogleLogin>
-    <BaseButton @click="onSubmit">로그인</BaseButton>
+    <BaseButton @click="submit">로그인</BaseButton>
   </form>
 </template>
 
@@ -20,10 +20,35 @@ import BaseButton from '../common/BaseButton.vue'
 import BaseInput from '../common/BaseInput.vue'
 import kakaoLogin from '@/components/user/KakaoLogin.vue'
 import GoogleLogin from '@/components/user/GoogleLogin.vue'
+import { reactive } from 'vue'
+import axios from 'axios'
+import drf from '@/api/drf'
 
 export default {
-  components: { BaseButton, BaseInput, kakaoLogin, GoogleLogin }
+  components: { BaseButton, BaseInput, kakaoLogin, GoogleLogin },
 
+  setup () {
+    const credentials = reactive({
+      user_id: '',
+      password: ''
+    })
+
+    const submit = () => {
+      console.log(credentials.user_id)
+      console.log(credentials.password)
+      axios.post({
+        url: drf.accounts.login(),
+        method: 'post',
+        data: credentials
+      }).then((res) => {
+        console.log(res)
+        window.alert('로그인')
+      })
+    }
+    return {
+      credentials, submit
+    }
+  }
 }
 </script>
 
@@ -35,7 +60,8 @@ form {
   flex-direction: column;
   gap: 10px;
   padding: 48px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: grey;
+  /* background-color: rgba(255, 255, 255, 0.8); */
   backdrop-filter: blur(4px);
 }
 

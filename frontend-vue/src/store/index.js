@@ -2,8 +2,6 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 import router from '@/router'
 
-import accounts from './modules/accounts'
-
 export default createStore({
   state: {
   },
