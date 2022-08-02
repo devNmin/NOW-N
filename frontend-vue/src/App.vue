@@ -5,11 +5,9 @@
 </template>
 
 <script>
-import BaseHeader from '@/components/common/BaseHeader.vue'
 export default {
 
   components: {
-    BaseHeader
   },
   setup () {
     const veiw = 1
