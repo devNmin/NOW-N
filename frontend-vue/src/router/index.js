@@ -42,6 +42,18 @@ const routes = [
     path: '/GX/getlist/',
     name: 'GX',
     component: () => import('@/views/gx/GroupXerciseView.vue')
+  },
+  {
+    // G.X 메인페이지(G.X 페이지와 동일하다)
+    path: '/GX/',
+    name: 'GX-main',
+    component: () => import('@/views/gx/GroupXerciseView.vue')
+  },
+  {
+    // 방생성 모달 임시로 사용하는 주소
+    path: '/GX/Room',
+    name: 'makeroom',
+    component: () => import('@/views/gx/GroupXerciseView.vue')
   }
 ]
 

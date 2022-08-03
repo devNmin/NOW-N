@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import FollowBar from '../common/FollowBar.vue'
+import FollowBar from '@/components/common/FollowBar.vue'
 export default {
   components: {
     FollowBar

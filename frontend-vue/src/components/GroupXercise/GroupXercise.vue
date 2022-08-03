@@ -1,68 +1,77 @@
 <template>
-  <div class="grid-container">
-    <FollowBar></FollowBar>
-    <div class="header">
+  <div class="grid2">
+    <div class="GX-header">
+      <!-- 라우터 링크는 커뮤니티룸 만들고 난 이후에 추가하기 -->
+      <!-- <router-link
+            v-for="categoy in GXcategories" :key="category.link" :to="category.link">{{category.name}}
+        </router-link> -->
       <h1 class="gxroom">gx룸</h1>
       <h2 class="gxcommunity">gx커뮤니티</h2>
       <button class="createroom">방생성</button>
       <input class="search" placeholder="검색">
     </div>
-
     <div class="videos">
       <div v-for="i in th" :key="i">
-        <ThumbNail></ThumbNail>
+        <ThumbNail :src="i.roomsrc"></ThumbNail>
+        {{ i.roomname }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import FollowBar from '../common/FollowBar.vue'
-import ThumbNail from '../common/ThumbNail.vue'
+import ThumbNail from '@/components/common/ThumbNail.vue'
 export default {
   components: {
-    FollowBar,
     ThumbNail
   },
   setup () {
-    const th = [1, 2, 3, 4, 5, 6]
+    const th = [
+      // roomsrc에다가 사진 주소 넣으면 썸네일 사진으로 사용가능
+      { roomname: 'room1', roomsrc: 1 },
+      { roomname: 'room2', roomsrc: 2 },
+      { roomname: 'room3', roomsrc: 3 },
+      { roomname: 'room4', roomsrc: 4 },
+      { roomname: 'room5', roomsrc: 5 },
+      { roomname: 'room6', roomsrc: 6 }
+    ]
+    // const GXcategories = [
+    //   { name: 'gx룸', link: '/GX/getlist/' },
+    //   { name: 'gx커뮤니티', link: '/pt' }
+    // ]
     return {
       th
+      // GXcategories
     }
   }
 }
 </script>
 
-<style>
-.grid-container{
-  /* height:1400px; */
+<style scoped>
+.grid2{
   font-family: 'MaruBuriOTF';
   font-style: normal;
   display: grid;
-  grid-template-rows: 20% 40% 40%;
-  grid-template-columns: 22% 26% 26% 26%;
+  grid-template-rows: 10% 90%;
   grid-template-areas:
-    "header header header header"
-    "followbar thumbnail thumbnail thumbnail"
-    "followbar thumbnail thumbnail thumbnail";
+    "GX-header"
+    "thumbnail";
   column-gap: 10px;
 row-gap: 30px;
 }
-.header{
-  margin: auto;
-  grid-area: header;
+.GX-header{
+  margin: 0;
+  grid-area: GX-header;
 }
 .gxroom{
-  margin-left: 400px;
-  margin-top: 100px;
+  margin-left: 5vw;
   float: left;
   font-size: 20px;
 }
 .gxcommunity{
   float: left;
   font-size: 20px;
-  margin-top: 100px;
-  margin-left: 200px;
+  margin-left: 10vw;
 }
 .createroom{
   width: 80px;
@@ -70,8 +79,8 @@ row-gap: 30px;
   border: 2px solid #000000;
   border-radius: 15px;
   float: left;
-  margin-top: 100px;
-  margin-left: 300px;
+  margin-top: 2vh;
+  margin-left: 20vw;
   background: #6dcef5;
   color: white;
 }
@@ -88,16 +97,12 @@ button:hover {
   width: 300px;
   height: 30px;
   float: left;
-  margin-top: 100px;
-  margin-left: 50px;
+  margin-top: 2vh;
+  margin-left: 1vw;
 }
 input{
   width: 100%;
   padding: 10px;
-}
-.followbar{
-  margin: auto;
-  grid-area: followbar;
 }
 .videos{
   grid-area: thumbnail;
