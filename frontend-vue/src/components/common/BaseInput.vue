@@ -1,102 +1,87 @@
 <template>
-  <div class="input-container" :class="{readonly}">
-    <div v-if="label" class="label">
-      {{label}}
-    </div>
-    <input :type="password? 'password' : 'text'"
-    v-model="inputValue"
-    :placeholder="placeholder"
-    :readonly="readonly"
-    @change="onKeyup"
-    @keyup.enter="onEnter"
-    />
+  <label for="input-box" class="label-box">{{label}}
+  </label>
+  <input
+  class="input-box"
+  :label="label"
+  :type="type"
+  :value="modelValue"
+  @input="updateInput"
+  />
+  <div class="error-box" v-if="authError">{{authError["user.password"]}}
   </div>
+
 </template>
 
 <script>
 
 export default {
   props: {
-    value: {
+    modelValue: {
       type: [String, Number],
       default: ''
     },
-    placeholder: {
+    value: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: 'text'
     },
     label: {
       type: String,
       default: ''
-    },
-    password: {
-      type: Boolean,
-      default: false
-    },
-    readonly: {
-      type: Boolean,
-      default: false
     }
   },
-  watch: {
-    value: {
-      immediate: true,
-      handler (val) {
-        this.inputValue = val
-      }
+  methods: {
+    updateInput (event) {
+      this.$emit('update:modelValue', event.target.value)
     }
-  },
-  setup () {
-    const inputValue = ''
-
-    const onKeyup = () => {
-      this.$emit('input', this.inputValue)
-    }
-
-    const onEnter = () => {
-      this.$emit('enter')
-    }
-
-    return { inputValue, onKeyup, onEnter }
   }
 }
 </script>
 
 <style>
-
-.input-container{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-input {
+.input-box {
   font-family: 'MaruBuriOTF';
   font-style: normal;
-  /* margin-top: 60px; */
-  background-color: white;
   color: black;
-  border-color: #6dcef5;
-  border: solid 2px #6dcef5;
-  border-radius: 8px;
+  border: 0px;
+  background-color: none;
+  border-bottom: solid 2px #6dcef5;
+  border-radius: 2px;
+  width: 300px;
+  height: 45px;
+  margin: auto;
+  font-size: 20px;
+  padding-left: 20px;
+  padding: 0px;
 }
-input:hover{
+.input-box:hover {
   border-bottom: 2px solid var(--color-primary);
 }
-input:focus{
+.input-box:focus {
   outline: none;
   border-bottom: 2px solid var(--color-primary);
 }
-.input::placeholder {
-    color: #6dcef5;
+.label-box {
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  font-size: 20px;
+  text-align: left;
+  width: 300px;
+  height: 20px;
+  margin: auto;
 }
-
-.input-container.readonly input {
-  color: var(--color-grey-300);
-  border-bottom: 2px solid var(--color-grey-300);
-}
-
-.input-container.readonly input:hover,
-.input-container.readonly input:focus {
-  border-bottom: 2px solid var(--color-grey-300);
+.error-box {
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  font-size: 10px;
+  color: red;
+  text-align: left;
+  width: 300px;
+  height: 20px;
+  margin: auto;
 }
 </style>

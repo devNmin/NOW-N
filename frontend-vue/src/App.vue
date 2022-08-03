@@ -1,17 +1,15 @@
 <template>
-  <BaseHeader></BaseHeader>
   <main :class="{ background }">
-    <router-view />
+  <router-link to='/home'>home</router-link>
+  <div></div>
+  <router-link to='/Login'>login</router-link>
+  <router-view></router-view>
   </main>
 </template>
 
 <script>
-import BaseHeader from '@/components/common/BaseHeader.vue'
 
 export default {
-  components: {
-    BaseHeader
-  }
 }
 </script>
 <style>
@@ -27,8 +25,7 @@ export default {
   --color-grey-700: #575a5f;
   --color-grey-900: #2e3033;
 
-  --header-height: 96px;
-  --footer-height: 128px;
+  --header-height: 1rem;
 }
 
 #app {
@@ -41,13 +38,14 @@ export default {
 
 main {
   min-height: calc(100vh - var(--footer-height));
+  width: 100vw;
+  background: #198d4d;
 }
 main.background {
   background-size: cover;
 }
 
 .container {
-  min-height: calc(100vh - var(--footer-height) - var(--header-height));
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -57,9 +55,12 @@ main.background {
 }
 
 .container-center {
-  min-height: calc(100vh - var(--footer-height) - var(--header-height) - 128px);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+v-application{
+  font-family: 'MaruBuri';
 }
 </style>

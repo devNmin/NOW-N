@@ -2,10 +2,10 @@
     <form @submit.prevent="signup(credentials)"
     class="account-form">
       <h1>회원가입</h1>
-      <BaseInput v-model="credentials.user_id" label="Id"></BaseInput>
+      <BaseInput v-model="credentials.user_id" label="Id" er="user_id"></BaseInput>
       <BaseInput v-model="credentials.name" label="Name"></BaseInput>
       <BaseInput v-model="credentials.password" label="Password"></BaseInput>
-      <BaseInput v-model="credentials.birth" label="Birth" type="number"></BaseInput>
+      <BirthInput v-model="credentials.birth" @birth="birth" type="number"></BirthInput>
       <BaseInput v-model="credentials.password_check" label="Password Check"></BaseInput>
       <BaseInput v-model="credentials.phone_number" label="Phone Number" type="number"></BaseInput>
       <BaseInput v-model="credentials.email" label="Email"></BaseInput>
@@ -18,11 +18,12 @@
 import { reactive } from 'vue'
 import BaseInput from '../common/BaseInput.vue'
 import BaseButton from '../common/BaseButton.vue'
+import BirthInput from '../common/BirthInput.vue'
 import { useStore } from 'vuex'
 export default {
   name: 'RegistUser',
-  components: { BaseInput, BaseButton },
-  setup () {
+  components: { BaseInput, BaseButton, BirthInput },
+  setup (props) {
     const store = useStore()
     const credentials = reactive({
       user_id: '',
@@ -30,17 +31,21 @@ export default {
       password_check: '',
       name: '',
       email: '',
-      birth: 0,
+      birth: '',
       phone_number: 0,
       grade: 0
     })
+    function birth (data) {
+      credentials.birth = data
+      console.log('확인' + credentials.birth)
+    }
 
     function signup () {
       store.dispatch('signup', credentials)
-      console.log(store.getters('authError'))
     }
     return {
       credentials,
+      birth,
       signup
     }
   }
@@ -48,8 +53,20 @@ export default {
 </script>
 
 <style>
-.margin-box {
-  width: 10vw;
+
+form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 48px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
 }
 .new-div {
   margin: 200px;
