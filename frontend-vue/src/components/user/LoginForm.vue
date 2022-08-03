@@ -12,7 +12,7 @@
     <kakaoLogin></kakaoLogin>
 
     <GoogleLogin class="google-login"></GoogleLogin>
-    <BaseButton @click="onSubmit">로그인</BaseButton>
+    <BaseButton @click="submit">로그인</BaseButton>
   </form>
 </template>
 
@@ -47,6 +47,23 @@ export default {
 </script>
 
 <style>
+
+form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 48px;
+  background-color: grey;
+  /* background-color: rgba(255, 255, 255, 0.8); */
+  backdrop-filter: blur(4px);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
 .login-nav {
     text-align: center;
     margin: 2px;
