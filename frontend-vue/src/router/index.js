@@ -36,6 +36,12 @@ const routes = [
     path: '/profile/getprofile/',
     name: 'profile',
     component: () => import('@/components/user/UserProfile.vue')
+  },
+  {
+    // G.X
+    path: '/GX/getlist/',
+    name: 'GX',
+    component: () => import('@/views/gx/GroupXerciseView.vue')
   }
 ]
 
