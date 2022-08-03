@@ -94,7 +94,6 @@ export default {
         })
     },
     signup ({ commit, dispatch }, credentials) {
-      console.log('회원가입')
       console.log(credentials)
       axios({
         url: drf.accounts.signup(),

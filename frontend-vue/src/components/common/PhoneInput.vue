@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1 class="label-box">birth</h1>
+  <h1 class="label-box">Phone Number</h1>
   <div style="height: 10px;"></div>
     <div class="Birth-page">
       <div id="bir_yy">
@@ -41,10 +41,10 @@ import { reactive, computed } from 'vue'
 export default {
   setup (props, { emit }) {
     const date = reactive({
-      yyyy: '',
-      mm: '',
-      dd: '',
-      birth: computed(() => birthChange()),
+      first: '',
+      second: '',
+      third: '',
+      phone_number: computed(() => birthChange()),
       months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       days: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
     })

@@ -5,7 +5,7 @@
       <BaseInput v-model="credentials.user_id" label="Id" er="user_id"></BaseInput>
       <BaseInput v-model="credentials.name" label="Name"></BaseInput>
       <BaseInput v-model="credentials.password" label="Password"></BaseInput>
-      <BirthInput v-model="credentials.birth" label="Birth" type="number"></BirthInput>
+      <BirthInput v-model="credentials.birth" @birth="birth" type="number"></BirthInput>
       <BaseInput v-model="credentials.password_check" label="Password Check"></BaseInput>
       <BaseInput v-model="credentials.phone_number" label="Phone Number" type="number"></BaseInput>
       <BaseInput v-model="credentials.email" label="Email"></BaseInput>
@@ -23,7 +23,7 @@ import { useStore } from 'vuex'
 export default {
   name: 'RegistUser',
   components: { BaseInput, BaseButton, BirthInput },
-  setup () {
+  setup (props) {
     const store = useStore()
     const credentials = reactive({
       user_id: '',
@@ -31,17 +31,21 @@ export default {
       password_check: '',
       name: '',
       email: '',
-      birth: 0,
+      birth: '',
       phone_number: 0,
       grade: 0
     })
+    function birth (data) {
+      credentials.birth = data
+      console.log('확인' + credentials.birth)
+    }
 
     function signup () {
       store.dispatch('signup', credentials)
-      console.log(store.getters.authError)
     }
     return {
       credentials,
+      birth,
       signup
     }
   }
