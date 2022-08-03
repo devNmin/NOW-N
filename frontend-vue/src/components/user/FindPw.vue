@@ -3,13 +3,14 @@
   <div class="page-name">비밀번호찾기</div>
   <div class="input-div">
     <div></div>
-    <input class='login-info-box' type="text" placeholder="아이디">
+    <!-- <input clas`s='login-info-box' type="text" placeholder="아이디"> -->
+    <input  type="text" placeholder="아이디">
     <div></div>
   </div>
   <br>
   <br>
   <br>
-    <div class="input-div">
+  <div class="input-div">
     <div></div>
     <input class='login-info-box' type="text" placeholder="이름">
     <div></div>

@@ -1,17 +1,18 @@
 <template>
   <BaseHeader></BaseHeader>
+  <FollowBar></FollowBar>
   <div class="home">
-    <h1>메인 페이지</h1>
+    <router-view/>
   </div>
 </template>
 
 <script>
 import BaseHeader from '@/components/common/BaseHeader.vue'
-
+import FollowBar from '@/components/common/FollowBar.vue'
 export default {
   name: 'HomeView',
   components: {
-    BaseHeader
+    BaseHeader, FollowBar
   }
 }
 </script>

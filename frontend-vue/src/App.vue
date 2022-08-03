@@ -5,9 +5,14 @@
 </template>
 
 <script>
-
 export default {
   components: {
+  },
+  setup () {
+    const veiw = 1
+    return {
+      veiw
+    }
   }
 }
 </script>
