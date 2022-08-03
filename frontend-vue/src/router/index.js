@@ -36,6 +36,12 @@ const routes = [
     path: '/profile/getprofile/',
     name: 'profile',
     component: () => import('@/components/user/UserProfile.vue')
+  },
+  {
+    // Gx룸
+    path: '/GX',
+    name: 'gxroom',
+    component: () => import('@/views/room/GxRoom.vue')
   }
 ]
 
