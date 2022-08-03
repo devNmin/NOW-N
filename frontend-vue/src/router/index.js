@@ -14,34 +14,28 @@ const routes = [
     component: () => import('@/views/user/LoginView.vue')
   },
   {
-    // 회원가입
-    path: '/users/regist',
-    name: 'RegistView',
-    component: () => import('@/views/user/RegistView.vue')
-  },
-  {
-    // 아이디찾기
-    path: '/users/findid',
-    name: 'FindId',
-    component: () => import('@/components/user/FindId.vue')
-  },
-  {
-    // 비밀번호찾기
-    path: '/users/findpw',
-    name: 'FindPw',
-    component: () => import('@/components/user/FindPw.vue')
-  },
-  {
     // 프로필
     path: '/profile/getprofile/',
     name: 'profile',
     component: () => import('@/components/user/UserProfile.vue')
   },
   {
-    // Gx룸
-    path: '/GX',
-    name: 'gxroom',
-    component: () => import('@/views/room/GxRoom.vue')
+    // G.X
+    path: '/GX/getlist/',
+    name: 'GX',
+    component: () => import('@/views/gx/GroupXerciseView.vue')
+  },
+  {
+    // G.X 메인페이지(G.X 페이지와 동일하다)
+    path: '/GX/',
+    name: 'GX-main',
+    component: () => import('@/views/gx/GroupXerciseView.vue')
+  },
+  {
+    // 방생성 모달 임시로 사용하는 주소
+    path: '/GX/Room',
+    name: 'makeroom',
+    component: () => import('@/views/gx/GroupXerciseView.vue')
   }
 ]
 

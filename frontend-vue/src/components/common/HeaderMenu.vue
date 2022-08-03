@@ -10,7 +10,7 @@
 export default {
   setup () {
     const commonItems = [
-      { name: 'gx', link: '/gx' },
+      { name: 'gx', link: '/GX' },
       { name: 'pt', link: '/pt' },
       { name: '트레이너', link: '/trainer' },
       { name: '로그인', link: '/login' }

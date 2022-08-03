@@ -1,12 +1,13 @@
 <template>
-  <form @submit.prevent="login(credentials)">
+  <form @submit.prevent="login(credentials)"
+  class="account-form">
     <h1>로그인</h1>
-    <BaseInput placeholder="아이디" v-model="credentials.user_id"></BaseInput>
-    <BaseInput placeholder="비밀번호" type="password" v-model="credentials.password"></BaseInput>
+    <BaseInput v-model="credentials.user_id" label="Id" err="user_id"></BaseInput>
+    <BaseInput type="password" v-model="credentials.password" label="Password" err="password"></BaseInput>
     <div class="login-nav">
-      <router-link to="/users/findid">아이디 찾기</router-link>|
-      <router-link to="/users/findpw">비밀번호 찾기</router-link>|
-      <router-link to="/users/regist">회원가입</router-link>
+      <button type="button" class="view-button" @click="changeView(1)">아이디 찾기</button>|
+      <button type="button" class="view-button" @click="changeView(2)">비밀번호 찾기</button>|
+      <button type="button" class="view-button" @click="changeView(3)">회원가입</button>
     </div>
     <kakaoLogin></kakaoLogin>
 
@@ -20,31 +21,26 @@ import BaseButton from '../common/BaseButton.vue'
 import BaseInput from '../common/BaseInput.vue'
 import kakaoLogin from '@/components/user/KakaoLogin.vue'
 import GoogleLogin from '@/components/user/GoogleLogin.vue'
-import { reactive } from 'vue'
-import axios from 'axios'
-import drf from '@/api/drf'
+import { useStore } from 'vuex'
 
 export default {
   components: { BaseButton, BaseInput, kakaoLogin, GoogleLogin },
-
   setup () {
-    const credentials = reactive({
+    const store = useStore()
+    const credentials = {
       user_id: '',
       password: ''
-    })
-
-    const submit = () => {
-      axios.post({
-        url: drf.accounts.login(),
-        method: 'post',
-        data: credentials
-      }).then((res) => {
-        console.log(res)
-        window.alert('로그인')
-      })
+    }
+    function login () {
+      store.dispatch('login', credentials)
+    }
+    function changeView (ChangeView) {
+      store.commit('SET_LOGIN_VIEW_CASE', ChangeView)
     }
     return {
-      credentials, submit
+      credentials,
+      login,
+      changeView
     }
   }
 }
@@ -70,28 +66,29 @@ form {
 
 .login-nav {
     text-align: center;
-      font-size: 15px;
+    margin: 2px;
+    padding: 2px;
+    color: #6dcef5;
 }
-.login-info-box {
-  border: 1px solid #6DCEF5;
-  border-radius: 15px;
-  color: aliceblue;
-  width: 360px;
-  height: 64px;
-  font-size: 32px;
-  text-align: center;
-  box-shadow: 5px 5px;
+.view-button {
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  background: none;
+  color: #6dcef5;
+  border: 0px;
+  width: 80px;
+  height: 20px;
+  font-size: 7px;
+  padding-left: 20px;
+  padding: 0px;
+  border-bottom: inset 2px ;
 }
-.input-div {
-  justify-content: space-around;
-  display: flex;
+.view-button:hover {
+  border: 0px;
+  border-style: inset;
+  border-bottom: solid 2px #6dcef5;
 
-}
-.click-div {
-
-  margin: auto;
-  color: #ffffff;
-  background: #6DCEF5;
-
+  border-radius: 2px;
+  cursor: pointer;
 }
 </style>

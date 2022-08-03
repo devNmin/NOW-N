@@ -1,83 +1,83 @@
 <template>
   <!-- <div class="followerbox"></div> -->
   <div class="grid-container">
-    <FollowBar class="leftbox"></FollowBar>
+    <div class="leftbox">
+      <FollowBar class="leftbox"></FollowBar>
+    </div>
     <div class="middlebox">
-      <div>
-        <h1 class="name1">
-          <div class="content"></div> {{ name }} </h1>
-        <!-- <h1 class="name1"> {{ currentUser.username }} </h1> -->
-        <h2 class="image1"></h2>
-        <h3 class="follower1">팔로워 {{ follower }}</h3>
-        <!-- <h3 class="follower1">팔로워 {{ currentUser.follower }}</h3> -->
-        <h4 class="following1">팔로잉 {{ following }}</h4>
-        <!-- <h4 class="following1">팔로잉 {{ currentUser.following }}</h4> -->
-        <h5 class="info">
-          <div class="content"> {{ information }}</div>
-          <!-- <div> {{ currentUser.information }}</div> -->
-        </h5>
-      </div>
+      <h1 class="name1">
+        <div class="content"></div> {{ name }} </h1>
+      <h2 class="image1">
+      </h2>
+      <h3 class="follower1">팔로워 {{ follower }}</h3>
+      <h4 class="following1">팔로잉 {{ following }}</h4>
+      <h5 class="info">
+        <div class="content"> {{ information }}</div>
+      </h5>
     </div>
     <div class="rightbox">
-        <h6 class="usertext">
-          <!-- <div> 프로필 </div> -->
-          <div class="usertext-sex1">
-            성별
-          </div>
-          <div class="usertext-sex2">
-            {{ sex2 }}
-            <!-- {{ currentUser.sex }} -->
-          </div>
-          <div class="usertext-height1">
-            신장
-          </div>
-          <div class="usertext-height2">
-            {{ height2 }}
-            <!-- {{ currentUser.height }} -->
-          </div>
-          <div class="usertext-weight1">
-            체중
-          </div>
-          <div class="usertext-weight2">
-            {{ weight2 }}
-            <!-- {{ currentUser.weight }} -->
-          </div>
-          <div class="usertext-goal1">
-            목표체중
-          </div>
-          <div class="usertext-goal2">
-            {{ goal2 }}
-            <!-- {{ currentUser.goal }} -->
-          </div>
-          <div class="fatgraph"></div>
-        </h6>
-        <h7 class="chart">차트</h7>
+      <h6 class="usertext">
+        <div class="usertext-sex1">
+          성별:
+        </div>
+        <div class="usertext-sex2">
+          <input id="input1" type="text" v-model="sex2">
+        </div>
+        <div class="usertext-height1">
+          신장:
+        </div>
+        <div class="usertext-height2">
+          <input id="input1" type="text" v-model="height2">
+          <input id="input2" type="text" v-model="cm">
+        </div>
+        <div class="usertext-weight1">
+          체중:
+        </div>
+        <div class="usertext-weight2">
+          <input id="input1" type="text" v-model="weight2">
+          <input id="input2" type="text" v-model="kg">
+        </div>
+        <div class="usertext-goal1">
+          목표체중:
+        </div>
+        <div class="usertext-goal2">
+          <input id="input1" type="text" v-model="goal2">
+          <input id="input2" type="text" v-model="kg">
+        </div>
+        <div class="fatgraph"></div>
+      </h6>
+      <button @click="changeprofile" class="fixbutton">수정하기</button>
+      <h7 class="chart">차트</h7>
     </div>
   </div>
 </template>
 
 <script>
-import FollowBar from '../common/FollowBar.vue'
-// import { mapGetters } from 'vuex'
+import FollowBar from '@/components/common/FollowBar.vue'
 export default {
   components: {
     FollowBar
   },
-  // computed: {
-  //   ...mapGetters([
-  //     'currentUser'
-  //   ])
-  // },
   setup () {
     const name = '조경민'
     const follower = '150k'
     const following = '10'
     const profile = '프로필'
     const information = '#글자 #설명 #예시'
-    const sex2 = '남'
-    const height2 = '174.4cm'
-    const weight2 = '85.5kg'
-    const goal2 = '75.5kg'
+    const sex1 = '남'
+    const height1 = '174.4'
+    const weight1 = '85.5'
+    const goal1 = '75.5'
+    // const sex2 = '남'
+    // const height2 = '174.4'
+    // const weight2 = '85.5'
+    // const goal2 = '75.5'
+    const sex2 = sex1
+    const height2 = height1
+    const weight2 = weight1
+    const goal2 = goal1
+    const cm = 'cm'
+    const kg = 'kg'
     return {
       name,
       follower,
@@ -87,7 +87,21 @@ export default {
       sex2,
       height2,
       weight2,
-      goal2
+      goal2,
+      sex1,
+      height1,
+      weight1,
+      goal1,
+      cm,
+      kg
+    }
+  },
+  methods: {
+    changeprofile: function () {
+      this.sex1 = this.sex2
+      this.height1 = this.height2
+      this.weight1 = this.weight2
+      this.goal1 = this.goal2
     }
   }
 }
@@ -121,106 +135,85 @@ export default {
 
 <style>
 .grid-container {
+  /* height: 1500px;
+  width: 1600px; */
+  height: 100%;
+  width: 100%;
   display: grid;
-  grid-template-columns: 350px 600px 600px;
-  column-gap: 50px;
+  grid-template-columns: 23% 35% 42%;
+  /* grid-template-rows: 20% 40% 40%;  */
+  column-gap: 10px;
   grid-template-areas:
     "leftbox middlebox rightbox"
 }
 .content{
-  /* display: flex; */
   align-items: center;
   text-align: center;
-  /* position: absolute; */
-  margin: auto;
+  padding: 20px;
 }
 .leftbox{
-  margin: auto
+  margin: 0;
 }
 .middlebox{
   left: 100px;
-  display: flex;
   align-items: center;
   text-align: center;
-  /* margin-left: 300px; */
 }
 .rightbox{
-  display: flex;
   align-items: center;
   text-align: center;
-  /* margin-left: 50px; */
 }
 .image1{
-  /* display: flex; */
-  align-items: center;
-  position: absolute;
   width: 25vw;
   height: 50vh;
-  top: 150px;
-  left: 500px;
-  /* margin-left: 13vw; */
-  /* margin-top: 23vh; */
+  margin-left: 110px;
   border: 5px solid ;
   border-radius: 50%;
   background: url(https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag-map_of_the_world_%282018%29.png)
 }
 .name1{
-  /* display: flex; */
-  align-items: center;
-  top: 13vh;
-  position: absolute;
-  margin-left: 10vw;
-  /* margin-top: 11vh; */
+  margin-left: 6.5vw;
+  margin-top: 11vh;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 2rem;
-  left: 500px;
 }
 .follower1{
-  position: absolute;
-  margin-left: 20vw;
-  /* margin-top: 80vh; */
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 20px;
-  top: 530px;
-  left: 510px;
+  float: right;
+  margin-right: 0px;
+
 }
 .following1{
-  position: absolute;
-  margin-left: 3vw;
-  left: 450px;
-  /* margin-top: 80vh; */
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 20px;
-  top: 530px;
+  margin-right: 230px;
+  float: right;
+
 }
 .info{
-  display: flex;
   align-items: center;
   text-align: center;
-  position: absolute;
   width: 35vw;
   height: 10vh;
-  /* margin-left: 8vw; */
-  /* margin-top: 86vh; */
+  margin-left: 50px;
+  margin-top: 100px;
   top: 550px;
   left: 430px;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   background: #FFF89C;
   border-radius: 50px;
-  font-size: 3vh;
+  font-size: 20px;
 }
 .usertext{
   box-sizing: border-box;
-  position: absolute;
-  width: 30vw;
+  width: 35vw;
   height: 35vh;
-  /* margin-left: 60vw; */
-  top: 13vh;
-  left: 1030px;
+  margin-top: 120px;
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
   box-shadow: 13.21px 4.95px 15px rgba(0, 0, 0, 0.25);
@@ -231,96 +224,121 @@ export default {
 }
 .chart{
   box-sizing: border-box;
-  position: absolute;
   width: 30vw;
-  height: 30vh;
-  /* margin-left: 60vw; */
-  top: 60vh;
-  left: 1030px;
+  height: 20vh;
+  margin-top: 50px;
+  margin-left: 70px;
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
   box-shadow: 13.21px 4.95px 15px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
+  padding: 20px;
+  float: left;
 }
 .usertext-sex1{
   box-sizing: border-box;
-  position: absolute;
-  width: 3vw;
+  width: 6vw;
   height: 3vh;
-  left: 1vw;
-  top: 6vh;
-  /* font-size: 20px; */
+  margin-left: 1vw;
+  margin-top: 6vh;
+  float: left;
 }
 .usertext-sex2{
   box-sizing: border-box;
-  position: absolute;
   width: 3vw;
   height: 3vh;
-  left: 6vw;
-  top: 6vh;
-  /* font-size: 20px; */
+  margin-left: 1vw;
+  margin-top: 6vh;
+  float: left;
 }
 .usertext-height1{
   box-sizing: border-box;
-  position: absolute;
-  width: 3vw;
+  width: 6vw;
   height: 3vh;
-  left: 13vw;
-  top: 6vh;
-  /* font-size: 20px; */
+  margin-left: 6vw;
+  margin-top: 6vh;
+  float:left;
 }
 .usertext-height2{
   box-sizing: border-box;
-  position: absolute;
-  width: 3vw;
+  width: 8vw;
   height: 3vh;
-  left: 20vw;
-  top: 6vh;
-  /* font-size: 20px; */
+  margin-left: 3vw;
+  margin-top: 6vh;
+  float: left;
 }
 .usertext-weight1{
   box-sizing: border-box;
-  position: absolute;
-  width: 3vw;
+  width: 6vw;
   height: 3vh;
-  left: 1vw;
-  top: 16vh;
-  /* font-size: 20px; */
+  margin-left: 1vw;
+  margin-top: 6vh;
+  float: left;
 }
 .usertext-weight2{
   box-sizing: border-box;
-  position: absolute;
-  width: 3vw;
+  width: 8vw;
   height: 3vh;
-  left: 6vw;
-  top: 16vh;
-  /* font-size: 20px; */
+  margin-left: 1vw;
+  margin-top: 6vh;
+  float: left;
 }
 .usertext-goal1{
   box-sizing: border-box;
-  position: absolute;
-  width: 6vw;
+  width: 10vw;
   height: 3vh;
-  left: 13vw;
-  top: 16vh;
-  /* font-size: 20px; */
+  left: 14vw;
+  margin-top: 6vh;
+  float: left;
 }
 .usertext-goal2{
   box-sizing: border-box;
-  position: absolute;
-  width: 3vw;
+  width: 8vw;
   height: 3vh;
-  left: 20vw;
-  top: 16vh;
-  /* font-size: 20px; */
+  left: 21vw;
+  margin-top: 6vh;
+  float: left;
 }
 .fatgraph{
-  position: absolute;
   width: 28vw;
   height: 7vh;
-  left: 1vw;
-  top: 25vh;
+  margin-left: 3vw;
+  margin-top: 25vh;
   background: black;
+}
+#input1 {
+  width: 40px;
+  height: 30px;
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  font-size: 2.5vh;
+  float: left;
+}
+#input2 {
+  width: 30px;
+  height: 30px;
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  font-size: 2.5vh;
+  float: left;
+}
+.fixbutton{
+  margin-left: 240px;
+  float: left;
+  Width: 100px;
+  Height: 40px;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 10px;
+  gap: 10px;
+  background: #6dcef5;
+  border-radius: 25px;
+  color: white;
+  border-width: 0;
+}
+button:hover {
+  background-color: var(--color-grey-900);
+  color: white;
 }
 
 @media (max-width: 768px){
