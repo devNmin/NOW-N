@@ -11,9 +11,8 @@ export default {
     currentUser: {},
     profile: {},
     authError: null,
-    faceLoginImg: '',
-    faceVector: {},
-    reduplication: false // 중복체크
+    reduplication: false, // 중복체크
+    loginViewCase: 1
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
@@ -21,7 +20,8 @@ export default {
     currentUser: state => state.currentUser,
     profile: state => state.profile,
     authError: state => state.authError,
-    authHeader: state => ({ Authorization: `Token ${state.token}` })
+    authHeader: state => ({ Authorization: `Token ${state.token}` }),
+    loginViewCase: state => state.loginViewCase
 
   },
 
@@ -29,15 +29,14 @@ export default {
     // SET_TOKEN: (state, token) => state.token = token,
     // SET_CURRENT_USER: (state, user) => state.currentUser = user,
     // SET_PROFILE: (state, profile) => state.profile = profile,
-    // SET_AUTH_ERROR: (state, error) => state.authError = error,
-    SEND_FACE (state, img) {
-      state.faceLoginImg = img
-    },
-    SET_FACE_VECTOR (state, data) {
-      state.faceVector = data
-    },
     SET_REDUPLICATION (state, redup) {
       state.reduplication = redup
+    },
+    SET_AUTH_ERROR (state, error) {
+      state.authError = error
+    },
+    SET_LOGIN_VIEW_CASE (state, loginViewCase) {
+      state.loginViewCase = loginViewCase
     }
   },
 
@@ -94,17 +93,7 @@ export default {
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
-    signup ({ commit, dispatch, state }, credentials) {
-      /*
-            POST: 사용자 입력정보를 signup URL로 보내기
-              성공하면
-                응답 토큰 저장
-                현재 사용자 정보 받기
-                메인 페이지(ArticleListView)로 이동
-              실패하면
-                에러 메시지 표시
-            */
-      credentials.face_vector = state.faceVector
+    signup ({ commit, dispatch }, credentials) {
       console.log(credentials)
       axios({
         url: drf.accounts.signup(),
