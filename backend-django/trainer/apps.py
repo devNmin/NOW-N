@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class WebrtcConfig(AppConfig):
+class TrainerConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'webRTC'
+    name = 'trainer'
