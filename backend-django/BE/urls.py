@@ -21,4 +21,9 @@ urlpatterns = [
 
     path('accounts/', include('accounts.urls', namespace="accounts")),
 
+    path('GX/', include('GX.urls')),
+
+    path('profiles/', include('profiles.urls')),
+
+    path('trainer/', include('trainer.urls')),
 ]

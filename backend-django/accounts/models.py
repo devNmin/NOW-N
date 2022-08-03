@@ -5,6 +5,8 @@ from django.contrib.auth.models import (
     AbstractBaseUser, PermissionsMixin, BaseUserManager
 )
 
+# from profiles.models import Tag
+
 class CustomAccountManger(BaseUserManager):
     def create_superuser(self, user_id, password, **other_fields):
         other_fields.setdefault('is_staff', True)
@@ -47,11 +49,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     birth = models.IntegerField() # int
     phone_number = models.IntegerField() # int
     grade = models.CharField(max_length=10, default=1, choices=select_class) # int
+    age = models.IntegerField(null=True)
+    gender = models.IntegerField(null=True) # 0 : 남 / 1 : 여
+    height = models.FloatField(null=True)
+    user_weight = models.FloatField(null=True)
+    object_weight = models.FloatField(null=True)
 
     is_active = BooleanField(default=True)
     is_staff = BooleanField(default=False)
 
-
+    followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
+    # tags = models.ManyToManyField(Tag, symmetrical=False, related_name='taggings')
     USERNAME_FIELD = 'user_id'
 
     REQUIRED_FIELDS = [
