@@ -2,17 +2,16 @@
   <div>
   <h1 class="label-box">birth</h1>
   <div style="height: 10px;"></div>
-    <div class="Birth-page">
-      <div id="bir_yy">
+    <div class="split-page">
+      <div>
           <span class="box">
-              <input type="text" v-model="date.yyyy" class="input-Birth-box" maxlength="4" placeholder="년(4자)">
+              <input type="text" v-model="date.yyyy" class="input-split-box" maxlength="4" placeholder="년(4자)">
           </span>
       </div>
-      <div class="birth-margin-box"></div>
-      <div id="bir_mm">
+      <div class="split-margin-box"></div>
+      <div>
         <span>
-          <select v-model="date.mm" class="input-Birth-box select-box-border" @change="changeMonth">
-            <option>월</option>
+          <select v-model="date.mm" class="input-split-box select-box-border" @change="changeMonth" placeholder="월">
             <option v-for="month in date.months"
               :key="month"
              :value="month">{{month}}월</option>
@@ -20,11 +19,10 @@
         </span>
       </div>
 
-      <div class="birth-margin-box"></div>
-      <div id="bir_dd">
+      <div class="split-margin-box"></div>
+      <div>
         <span>
-          <select v-model="date.dd" class="input-Birth-box select-box-border" @change="onChange">
-            <option>일</option>
+          <select v-model="date.dd" class="input-split-box select-box-border" @change="onChange" placeholder="일">
             <option v-for="day in date.days"
               :key="day"
              :value="day">{{day}}일</option>
@@ -49,7 +47,6 @@ export default {
       days: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
     })
     function birthChange () {
-      console.log('birthChange')
       return date.yyyy + date.mm + date.dd
     }
     function changeMonth (event) {
@@ -62,8 +59,7 @@ export default {
       }
     }
     function onChange (event) {
-      console.log('메렁' + date.birth)
-      emit('birth', date.birth)
+      emit('update:modelValue', date.birth)
     }
 
     return {
@@ -76,16 +72,16 @@ export default {
 </script>
 
 <style>
-.Birth-page {
+.split-page {
   display: flex;
   justify-content: center;
   margin: auto;
 }
 
-.birth-margin-box {
+.split-margin-box {
   width: 30px;
 }
-.input-Birth-box {
+.input-split-box {
   font-family: 'MaruBuriOTF';
   font-style: normal;
   color: black;
