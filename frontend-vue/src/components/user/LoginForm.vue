@@ -1,19 +1,24 @@
 <template>
-  <form @submit.prevent="login(credentials)"
-  class="account-form">
-    <h1>로그인</h1>
-    <BaseInput v-model="credentials.user_id" label="Id" err="user_id"></BaseInput>
-    <BaseInput type="password" v-model="credentials.password" label="Password" err="password"></BaseInput>
-    <div class="login-nav">
-      <button type="button" class="view-button" @click="changeView(1)">아이디 찾기</button>|
-      <button type="button" class="view-button" @click="changeView(2)">비밀번호 찾기</button>|
-      <button type="button" class="view-button" @click="changeView(3)">회원가입</button>
-    </div>
-    <kakaoLogin></kakaoLogin>
+  <router-view>
+    <div :class="{ background }"
+      class="login-padding-box">
+      <form @submit.prevent="login(credentials)"
+      class="account-form">
+        <h1>로그인</h1>
+        <BaseInput v-model="credentials.user_id" label="Id" err="user_id"></BaseInput>
+        <BaseInput type="password" v-model="credentials.password" label="Password" err="password"></BaseInput>
+        <div class="login-nav">
+          <router-link class="view-button" to="findId/">아이디 찾기</router-link>
+          <router-link class="view-button" to="findId/">아이디 찾기</router-link>
+          <router-link class="view-button" to="signUp/">회원가입</router-link>
+        </div>
+        <kakaoLogin></kakaoLogin>
 
-    <GoogleLogin class="google-login"></GoogleLogin>
-    <BaseButton @click="submit">로그인</BaseButton>
-  </form>
+        <GoogleLogin class="google-login"></GoogleLogin>
+        <BaseButton @click="submit">로그인</BaseButton>
+      </form>
+    </div>
+  </router-view>
 </template>
 
 <script>
@@ -91,4 +96,5 @@ form {
   border-radius: 2px;
   cursor: pointer;
 }
+
 </style>

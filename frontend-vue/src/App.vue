@@ -1,8 +1,5 @@
 <template>
   <main :class="{ background }">
-  <router-link to='/home'>home</router-link>
-  <div></div>
-  <router-link to='/Login'>login</router-link>
   <router-view></router-view>
   </main>
 </template>
