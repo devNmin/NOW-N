@@ -1,8 +1,8 @@
 <template>
-  <div v-if="streamManager">
-    <ov-video :stream-manager="streamManager" />
+  <div class="video" v-if="streamManager">
+    <ov-video class="user-video" :stream-manager="streamManager" />
     <div>
-      <p>{{ clientData }}</p>
+      <p style="color:white;">{{ clientData }}</p>
     </div>
   </div>
 </template>
@@ -37,3 +37,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.user-video{
+  height:290px;
+  width:290px;
+}
+</style>

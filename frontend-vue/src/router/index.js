@@ -48,6 +48,11 @@ const routes = [
     path: '/GX/Room',
     name: 'makeroom',
     component: () => import('@/views/gx/GroupXerciseView.vue')
+  },
+  {
+    path: '/room/gx',
+    name: 'gxroom',
+    component: () => import('@/views/room/GxRoom.vue')
   }
 
 ]
