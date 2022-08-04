@@ -1,27 +1,11 @@
 <template>
-  <div :class="{ background }"
-  class="login-padding-box">
-    <LoginForm v-if="loginViewCase === 1"/>
-    <FindId v-if="loginViewCase === 2"/>
-    <RegistForm v-if="loginViewCase === 3"/>
-  </div>
+  <LoginForm/>
 </template>
 
 <script>
 import LoginForm from '@/components/user/LoginForm'
-import FindId from '@/components/user/FindId'
-import RegistForm from '@/components/user/RegistForm'
-import { computed } from '@vue/runtime-core'
-import store from '@/store'
 export default {
-  components: { LoginForm, FindId, RegistForm },
-  setup () {
-    const loginViewCase = computed(() => store.getters.loginViewCase)
-    console.log(loginViewCase)
-    return {
-      loginViewCase
-    }
-  }
+  components: { LoginForm }
 }
 </script>
 <style>

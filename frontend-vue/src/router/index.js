@@ -14,6 +14,18 @@ const routes = [
     component: () => import('@/views/user/LoginView.vue')
   },
   {
+    // 아이디 찾기
+    path: '/findId',
+    name: 'findId',
+    component: () => import('@/components/user/FindId.vue')
+  },
+  {
+    // 회원가입
+    path: '/signUp',
+    name: 'signUp',
+    component: () => import('@/components/user/RegistForm.vue')
+  },
+  {
     // 프로필
     path: '/profile/getprofile/',
     name: 'profile',
@@ -35,20 +47,14 @@ const routes = [
     // 방생성 모달 임시로 사용하는 주소
     path: '/GX/Room',
     name: 'makeroom',
-    component: () => import('@/views/gx/MakeRoomView.vue')
+    component: () => import('@/views/gx/GroupXerciseView.vue')
   },
   {
-    // P.X 식단 다이어리
-    path: '/PT/diet/getcalorie',
-    name: 'diet-diary',
-    component: () => import('@/components/px/DietDiary.vue')
-  },
-  {
-    // P.X 코칭룸
-    path: '/PT/onetoone/enterroom/',
-    name: 'coachingroom',
-    component: () => import('@/components/px/CoachingRoom.vue')
+    path: '/room/gx',
+    name: 'gxroom',
+    component: () => import('@/views/room/GxRoom.vue')
   }
+
 ]
 
 const router = createRouter({
