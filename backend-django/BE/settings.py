@@ -34,10 +34,13 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # APP
     'accounts',
-    'webRTC',
+    'GX',
+    'profiles',
+    'trainer',
 
     # 'Library'
     'rest_framework',
+    'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
 
