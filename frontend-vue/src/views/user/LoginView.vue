@@ -3,18 +3,18 @@
   class="login-padding-box">
     <LoginForm v-if="loginViewCase === 1"/>
     <FindId v-if="loginViewCase === 2"/>
-    <RegistUser v-if="loginViewCase === 3"/>
+    <RegistForm v-if="loginViewCase === 3"/>
   </div>
 </template>
 
 <script>
 import LoginForm from '@/components/user/LoginForm'
 import FindId from '@/components/user/FindId'
-import RegistUser from '@/components/user/RegistUser'
+import RegistForm from '@/components/user/RegistForm'
 import { computed } from '@vue/runtime-core'
 import store from '@/store'
 export default {
-  components: { LoginForm, FindId, RegistUser },
+  components: { LoginForm, FindId, RegistForm },
   setup () {
     const loginViewCase = computed(() => store.getters.loginViewCase)
     console.log(loginViewCase)

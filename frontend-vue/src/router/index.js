@@ -35,7 +35,19 @@ const routes = [
     // 방생성 모달 임시로 사용하는 주소
     path: '/GX/Room',
     name: 'makeroom',
-    component: () => import('@/views/gx/GroupXerciseView.vue')
+    component: () => import('@/views/gx/MakeRoomView.vue')
+  },
+  {
+    // P.X 식단 다이어리
+    path: '/PT/diet/getcalorie',
+    name: 'diet-diary',
+    component: () => import('@/components/px/DietDiary.vue')
+  },
+  {
+    // P.X 코칭룸
+    path: '/PT/onetoone/enterroom/',
+    name: 'coachingroom',
+    component: () => import('@/components/px/CoachingRoom.vue')
   }
 ]
 
