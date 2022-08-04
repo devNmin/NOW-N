@@ -43,7 +43,7 @@ select_class = (
 
 class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.CharField(max_length=15, unique=True)
-    nickname = models.CharField(max_length=100, unique=True)
+    nickname = models.CharField(max_length=100, unique=True, null=True)
     email = models.EmailField(db_index=True, unique=True)
     name = models.CharField(max_length=30)
     birth = models.IntegerField() # int
