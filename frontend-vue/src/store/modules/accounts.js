@@ -11,8 +11,7 @@ export default {
     currentUser: {},
     profile: {},
     authError: null,
-    reduplication: false, // 중복체크
-    loginViewCase: 1
+    reduplication: false // 중복체크
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
@@ -34,9 +33,6 @@ export default {
     },
     SET_AUTH_ERROR (state, error) {
       state.authError = error
-    },
-    SET_LOGIN_VIEW_CASE (state, loginViewCase) {
-      state.loginViewCase = loginViewCase
     }
   },
 

@@ -14,6 +14,18 @@ const routes = [
     component: () => import('@/views/user/LoginView.vue')
   },
   {
+    // 아이디 찾기
+    path: '/findId',
+    name: 'findId',
+    component: () => import('@/components/user/FindId.vue')
+  },
+  {
+    // 회원가입
+    path: '/signUp',
+    name: 'signUp',
+    component: () => import('@/components/user/RegistForm.vue')
+  },
+  {
     // 프로필
     path: '/profile/getprofile/',
     name: 'profile',
@@ -37,6 +49,7 @@ const routes = [
     name: 'makeroom',
     component: () => import('@/views/gx/GroupXerciseView.vue')
   }
+
 ]
 
 const router = createRouter({
