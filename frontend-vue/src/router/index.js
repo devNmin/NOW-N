@@ -53,8 +53,26 @@ const routes = [
     path: '/room/gx',
     name: 'gxroom',
     component: () => import('@/views/room/GxRoom.vue')
+  },
+  {
+    // 식단 다이어리
+    // component에 view파일로 넣으면 페이지가 안나와서 임시로 DietDiary.vue로 연결
+    path: '/PT/diet/getcalorie',
+    name: 'dietdiary',
+    component: () => import('@/components/px/DietDiary.vue')
+  },
+  {
+    // 코칭룸
+    path: '/PT/onetoone/enterroom',
+    name: 'coachingroom',
+    component: () => import('@/components/px/CoachingRoom.vue')
+  },
+  {
+    // 체중그래프
+    path: '/PT/graph/date',
+    name: 'weightgraph',
+    component: () => import('@/components/px/WeightGraph.vue')
   }
-
 ]
 
 const router = createRouter({
