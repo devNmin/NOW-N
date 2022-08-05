@@ -83,7 +83,7 @@ export default {
   float: left;
 }
 .category-diary{
-  margin-left: 2vw;
+  margin-left: 7vw;
   margin-top: 0;
   float: left;
   font-size: 3vh;
