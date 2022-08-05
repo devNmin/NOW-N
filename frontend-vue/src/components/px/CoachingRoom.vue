@@ -25,11 +25,14 @@
           </div>
         </h4>
         <h5 class="schedule">
-
+          <div class="schedulebox"></div>
         </h5>
-        <h6 class="counselinfo">
-
+        <h6 class="community">
+          <div class="communitybox"></div>
         </h6>
+        <h7 class="counselinfo">
+          <div class="counselinfobox"></div>
+        </h7>
       </div>
     </div>
   </div>
@@ -75,7 +78,7 @@ export default {
   float: left;
 }
 .category-diary{
-  margin-left: 2vw;
+  margin-left: 7vw;
   margin-top: 0;
   float: left;
   font-size: 3vh;
@@ -97,14 +100,16 @@ export default {
   grid-area: body;
 }
 .grid2 {
-  grid-template-rows: 50% 50%;
-  grid-template-columns: 70% 30%;
+  display: grid;
+  grid-template-rows: 20% 20% 60%;
+  grid-template-columns: 65% 45%;
   grid-template-areas:
     "coachinfo schedule"
-    "counselinfo schedule";
+    "community schedule"
+    "counselinfo counselinfo";
   column-gap: 10px;
   row-gap: 30px;
-  height: 1500px;
+  height: 1200px;
 }
 .coachinfo {
   margin: 0;
@@ -113,8 +118,7 @@ export default {
 .coachinfobox {
   margin-bottom: 10vh;
   margin-top: 0;
-  grid-area: diary;
-  width: 30vw;
+  width: 40vw;
   height: 30vh;
   background: #FFFFFF;
 }
@@ -122,8 +126,27 @@ export default {
   margin: 0;
   grid-area: schedule;
 }
+.schedulebox {
+  width: 21.5vw;
+  height: 70vh;
+  background: #FFFFFF;
+}
+.community {
+  margin: 0;
+  grid-area: community;
+}
+.communitybox {
+  width: 40vw;
+  height: 30vh;
+  background: #FFFFFF;
+}
 .counselinfo {
   margin: 0;
   grid-area: counselinfo;
+}
+.counselinfobox{
+  width: 70vw;
+  height: 30vh;
+  background: #FFFFFF;
 }
 </style>
