@@ -13,7 +13,7 @@ export default {
 .login-padding-box {
   min-height: calc(100vh - var(--footer-height));
   justify-content: center;
-  background: #198d4d;
+  background: #AAAAAA;
 }
 div.background {
   background-size: cover;

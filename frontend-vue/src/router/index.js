@@ -50,28 +50,29 @@ const routes = [
     component: () => import('@/views/gx/GroupXerciseView.vue')
   },
   {
-    path: '/room/gx',
-    name: 'gxroom',
-    component: () => import('@/views/room/GxRoom.vue')
+    // 트레이너
+    path: '/trainer',
+    name: 'trainer',
+    component: () => import('@/views/trainer/TrainerView.vue')
+
   },
   {
-    // 식단 다이어리
-    // component에 view파일로 넣으면 페이지가 안나와서 임시로 DietDiary.vue로 연결
-    path: '/PT/diet/getcalorie',
-    name: 'dietdiary',
-    component: () => import('@/components/px/DietDiary.vue')
+    // 트레이너 디테일
+    path: '/trainer/detail',
+    name: 'trainerDetail',
+    component: () => import('@/views/trainer/TrainerDetailView.vue')
   },
   {
-    // 코칭룸
-    path: '/PT/onetoone/enterroom',
-    name: 'coachingroom',
-    component: () => import('@/components/px/CoachingRoom.vue')
+    // 트레이너 신청
+    path: '/trainer/apply',
+    name: 'trainerApply',
+    component: () => import('@/views/trainer/TrainerApplyView.vue')
   },
   {
-    // 체중그래프
-    path: '/PT/graph/date',
-    name: 'weightgraph',
-    component: () => import('@/components/px/WeightGraph.vue')
+    // 트레이너 스케쥴
+    path: '/trainer/schedule',
+    name: 'trainerSchedule',
+    component: () => import('@/views/trainer/TrainerScheduleView.vue')
   }
 ]
 
