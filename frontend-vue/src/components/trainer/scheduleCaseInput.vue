@@ -1,6 +1,4 @@
 <template>
-  <label for="input-box" class="label-box">{{label}}
-  </label>
     <select v-model="gradeData.userCase" @change="gradechange" class="input-box select-box-border">
       <option v-for="userCase_ex in gradeData.userCaseData"
         :key="userCase_ex"
@@ -16,8 +14,8 @@
 export default {
   setup (props, { emit }) {
     const gradeData = {
-      userCase: '일반유저',
-      userCaseData: ['일반유저', '트레이너']
+      userCase: 'G.X',
+      userCaseData: ['G.X', 'T.X']
     }
     function gradechange (event) {
       emit('update:modelValue', event.target.value)

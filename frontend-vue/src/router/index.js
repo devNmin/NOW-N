@@ -48,8 +48,32 @@ const routes = [
     path: '/GX/Room',
     name: 'makeroom',
     component: () => import('@/views/gx/GroupXerciseView.vue')
-  }
+  },
+  {
+    // 트레이너
+    path: '/trainer',
+    name: 'trainer',
+    component: () => import('@/views/trainer/TrainerView.vue')
 
+  },
+  {
+    // 트레이너 디테일
+    path: '/trainer/detail',
+    name: 'trainerDetail',
+    component: () => import('@/views/trainer/TrainerDetailView.vue')
+  },
+  {
+    // 트레이너 신청
+    path: '/trainer/apply',
+    name: 'trainerApply',
+    component: () => import('@/views/trainer/TrainerApplyView.vue')
+  },
+  {
+    // 트레이너 스케쥴
+    path: '/trainer/schedule',
+    name: 'trainerSchedule',
+    component: () => import('@/views/trainer/TrainerScheduleView.vue')
+  }
 ]
 
 const router = createRouter({

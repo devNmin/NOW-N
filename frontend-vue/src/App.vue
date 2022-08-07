@@ -1,12 +1,11 @@
 <template>
-  <main :class="{ background }">
-  <router-view></router-view>
-  </main>
+  <HomeView/>
 </template>
 
 <script>
-
+import HomeView from '@/views/HomeView.vue'
 export default {
+  components: { HomeView }
 }
 </script>
 <style>
@@ -21,7 +20,7 @@ export default {
   --color-grey-500: #757880;
   --color-grey-700: #575a5f;
   --color-grey-900: #2e3033;
-
+  --follow-bar-item-width: 15vw
   --header-height: 1rem;
 }
 
@@ -36,7 +35,7 @@ export default {
 main {
   min-height: calc(100vh - var(--footer-height));
   width: 100vw;
-  background: #198d4d;
+  background: #EEEEEE;
 }
 main.background {
   background-size: cover;
