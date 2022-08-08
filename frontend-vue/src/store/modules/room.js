@@ -53,9 +53,11 @@ export default {
 
     // gx룸 생성
     async createRoomInfo ({ commit }, roomInfo) {
+      console.log(roomInfo)
       await axios({
         url: drf.rooms.CDRoom(),
-        method: 'post'
+        method: 'POST',
+        data: roomInfo
       })
       commit('CREATE_ROOM_INFO', roomInfo)
     },

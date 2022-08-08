@@ -3,6 +3,7 @@
     <div class="GX-header">
       <h1 class="gxroom">gx룸</h1>
       <h1 class="gxcommunity">gx커뮤니티</h1>
+      <button class="createroom" @click="moveToRegist">방생성</button>
       <router-link class="view-button" to="gx/conferences/1/">방입장</router-link>|
       <input class="search" placeholder="검색">
     </div>
