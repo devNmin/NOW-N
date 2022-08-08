@@ -32,26 +32,21 @@ const routes = [
     component: () => import('@/components/user/UserProfile.vue')
   },
   {
-    // G.X
-    path: '/GX/getlist/',
-    name: 'GX',
-    component: () => import('@/views/gx/GroupXerciseView.vue')
-  },
-  {
-    // G.X 메인페이지(G.X 페이지와 동일하다)
+    // G.X 메인페이지
     path: '/GX/',
     name: 'GX-main',
     component: () => import('@/views/gx/GroupXerciseView.vue')
   },
   {
-    // 방생성 모달 임시로 사용하는 주소
-    path: '/GX/Room',
-    name: 'makeroom',
-    component: () => import('@/views/gx/GroupXerciseView.vue')
+    // gx 방 생성모달
+    path: '/GX/createConference',
+    name: 'createConference',
+    component: () => import('@/components/modal/createConference.vue')
   },
   {
-    path: '/room/gx',
-    name: 'gxroom',
+    // gx룸
+    path: '/gx/conferences/:conference_id',
+    name: 'GxRoom',
     component: () => import('@/views/room/GxRoom.vue')
   }
 
