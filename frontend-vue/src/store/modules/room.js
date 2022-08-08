@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import router from '@/router'
 import axios from 'axios'
 import drf from '@/api/drf'
@@ -6,10 +7,15 @@ export default {
   state: {
     roomList: [], // 모든 룸 리스트
     roomInfo: {} // 현재 룸
+=======
+export default {
+  state: {
+>>>>>>> 40211c0fcb6f4727e0b42da32e228e3dc9c89085
   },
   getters: {
   },
   mutations: {
+<<<<<<< HEAD
     // 현재 룸 번호 State에 저장
     SET_ROOM_INFO (state, roomId) {
       state.roomId = roomId
@@ -68,5 +74,9 @@ export default {
       })
       commit('DELETE_ROOM_INFO', roomId)
     }
+=======
+  },
+  actions: {
+>>>>>>> 40211c0fcb6f4727e0b42da32e228e3dc9c89085
   }
 }

@@ -44,12 +44,38 @@ const routes = [
     component: () => import('@/components/modal/createConference.vue')
   },
   {
+<<<<<<< HEAD
     // gx룸
     path: '/gx/conferences/:conference_id',
     name: 'GxRoom',
     component: () => import('@/views/room/GxRoom.vue')
   }
+=======
+    // 트레이너
+    path: '/trainer',
+    name: 'trainer',
+    component: () => import('@/views/trainer/TrainerView.vue')
+>>>>>>> 40211c0fcb6f4727e0b42da32e228e3dc9c89085
 
+  },
+  {
+    // 트레이너 디테일
+    path: '/trainer/detail',
+    name: 'trainerDetail',
+    component: () => import('@/views/trainer/TrainerDetailView.vue')
+  },
+  {
+    // 트레이너 신청
+    path: '/trainer/apply',
+    name: 'trainerApply',
+    component: () => import('@/views/trainer/TrainerApplyView.vue')
+  },
+  {
+    // 트레이너 스케쥴
+    path: '/trainer/schedule',
+    name: 'trainerSchedule',
+    component: () => import('@/views/trainer/TrainerScheduleView.vue')
+  }
 ]
 
 const router = createRouter({

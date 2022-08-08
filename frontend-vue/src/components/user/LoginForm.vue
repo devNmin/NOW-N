@@ -8,8 +8,8 @@
         <BaseInput v-model="credentials.user_id" label="Id" err="user_id"></BaseInput>
         <BaseInput type="password" v-model="credentials.password" label="Password" err="password"></BaseInput>
         <div class="login-nav">
-          <router-link class="view-button" to="findId/">아이디 찾기</router-link>
-          <router-link class="view-button" to="findId/">아이디 찾기</router-link>
+          <router-link class="view-button" to="findId/">아이디 찾기</router-link>|
+          <router-link class="view-button" to="findId/">아이디 찾기</router-link>|
           <router-link class="view-button" to="signUp/">회원가입</router-link>
         </div>
         <kakaoLogin></kakaoLogin>
@@ -30,7 +30,7 @@ import { useStore } from 'vuex'
 
 export default {
   components: { BaseButton, BaseInput, kakaoLogin, GoogleLogin },
-  setup () {
+  setup (props, { emit }) {
     const store = useStore()
     const credentials = {
       user_id: '',
@@ -86,7 +86,9 @@ form {
   font-size: 7px;
   padding-left: 20px;
   padding: 0px;
-  border-bottom: inset 2px ;
+  border-bottom: 2px solid #EEEEEE;
+  text-decoration: none;
+  margin: 20px;
 }
 .view-button:hover {
   border: 0px;
