@@ -5,7 +5,7 @@
     <div class="split-page">
       <div>
           <span class="box">
-              <input type="text" v-model="date.yyyy" class="input-split-box" maxlength="4" placeholder="년(4자)">
+              <input @change="onChange" type="text" v-model="date.yyyy" class="input-split-box" maxlength="4" placeholder="년(4자)">
           </span>
       </div>
       <div class="split-margin-box">/</div>
@@ -22,7 +22,7 @@
       <div class="split-margin-box">/</div>
       <div>
         <span>
-          <select v-model="date.dd" class="input-split-box select-box-border" @change="onChange" placeholder="일">
+          <select v-model="date.dd" class="input-split-box select-box-border" @change="onChange">
             <option v-for="day in date.days"
               :key="day"
              :value="day">{{day}}일</option>
@@ -57,6 +57,7 @@ export default {
       } else {
         date.days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29']
       }
+      emit('update:modelValue', date.birth)
     }
     function onChange (event) {
       emit('update:modelValue', date.birth)

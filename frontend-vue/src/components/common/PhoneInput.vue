@@ -1,11 +1,11 @@
 <template>
-  <div @change="onChange">
+  <div>
   <h1 class="label-box">Phone Number</h1>
   <div style="height: 10px;"></div>
     <div class="split-page">
       <div>
         <span>
-          <select v-model="phoneData.first" class="input-split-box select-box-border">
+          <select v-model="phoneData.first" @change="onChange" class="input-split-box select-box-border">
             <option v-for="first_ex in phoneData.first_num"
               :key="first_ex"
              :value="first_ex">{{first_ex}}</option>
@@ -15,14 +15,14 @@
       <div class="split-margin-box">ㅡ</div>
       <div>
         <span class="box">
-            <input type="text" v-model="phoneData.second" class="input-split-box" maxlength="4">
+            <input type="text" @change="onChange" v-model="phoneData.second" class="input-split-box" maxlength="4">
         </span>
       </div>
 
       <div class="split-margin-box">ㅡ</div>
       <div>
         <span class="box">
-            <input type="text" v-model="phoneData.third" class="input-split-box" maxlength="4">
+            <input type="text" @change="onChange" v-model="phoneData.third" class="input-split-box" maxlength="4">
         </span>
       </div>
     </div>
