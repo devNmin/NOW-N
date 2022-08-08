@@ -38,12 +38,6 @@ const routes = [
     component: () => import('@/views/gx/GroupXerciseView.vue')
   },
   {
-    // 방생성 모달 임시로 사용하는 주소
-    path: '/GX/Room',
-    name: 'makeroom',
-    component: () => import('@/components/modal/MakeRoom.vue')
-  },
-  {
     // gx 방 생성모달
     path: '/GX/createConference',
     name: 'createConference',

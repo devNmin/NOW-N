@@ -81,11 +81,11 @@ import UserVideo from '@/components/room/UserVideo'
 import { reactive, toRefs } from 'vue'
 import { UserChat } from '@/components/room/UserChat.vue'
 // import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-const OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443'
-const OPENVIDU_SERVER_SECRET = 'MY_SECRET'
+const OPENVIDU_SERVER_URL = 'https://' + 'i7b108.p.ssafy.io'
+const OPENVIDU_SERVER_SECRET = 'ssafy'
 export default {
   name: 'App',
   components: {
@@ -94,7 +94,7 @@ export default {
   },
 
   setup () {
-    const store = useStore()
+    // const store = useStore()
 
     const state = reactive({
       OV: undefined,
@@ -103,7 +103,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       mySessionId: '',
-      myUserName: store.state.accounts.currentUser.user_id
+      myUserName: ''
       // router: useRouter(),
       // store: useStore()
     })
