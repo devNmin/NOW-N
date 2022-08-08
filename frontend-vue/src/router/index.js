@@ -45,7 +45,7 @@ const routes = [
   },
   {
     // gx룸
-    path: '/gx/conferences/:conference_id',
+    path: '/gx/conferences/:id',
     name: 'GxRoom',
     component: () => import('@/views/room/GxRoom.vue')
   },
