@@ -16,7 +16,6 @@ export default {
 <style>
 
 header.header-base{
-  position: fixed;
   padding: 1rem;
   height: 1rem;
   width: 100vw;
