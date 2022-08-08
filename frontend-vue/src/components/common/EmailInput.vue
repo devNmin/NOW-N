@@ -1,17 +1,17 @@
 <template>
-  <div @change="onChange">
+  <div>
   <h1 class="label-box">Email</h1>
   <div style="height: 10px;"></div>
     <div class="split-page">
       <div>
           <span class="box">
-              <input type="text" v-model="emailData.first" class="input-split-box2" placeholder="email">
+              <input type="text" @change="onChange" v-model="emailData.first" class="input-split-box2" placeholder="email">
           </span>
       </div>
       <div class="split-margin-box2"> @</div>
       <div>
         <span>
-          <select v-model="emailData.second" class="input-split-box2 select-box-border">
+          <select v-model="emailData.second" @change="onChange" class="input-split-box2 select-box-border">
             <option v-for="second_ex in emailData.second_email"
               :key="second_ex"
              :value="second_ex">{{second_ex}}</option>
@@ -37,6 +37,7 @@ export default {
       return emailData.first + '@' + emailData.second
     }
     function onChange (event) {
+      console.log(emailData.email)
       emit('update:modelValue', emailData.email)
     }
 
