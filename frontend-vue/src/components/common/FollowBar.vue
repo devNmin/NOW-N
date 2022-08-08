@@ -54,7 +54,6 @@ export default {
   width: 300px ;
   height: 980px;
   position: fixed;
-  margin-top: 5rem;
   display: flex;
 }
 .follow-hide-bar {

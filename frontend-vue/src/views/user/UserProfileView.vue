@@ -1,136 +1,84 @@
 <template>
-  <!-- <div class="followerbox"></div> -->
+  <BaseHeader ></BaseHeader>
   <div class="grid-container">
     <div class="leftbox">
-      <FollowBar class="leftbox"></FollowBar>
+      <FollowBar ></FollowBar>
     </div>
     <div class="middlebox">
-      <h1 class="name1">
-        <div class="content"></div> {{ name }} </h1>
-      <h2 class="image1">
-      </h2>
-      <h3 class="follower1">팔로워 {{ follower }}</h3>
-      <h4 class="following1">팔로잉 {{ following }}</h4>
-      <h5 class="info">
-        <div class="content"> {{ information }}</div>
-      </h5>
+      <div class="name1 content">
+        {{ UserInfoP.name }}
+      </div>
+      <img class="image1" :src="UserInfoP.profile_url" alt="유저프로필URL">
+      <input ref="image" id="input" type="file" name="image" accept="image/*" multiple="multiple" class="hidden" @change="uploadFile">
+      <div>
+        <div class="follower1">Follower {{ UserInfoP.Follower }}</div>
+        <div class="following1">Following {{ UserInfoP.Following }}</div>
+      </div>
+      <div class="infobox content"> {{ UserInfoP.information }}</div>
     </div>
     <div class="rightbox">
-      <h6 class="usertext">
-        <div class="usertext-sex1">
-          성별:
+      <div>
+        <div class="upperbox">
+          <div class="upperbox1">
+            <div class=""> 성별: {{UserInfoP.sex1}} </div>
+            <div class="">  신장: {{UserInfoP.height1}} cm</div>
+          </div>
+          <div class="upperbox2"></div>
+            <div class="">
+              체중: {{UserInfoP.weight1}} kg
+            </div>
+            <div class="">
+              목표체중: {{UserInfoP.goal1}} kg
+            </div>
+          <button class="fixbutton">수정하기</button>
         </div>
-        <div class="usertext-sex2">
-          <input id="input1" type="text" v-model="sex2">
+        <div class="downbox">
+          <RadarChart ></RadarChart>
         </div>
-        <div class="usertext-height1">
-          신장:
-        </div>
-        <div class="usertext-height2">
-          <input id="input1" type="text" v-model="height2">
-          <input id="input2" type="text" v-model="cm">
-        </div>
-        <div class="usertext-weight1">
-          체중:
-        </div>
-        <div class="usertext-weight2">
-          <input id="input1" type="text" v-model="weight2">
-          <input id="input2" type="text" v-model="kg">
-        </div>
-        <div class="usertext-goal1">
-          목표체중:
-        </div>
-        <div class="usertext-goal2">
-          <input id="input1" type="text" v-model="goal2">
-          <input id="input2" type="text" v-model="kg">
-        </div>
-        <div class="fatgraph"></div>
-      </h6>
-      <button @click="changeprofile" class="fixbutton">수정하기</button>
-      <h7 class="chart">차트</h7>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import BaseHeader from '@/components/common/BaseHeader.vue'
 import FollowBar from '@/components/common/FollowBar.vue'
+import { useStore } from 'vuex'
+import { onMounted } from 'vue'
+import { getStorage, uploadBytes, ref, getDownloadURL } from 'firebase/storage'
+import RadarChart from '@/components/user/RadarChart.vue'
 export default {
   components: {
-    FollowBar
+    BaseHeader, FollowBar, RadarChart
   },
   setup () {
-    const name = '조경민'
-    const follower = '150k'
-    const following = '10'
-    const profile = '프로필'
-    const information = '#글자 #설명 #예시'
-    const sex1 = '남'
-    const height1 = '174.4'
-    const weight1 = '85.5'
-    const goal1 = '75.5'
-    // const sex2 = '남'
-    // const height2 = '174.4'
-    // const weight2 = '85.5'
-    // const goal2 = '75.5'
-    const sex2 = sex1
-    const height2 = height1
-    const weight2 = weight1
-    const goal2 = goal1
-    const cm = 'cm'
-    const kg = 'kg'
-    return {
-      name,
-      follower,
-      following,
-      profile,
-      information,
-      sex2,
-      height2,
-      weight2,
-      goal2,
-      sex1,
-      height1,
-      weight1,
-      goal1,
-      cm,
-      kg
+    const store = useStore()
+    const UserInfoP = store.state.profile.UserInfo
+    onMounted(() => {
+      console.log(UserInfoP)
+      const storage = getStorage()
+      getDownloadURL(ref(storage, UserInfoP.name))
+        .then((url) => {
+          console.log('org', url)
+          // `url` is the download URL for 'images/stars.jpg'
+          UserInfoP.profile_url = url
+        })
+    })
+    const uploadFile = (e) => {
+      const storage = getStorage()
+      const file = e.target.files[0]
+      console.log(file)
+      const storageRef = ref(storage, UserInfoP.name)
+      uploadBytes(storageRef, file).then(() => {
+        console.log('Uploaded a blob or file!')
+      })
     }
-  },
-  methods: {
-    changeprofile: function () {
-      this.sex1 = this.sex2
-      this.height1 = this.height2
-      this.weight1 = this.weight2
-      this.goal1 = this.goal2
+
+    return {
+      uploadFile, UserInfoP
     }
   }
 }
-//   data () {
-//     return {
-//       name: '조경민',
-//       follower: '150k',
-//       following: '10',
-//       information: '#글자 #설명 #예시',
-//       sex2: '남',
-//       height2: '174.4cm',
-//       weight2: '85.5kg',
-//       goal2: '75.5kg'
-//     }
-//   }
-// }
-// export default {
-//   name: 'Profile',
-//   computed: {
-//     currentUser() {
-//       return this.$store.state.auth.user;
-//     }
-//   },
-//   mounted() {
-//     if (!this.currentUser) {
-//       this.$router.push('/login');
-//     }
-//   }
-// };
 </script>
 
 <style>
@@ -140,16 +88,29 @@ export default {
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-columns: 23% 35% 42%;
+  grid-template-columns: 15% 42% 43%;
   /* grid-template-rows: 20% 40% 40%;  */
   column-gap: 10px;
   grid-template-areas:
     "leftbox middlebox rightbox"
 }
+.grid-container2 {
+  display: grid;
+  grid-template-rows: 50% 50%;
+  column-gap: 10px;
+  grid-template-areas:
+    "upperbox downbox"
+}
+.grid-container3 {
+  display: grid;
+  grid-template-rows: 33% 33% 33%;
+  grid-template-areas:
+    "upperbox1 upperbox2 upperbox3"
+}
 .content{
   align-items: center;
   text-align: center;
-  padding: 20px;
+
 }
 .leftbox{
   margin: 0;
@@ -169,7 +130,7 @@ export default {
   margin-left: 110px;
   border: 5px solid ;
   border-radius: 50%;
-  background: url(https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag-map_of_the_world_%282018%29.png)
+  /* background: url(https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag-map_of_the_world_%282018%29.png) */
 }
 .name1{
   margin-left: 6.5vw;
@@ -187,25 +148,19 @@ export default {
 
 }
 .following1{
-  font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 20px;
   margin-right: 230px;
   float: right;
 
 }
-.info{
+.infobox{
   align-items: center;
   text-align: center;
   width: 35vw;
   height: 10vh;
-  margin-left: 50px;
-  margin-top: 100px;
-  top: 550px;
-  left: 430px;
-  font-family: 'MaruBuriOTF';
-  font-style: normal;
-  background: #FFF89C;
+
+  background: #FEFCED;
   border-radius: 50px;
   font-size: 20px;
 }
@@ -213,21 +168,19 @@ export default {
   box-sizing: border-box;
   width: 35vw;
   height: 35vh;
-  margin-top: 120px;
+
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
   box-shadow: 13.21px 4.95px 15px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
-  font-family: 'MaruBuriOTF';
-  font-style: normal;
+
   font-size: 3vh;
 }
 .chart{
   box-sizing: border-box;
   width: 30vw;
   height: 20vh;
-  margin-top: 50px;
-  margin-left: 70px;
+
   background: #FFFFFF;
   border: 1px solid #EEEEEE;
   box-shadow: 13.21px 4.95px 15px rgba(0, 0, 0, 0.25);
@@ -324,7 +277,7 @@ export default {
 }
 .fixbutton{
   margin-left: 240px;
-  float: left;
+  float: right;
   Width: 100px;
   Height: 40px;
   justify-content: center;
@@ -384,13 +337,6 @@ button:hover {
     margin-top: 86vh;
     background: yellow;
     border-radius: 50px;
-  }
-  .chart{
-    height: 0;
-    width: 0;
-    border: 0;
-    margin-left: 0;
-    margin-top: 0;
   }
 }
 </style>

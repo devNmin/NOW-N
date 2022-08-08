@@ -27,9 +27,9 @@ const routes = [
   },
   {
     // 프로필
-    path: '/profile/getprofile/',
+    path: '/profiles',
     name: 'profile',
-    component: () => import('@/components/user/UserProfile.vue')
+    component: () => import('@/views/user/UserProfileView.vue')
   },
   {
     // G.X 메인페이지
