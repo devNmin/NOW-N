@@ -36,10 +36,10 @@ export default {
       password: '',
       password_check: '',
       name: '',
-      email: '',
-      birth: '',
-      phone_number: '',
-      grade: 0
+      email: '@naver.com',
+      birth: '0101',
+      phone_number: '010',
+      grade: '일반유저'
     })
     function signup () {
       store.dispatch('signup', credentials)
