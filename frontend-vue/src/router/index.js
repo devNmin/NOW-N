@@ -47,7 +47,7 @@ const routes = [
     // 방생성 모달 임시로 사용하는 주소
     path: '/GX/Room',
     name: 'makeroom',
-    component: () => import('@/views/gx/GroupXerciseView.vue')
+    component: () => import('@/components/modal/MakeRoom.vue')
   },
   {
     path: '/room/gx',
@@ -72,6 +72,12 @@ const routes = [
     path: '/PT/graph/date',
     name: 'weightgraph',
     component: () => import('@/components/px/WeightGraph.vue')
+  },
+  {
+    // 1:1 미팅룸 api에 없으므로 주소 만들어서 사용함
+    path: '/PT/onetoone/meetingroom',
+    name: 'meetingroom',
+    component: () => import('@/components/px/MeetingRoom.vue')
   }
 ]
 
