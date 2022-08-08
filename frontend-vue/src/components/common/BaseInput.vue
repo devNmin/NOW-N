@@ -48,7 +48,7 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: none;
+  background-color: #EEEEEE;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 300px;

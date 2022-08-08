@@ -27,7 +27,7 @@ export default {
 </script>
 <style scoped>
 .box{
-  height: 1500px;
+  height: 800px;
 }
 .grid-container{
   font-family: 'MaruBuriOTF';

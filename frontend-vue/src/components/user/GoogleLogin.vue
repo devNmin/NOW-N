@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="google-signin-btn"></div>
-    <button type="button" @click="signOut">로그아웃</button>
   </div>
 </template>
 
@@ -35,5 +34,18 @@ export default {
 </script>
 
 <style>
-
+.abcRioButton {
+  width: 300px !important;
+  height: 45px !important;
+  margin: auto;
+}
+.abcRioButtonContentWrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+}
+.abcRioButtonIcon {
+  margin: 0px 90px 0px 7px;
+}
 </style>

@@ -1,28 +1,28 @@
 <template>
     <div class="calendar">
         <h2 class="calendar-nav">
-            <a href="#" v-on:click="onClickPrev(currentMonth)">◁</a>
+            <a href="#" v-on:click="onClickPrev(currentMonth)" style="text-decoration:none;">◁</a>
             {{ currentYear }}년 {{ currentMonth }}월
-            <a href="#" v-on:click="onClickNext(currentMonth)">▷</a>
+            <a href="#" v-on:click="onClickNext(currentMonth)" style="text-decoration:none;">▷</a>
         </h2>
         <table class="table table-hover">
             <thead>
                 <tr>
                     <td v-for="(weekName, index) in weekNames" v-bind:key="index">
-                        {{ weekName }}
+                      <span v-if="index === 0" class="sunday">{{ weekName }}</span>
+                      <span v-else-if="index === 6" class="saturday">{{ weekName }}</span>
+                      <span v-else>{{ weekName }}</span>
                     </td>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(row, index) in currentCalendarMatrix" :key="index">
-                    <td v-for="(day, index2) in row" :key="index2" style="padding:20px;">
-                        <span v-if="isToday(currentYear, currentMonth, day)" class="rounded">
-                            {{ day }}
-                        </span>
-                        <span v-else>
-                            {{ day }}와 {{index2}}
-                        </span>
-                    </td>
+                  <td v-for="(day, index2) in row" :key="index2">
+                    <span v-if="index2 === 0" class="sunday calender-text">{{ day }}</span>
+                    <span v-else-if="index2 === 6" class="saturday calender-text">{{ day }}</span>
+                    <span v-else class="calender-text">{{ day }}</span>
+                    <CalendarItem v-if="day" class="calender-img"/>
+                  </td>
                 </tr>
             </tbody>
         </table>
@@ -65,8 +65,10 @@
 </template>
 
 <script>
+import CalendarItem from '@/components/trainer/CalendarItem.vue'
 export default {
   name: 'CalendarView',
+  components: { CalendarItem },
   data () {
     return {
       weekNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
@@ -185,11 +187,18 @@ export default {
 </script>
 
 <style type="text/css">
-
+td {
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  border-bottom: 1px solid #6dcef5;
+  padding: 0px !important;
+  position: relative;
+}
 .rounded {
     border-radius: 20px 20px 20px 20px;
     border: solid 1px #ffffff;
-    background-color: #2b6bd1;
+    background-color: #6dcef5;
     padding: 10px;
     color: #ffffff;
 }
@@ -212,5 +221,18 @@ export default {
 }
 .table {
   margin: auto;
+}
+.sunday {
+  color: red;
+}
+.saturday {
+  color: blue;
+}
+.calender-img {
+  position: relative;
+}
+.calender-text {
+
+  position: absolute;
 }
 </style>

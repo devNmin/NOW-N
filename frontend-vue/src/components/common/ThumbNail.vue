@@ -1,11 +1,13 @@
 <template>
-  <div class="thumbnail1"></div>
+  <router-link :to="`/gx/${room.id}`" class="room-item" v-if="room">
+    <div>{{room.title}}</div>
+  </router-link>
 </template>
 
 <script>
 export default {
   props: {
-
+    room: Object
   }
 }
 </script>

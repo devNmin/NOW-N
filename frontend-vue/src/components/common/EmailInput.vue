@@ -8,7 +8,7 @@
               <input type="text" v-model="emailData.first" class="input-split-box2" placeholder="email">
           </span>
       </div>
-      <div class="split-margin-box2"></div>
+      <div class="split-margin-box2"> @</div>
       <div>
         <span>
           <select v-model="emailData.second" class="input-split-box2 select-box-border">
@@ -29,7 +29,7 @@ export default {
   setup (props, { emit }) {
     const emailData = reactive({
       first: '',
-      second: '',
+      second: 'naver.com',
       email: computed(() => emailChange()),
       second_email: ['naver.com', 'hanmail.com', 'daum.com', 'nate.com', 'gmail.com', 'google.com']
     })
@@ -49,14 +49,17 @@ export default {
 </script>
 <style>
 .split-margin-box2 {
+  display: flex;
   width: 40px;
+  justify-content: center;
+  align-items : center;
 }
 .input-split-box2 {
   font-family: 'MaruBuriOTF';
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: none;
+  background-color: #EEEEEE;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 130px;
