@@ -27,11 +27,13 @@ import SearchBar from '@/components/common/SearchBar.vue'
 import TrainerListEx from '@/components/trainer/TrainerListEx.vue'
 import TrainerListItem from '@/components/trainer/TrainerListItem.vue'
 import PageNation from '@/components/common/PageNation.vue'
-
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
   name: 'TrainerView',
   components: { SearchBar, TrainerListEx, TrainerListItem, PageNation, TrainerDetailModal },
   setup () {
+    const store = useStore()
     const data = {
       ALL_num: 4,
       img: ['1img', '2img', '3img', '4img'],
@@ -39,6 +41,9 @@ export default {
       exercise: ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ'],
       price: ['1', '2', '3', '4']
     }
+    onMounted(() => {
+      store.dispatch('trainerList')
+    })
     return {
       data
     }
