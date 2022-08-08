@@ -4,19 +4,19 @@
       <div class="gx-title">
         <label>
           제목
-          <input type="text">
+          <input type="text" v-model="roomInfo.title">
         </label>
       </div>
       <div class="gx-private">
         <label>
           비공개
-          <input type="checkbox">
+          <input type="checkbox" v-model="roomInfo.is_active">
         </label>
       </div>
       <div class="gx-password">
         <label>
           비밀번호
-          <input type="password">
+          <input type="password" v-model="roomInfo.password">
         </label>
       </div>
       <div class="gx-image">
@@ -25,48 +25,53 @@
       <div class="gx-category">
         <label>
           필라테스
-          <input type="checkbox">
+          <input type="radio" value="0" v-model="roomInfo.category">
         </label>
 
         <label>
           맨몸운동
-          <input type="checkbox">
+          <input type="radio" value="1" v-model="roomInfo.category">
         </label>
 
         <label>
           요가
-          <input type="checkbox">
+          <input type="radio" value="2" v-model="roomInfo.category">
         </label>
 
         <label>
           스트레칭
-          <input type="checkbox">
+          <input type="radio" value="3" v-model="roomInfo.category">
         </label>
 
         <label>
           기구운동
-          <input type="checkbox">
+          <input type="radio" value="4" v-model="roomInfo.category">
         </label>
 
         <label>
           기타
-          <input type="checkbox">
+          <input type="radio" value="5" v-model="roomInfo.category">
         </label>
       </div>
+      <div>checked:{{roomInfo.category}}</div>
       <div class="gx-time">
         <label>
           종료 시간
-          <input type="text">
+          <input type="text" v-model="roomInfo.end_time">
         </label>
       </div>
       <div class="gx-personal">
         <label>
           최대 인원
-          <input type="text">
+          <select v-model="roomInfo.personal">
+            <option v-for="option in options" :value="option.value" :key="option">
+              {{option.text}}
+            </option>
+          </select>
         </label>
       </div>
       <div class="gx-explain">
-        <input type="text">
+        <input type="text" v-model="roomInfo.description">
         <button type="button" @click="createRoom">방 생성</button>
         <button type="button" @click="moveToGxRoom">취소</button>
       </div>
@@ -78,42 +83,53 @@
 
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { reactive } from 'vue'
 
 export default {
   setup () {
     const store = useStore()
     const router = useRouter()
 
-    const roomInfo = {
-      conference_id: 0,
-      owner_id: 0,
+    const options = [
+      { text: '1명', value: 1 },
+      { text: '2명', value: 2 },
+      { text: '3명', value: 3 },
+      { text: '4명', value: 4 },
+      { text: '5명', value: 5 },
+      { text: '6명', value: 6 }
+    ]
+
+    const roomInfo = reactive({
+      id: 1,
+      owner_id: 1,
       title: '',
+      is_active: false,
       password: '',
       category: 0,
-      start_time: '',
       end_time: '',
-      max_user: 0,
       description: ''
-    }
+    })
 
     function createRoom () {
       // 유효성 검사 필요
 
       store.dispatch('createRoomInfo', roomInfo)
-      router.push({ name: 'GxRoom' })
+      router.push({ name: 'GxRoom', params: { id: `${roomInfo.id}` } })
     }
 
     function moveToGxRoom () {
       router.push({ name: 'GX-main' })
     }
 
-    return { roomInfo, createRoom, moveToGxRoom }
+    return { options, roomInfo, createRoom, moveToGxRoom }
   }
 }
 </script>
 
 <style scoped>
 .gx-make-modal{
+  margin-left: auto;
+  margin-right: auto;
   display:grid;
   width: 700px;
   height: 500px;
