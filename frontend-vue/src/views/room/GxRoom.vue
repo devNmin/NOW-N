@@ -59,6 +59,9 @@
       </div>
 
       <div class="session-footer">
+        <input type="button" value="cam"/>
+        <input type="button" value="mic"/>
+        <input type="button" value="캡쳐"/>
         <input
           class="gxroom-button"
           type="button"
@@ -78,7 +81,7 @@ import UserVideo from '@/components/room/UserVideo'
 import { reactive, toRefs } from 'vue'
 import { UserChat } from '@/components/room/UserChat.vue'
 // import { useRouter } from 'vue-router'
-// import { useStore } from 'vuex'
+import { useStore } from 'vuex'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 const OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443'
@@ -89,24 +92,18 @@ export default {
     UserVideo,
     UserChat
   },
-  props: {
-    roomId: {
-      type: Number
-    },
-    userName: {
-      type: String
-    }
-  },
 
   setup () {
+    const store = useStore()
+
     const state = reactive({
       OV: undefined,
       session: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
-      mySessionId: 'SessionA',
-      myUserName: 'par'
+      mySessionId: '',
+      myUserName: store.state.accounts.currentUser.user_id
       // router: useRouter(),
       // store: useStore()
     })
@@ -116,12 +113,15 @@ export default {
       state.OV = new OpenVidu()
       // --- Init a session ---
       state.session = state.OV.initSession()
+
       // --- Specify the actions when events take place in the session ---
       // On every new Stream received...
       state.session.on('streamCreated', ({ stream }) => {
         const subscriber = state.session.subscribe(stream)
+        subscriber.userId = state.myUserName // subscriber에 user추가
         state.subscribers.push(subscriber)
       })
+
       // On every Stream destroyed...
       state.session.on('streamDestroyed', ({ stream }) => {
         const index = state.subscribers.indexOf(stream.streamManager, 0)
@@ -133,6 +133,12 @@ export default {
       state.session.on('exception', ({ exception }) => {
         console.warn(exception)
       })
+
+      // // 채팅 signal 받기
+      // state.session.on('signal:public-chat', event => {
+      //   this.$refs.chat.addMessage(event.data, JSON.parse(event.data).sender === this.myUserName, false)
+      // })
+
       // --- Connect to the session with a valid user token ---
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
@@ -291,6 +297,14 @@ export default {
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(3, 1fr);
 }
+
+.session-footer{
+  grid-column: 1/3;
+  grid-row: 3/4;
+  display: flex;
+}
+
+.session-footer
 .gxroom-button {
   background-color: red;
   color: white;

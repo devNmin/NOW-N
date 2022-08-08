@@ -1,12 +1,15 @@
 <template>
   <div class="grid-container">
     <div class="title">
-      1
+      <div class="titletext">제목</div>
     </div>
-    <div class="private">2</div>
-    <div class="password">3</div>
-    <div class="image">4</div>
-    <div></div>
+    <div class="private">비공개</div>
+    <div class="image">사진</div>
+    <div class="password">비밀번호</div>
+    <div class="sports">운동종류</div>
+    <div class="endtime">종료시간</div>
+    <div class="maxpeople">최대인원</div>
+    <div class="roominfo">방정보</div>
   </div>
 </template>
 
@@ -21,7 +24,7 @@ export default {
   font-family: 'MaruBuriOTF';
   font-style: normal;
   display: grid;
-  grid-template-rows: 10% 10% 20% 20% 40%;
+  grid-template-rows: 15% 15% 20% 20% 30%;
   grid-template-columns: 40% 20% 40%;
   grid-template-areas:
     "title private image"
@@ -31,11 +34,17 @@ export default {
     "roominfo roominfo roominfo";
   /* column-gap: 10px;
   row-gap: 30px; */
-  height: 90vh;
+  height: 100vh;
+  background: white;
 }
 .title{
   margin: 0;
   grid-area: title;
+}
+.titletext{
+  float: left;
+  font-size: 2vh;
+
 }
 .private{
   margin: 0;

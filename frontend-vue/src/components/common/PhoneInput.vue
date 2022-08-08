@@ -12,14 +12,14 @@
           </select>
         </span>
       </div>
-      <div class="split-margin-box"></div>
+      <div class="split-margin-box">ㅡ</div>
       <div>
         <span class="box">
             <input type="text" v-model="phoneData.second" class="input-split-box" maxlength="4">
         </span>
       </div>
 
-      <div class="split-margin-box"></div>
+      <div class="split-margin-box">ㅡ</div>
       <div>
         <span class="box">
             <input type="text" v-model="phoneData.third" class="input-split-box" maxlength="4">
@@ -35,7 +35,7 @@ import { reactive, computed } from 'vue'
 export default {
   setup (props, { emit }) {
     const phoneData = reactive({
-      first: '',
+      first: '010',
       second: '',
       third: '',
       phone_number: computed(() => phoneChange()),
@@ -65,7 +65,10 @@ export default {
 }
 
 .split-margin-box {
+  display: flex;
   width: 30px;
+  justify-content: center;
+  align-items : center;
 }
 .input-split-box {
   font-family: 'MaruBuriOTF';
