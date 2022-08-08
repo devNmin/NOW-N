@@ -11,6 +11,6 @@ export default {
   rooms: {
     roomList: () => HOST + '/gx/getRoomlist/',
     roomInfo: () => HOST + '/gx/getRoomInfo/',
-    CDRoom: () => HOST + '/GX/createconference/'
+    CDRoom: () => HOST + '/gx/room/'
   }
 }
