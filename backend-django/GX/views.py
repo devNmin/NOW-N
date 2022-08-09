@@ -44,12 +44,13 @@ def conference_detail(request, pk):
     # 삭제
     elif request.method == 'DELETE':
         conference.delete()
-        return Response(status=HTTP_204_NO_CONTENT)
+        msg = '삭제되었습니다.'
+        return Response(msg, status=HTTP_204_NO_CONTENT)
         
 # 방 제목으로 검색
 @api_view(['GET'])
 def search_by_title(request, title):
-    conference = Conference.objects.filter(title_icontains=title)
+    conference = Conference.objects.filter(title__icontains=title)
     serializer = ConferenceListSerializer(conference, many=True)
 
     return Response(serializer.data)
@@ -57,8 +58,8 @@ def search_by_title(request, title):
 # 방 방장 이름으로 검색
 @api_view(['GET'])
 def search_by_owner(request, owner):
-    user_pk = User.objects.filter(user_id_icontains=owner)
-    conference = Conference.objects.get(owner_id=user_pk)
+    user_pk = User.objects.filter(user_id__icontains=owner)
+    conference = Conference.objects.filter(owner_id__in=user_pk)
     serializer = ConferenceListSerializer(conference, many=True)
 
     return Response(serializer.data)
