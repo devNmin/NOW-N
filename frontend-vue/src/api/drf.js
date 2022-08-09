@@ -14,6 +14,8 @@ export default {
     createRoom: () => HOST + '/GX/createconference/'
   },
   trainer: {
-    list: () => HOST + '/trainer/select/'
+    list: () => HOST + '/trainer/select/',
+    search: (nickname) => HOST + '/trainer/' + `${nickname}/`,
+    request: (userPk, coachPk) => HOST + '/trainer/' + `${userPk}/` + `${coachPk}/`
   }
 }

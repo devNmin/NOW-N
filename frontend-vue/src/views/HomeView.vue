@@ -26,6 +26,7 @@ export default {
     })
     watch(data, () => {
       document.querySelector('.home').classList.toggle('home-hide')
+      console.log('asdf')
     })
     onMounted(() => {
       store.dispatch('trainerList', 123)

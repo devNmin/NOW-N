@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-mpgljanb01)ki88w8a_$v47g_8b8r4m5$i#2a9=@uv--#cacc!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'GX',
     'profiles',
     'trainer',
+    'PX',
 
     # 'Library'
     'rest_framework',

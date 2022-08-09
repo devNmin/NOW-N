@@ -4,14 +4,15 @@ import drf from '@/api/drf'
 export default {
   state: {
     hideFollow: false,
-    a: true
+    trainerList: {}
   },
   getters: {
-    hideFollow: state => state.hideFollow
+    hideFollow: state => state.hideFollow,
+    trainerList: state => state.trainerList
   },
   mutations: {
     SET_HIDE_FOLLOW: (state) => (state.hideFollow = !state.hideFollow),
-    SET_A_MAKE: (state) => (state.a = !state.a)
+    SET_TRAINER_LIST: (state, trainerList) => (state.trainerList = trainerList)
   },
   actions: {
     hide ({ commit }) {
@@ -25,9 +26,30 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log(data)
+        })
+    },
+    trainerSearch ({ commit }, nickname) {
+      axios({
+        url: drf.trainer.list(),
+        method: 'get',
+        data: nickname,
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
           console.log(res)
-          commit('SET_A_MAKE')
+          commit('SET_NICK_NAME_SEARCH_USER')
+        })
+    },
+    requestAdvice ({ commit }, { userPk, coachPk, context }) {
+      axios({
+        url: drf.trainer.request(userPk, coachPk),
+        method: 'post',
+        data: context,
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          console.log(res)
+          commit('SET_NICK_NAME_SEARCH_USER')
         })
     }
   }
