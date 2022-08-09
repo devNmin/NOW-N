@@ -1,6 +1,7 @@
 // import router from '@/router'
 import axios from 'axios'
 import drf from '@/api/drf'
+import store from '..'
 
 export default {
   state: {
@@ -43,10 +44,11 @@ export default {
     },
 
     // gx룸 리스트 조회
-    async getRoomList ({ commit }) {
+    async getRoomList ({ commit, getters }) {
       const { data } = await axios({
         url: drf.rooms.roomList(),
-        method: 'get'
+        method: 'get',
+        headers: getters.getToken.accessToken
       })
       commit('SET_ROOM_LIST', data)
     },
@@ -54,11 +56,17 @@ export default {
     // gx룸 생성
     async createRoomInfo ({ commit }, roomInfo) {
       console.log(roomInfo)
-      await axios({
-        url: drf.rooms.CDRoom(),
-        method: 'POST',
-        data: roomInfo
-      })
+      try {
+        await axios({
+          url: drf.rooms.createRoom(),
+          method: 'post',
+          data: roomInfo,
+          headers: 'JWT ' + store.state.accessToken
+        })
+      } catch (e) {
+        console.log('에러')
+        console.log(e)
+      }
       commit('CREATE_ROOM_INFO', roomInfo)
     },
 

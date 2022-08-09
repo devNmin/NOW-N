@@ -18,11 +18,12 @@ export default {
       commit('SET_HIDE_FOLLOW')
     },
     trainerList ({ commit, getters }, data) {
+      console.log(getters.getToken.accessToken)
       axios({
         url: drf.trainer.list(),
         method: 'get',
         data: data,
-        headers: getters.authHeader
+        headers: getters.getToken.accessToken
       })
         .then(res => {
           console.log(data)

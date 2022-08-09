@@ -63,7 +63,7 @@
       <div class="gx-personal">
         <label>
           최대 인원
-          <select v-model="roomInfo.personal">
+          <select v-model="roomInfo.max_user">
             <option v-for="option in options" :value="option.value" :key="option">
               {{option.text}}
             </option>
@@ -100,14 +100,15 @@ export default {
     ]
 
     const roomInfo = reactive({
-      id: 1,
       owner_id: 1,
       title: '',
       is_active: false,
-      password: '',
+      password: 0,
       category: 0,
-      end_time: '',
-      description: ''
+      end_time: new Date(),
+      description: '',
+      max_user: 0,
+      thumnail: 'https://ibb.co/qg4XZZP'
     })
 
     function createRoom () {
