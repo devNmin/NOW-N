@@ -18,7 +18,7 @@ export default {
 header.header-base{
   padding: 1rem;
   height: 1rem;
-  width: 100vw;
+  width: calc(100vw - 128px);
   background-color: #6DCEF5;
   justify-content: space-between;
   align-items: center;
@@ -28,7 +28,7 @@ header.header-base{
   position: absolute;
   padding: 1rem;
   height: 1rem;
-  width: 100vw;
+  width: calc(100vw - 128px);
   background-color: #6DCEF5;
   justify-content: space-between;
   align-items: center;

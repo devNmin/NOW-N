@@ -2,7 +2,7 @@
   <BaseHeader></BaseHeader>
   <FollowBarHide/>
   <FollowBar @hideFollow="hideFollow" v-show="data.hideFollow == true"></FollowBar>
-  <div class="home">
+  <div class="home home-hide">
     <router-view ></router-view>
   </div>
 </template>
@@ -12,7 +12,7 @@ import FollowBarHide from '@/components/common/FollowBarHide.vue'
 import BaseHeader from '@/components/common/BaseHeader.vue'
 import { useStore } from 'vuex'
 import FollowBar from '@/components/common/FollowBar.vue'
-import { reactive, computed } from '@vue/runtime-core'
+import { reactive, computed, watch, onMounted } from '@vue/runtime-core'
 export default {
   name: 'HomeView',
   components: {
@@ -24,11 +24,13 @@ export default {
       a: 1,
       hideFollow: computed(() => store.getters.hideFollow)
     })
-    function hideFollow () {
-      console.log('메렁' + data.hideFollow)
-    }
+    watch(data, () => {
+      document.querySelector('.home').classList.toggle('home-hide')
+    })
+    onMounted(() => {
+      store.dispatch('trainerList', 123)
+    })
     return {
-      hideFollow,
       data
     }
   }
@@ -40,8 +42,12 @@ export default {
   position: relative;
   left: 300px;
   top: 80px;
-  width:100%;
-  height:1500px;
+  width: calc(100% - 300px);
+  height: 870px;
   align-items: center;
+}
+.home-hide {
+  left: 20px;
+  width: calc(100% - 20px);
 }
 </style>

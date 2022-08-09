@@ -17,12 +17,12 @@ export default {
     hide ({ commit }) {
       commit('SET_HIDE_FOLLOW')
     },
-    trainerList ({ commit, getters }, data) {
+    trainerList ({ commit }, data) {
       axios({
         url: drf.trainer.list(),
         method: 'get',
         data: data,
-        headers: getters.authHeader
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
           console.log(data)

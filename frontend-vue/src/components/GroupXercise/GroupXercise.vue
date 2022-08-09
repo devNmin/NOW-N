@@ -91,6 +91,8 @@ button:hover {
   color: white;
 }
 .search{
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
   box-sizing: border-box;
   background: #FFFFFF;
   border: 1px solid #000000;
