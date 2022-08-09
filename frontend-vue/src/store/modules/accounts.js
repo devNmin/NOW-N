@@ -21,14 +21,7 @@ export default {
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Token ${state.token}` }),
     loginViewCase: state => state.loginViewCase,
-    getToken (state) {
-      const accessToken = state.accessToken
-      const refreshToken = state.refreshToken
-      return {
-        accessToken,
-        refreshToken
-      }
-    }
+    TokenHeader: state => ({ Authorization: `Token ${state.accessToken}` })
   },
 
   mutations: {
@@ -119,7 +112,6 @@ export default {
           dispatch('saveToken', Token)
           // dispatch('fetchCurrentUser')
           router.push({ name: 'home' })
-          dispatch('fetchCurrentUser')
         })
         .catch(err => {
           console.error(err.response.data)

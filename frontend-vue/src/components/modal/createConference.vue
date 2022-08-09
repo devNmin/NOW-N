@@ -62,7 +62,11 @@
       <div class="gx-personal">
         <label>
           최대 인원
-          <input type="text">
+          <select v-model="roomInfo.max_user">
+            <option v-for="option in options" :value="option.value" :key="option">
+              {{option.text}}
+            </option>
+          </select>
         </label>
       </div>
       <div class="gx-explain">
@@ -84,17 +88,26 @@ export default {
     const store = useStore()
     const router = useRouter()
 
-    const roomInfo = {
-      conference_id: 0,
-      owner_id: 0,
+    const options = [
+      { text: '1명', value: 1 },
+      { text: '2명', value: 2 },
+      { text: '3명', value: 3 },
+      { text: '4명', value: 4 },
+      { text: '5명', value: 5 },
+      { text: '6명', value: 6 }
+    ]
+
+    const roomInfo = reactive({
+      owner_id: 1,
       title: '',
-      password: '',
+      is_active: false,
+      password: 0,
       category: 0,
-      start_time: '',
-      end_time: '',
+      end_time: new Date(),
+      description: '',
       max_user: 0,
-      description: ''
-    }
+      thumnail: 'https://ibb.co/qg4XZZP'
+    })
 
     function createRoom () {
       // 유효성 검사 필요
