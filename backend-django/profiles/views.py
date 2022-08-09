@@ -13,6 +13,7 @@ from .models import Weight
 from accounts.models import User
 from .serializers import (
     FollowListSerializer,
+    ProfileSerializer,
     WeightSerializer,
     ProfileModifySerializer
 )
@@ -72,21 +73,22 @@ def modify_profile(request, pk):
 @api_view(['POST'])
 def follow(request, pk):
     person = get_object_or_404(User, pk=pk)
-    if person.pk != request.data.pk:
-        if person.followers.filter(pk=request.data.pk).exists():
+    if person.pk != request.data.get('id'):
+        if person.followers.filter(pk=request.data.get('id')).exists():
             person.followers.remove(request.data)
         else:
             person.followers.add(request.user)
-    return redirect('accounts:profiles', person.pk)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 # 팔로우 목록 가져오기
 @api_view(['GET'])
 def follow_list(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    serializer = FollowListSerializer(user, many=True)
-    
-    return Response(serializer.data)
-
+    user = User.objects.filter(pk=pk)
+    serializer = ProfileSerializer(data=user)
+    if serializer.is_valid():
+        pass
+    print("followers : ", serializer.data.get('followings'))
+            
 
 # 해시태그를 통한 유저 검색
 # @api_view(['GET'])
