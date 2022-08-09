@@ -1,7 +1,6 @@
 // import router from '@/router'
 import axios from 'axios'
 import drf from '@/api/drf'
-import store from '..'
 
 export default {
   state: {
@@ -55,13 +54,12 @@ export default {
 
     // gx룸 생성
     async createRoomInfo ({ commit }, roomInfo) {
-      console.log(roomInfo)
       try {
         await axios({
           url: drf.rooms.createRoom(),
           method: 'post',
           data: roomInfo,
-          headers: 'JWT ' + store.state.accessToken
+          headers: { Authorization: 'JWT' + localStorage.accessToken }
         })
       } catch (e) {
         console.log('에러')

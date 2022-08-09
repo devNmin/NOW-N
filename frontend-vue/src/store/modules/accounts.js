@@ -21,7 +21,7 @@ export default {
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Token ${state.token}` }),
     loginViewCase: state => state.loginViewCase,
-    TokenHeader: state => ({ Authorization: `Token ${state.accessToken}` })
+    TokenHeader: state => ({ Authorization: `JWT ${state.accessToken}` })
   },
 
   mutations: {
