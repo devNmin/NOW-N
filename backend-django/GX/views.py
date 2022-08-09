@@ -4,7 +4,7 @@ from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
 )
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
 from .models import Conference
 from accounts.models import User
 from .serializers import (

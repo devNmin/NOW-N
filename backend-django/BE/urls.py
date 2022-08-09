@@ -26,6 +26,4 @@ urlpatterns = [
     path('profiles/', include('profiles.urls')),
 
     path('trainer/', include('trainer.urls')),
-
-    path('PX/', include('PX.urls')),
 ]
