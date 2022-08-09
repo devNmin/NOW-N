@@ -12,7 +12,7 @@ class ConferenceListSerializer(serializers.ModelSerializer):
 class ConferenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conference
-        fields = '__all_'
+        fields = '__all__'
 
 # 유저 PK 조회
 class UserPKSerializer(serializers.ModelSerializer):
