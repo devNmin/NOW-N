@@ -8,6 +8,20 @@ class UserPKSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id')
 
+# 팔로우 Bar에 들어갈 정보
+class FollowBarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'name',
+            'nickname',
+            'is_active',
+        ]
+
+# 팔로우 목록
+class FollowListSerializer(serializers.ModelSerializer):
+    followings = FollowBarSerializer(many=True, read_only=True)
+
 # 태그 이름
 # class TagSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -26,10 +40,33 @@ class ProfileSerializer(serializers.ModelSerializer):
     # taggings = TagSerializer(many=True)
     class Meta:
         model = User
-        fields = '__all__'
+        fields = [
+            'name',
+            'age',
+            'gender',
+            'height',
+            'user_weight',
+            'object_weight',
+            'followings',
+        ]
+
+class ProfileModifySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'nickname',
+            'age',
+            'gender',
+            'height',
+            'user_weight',
+            'object_weight',
+        ]
 
 # 몸무게
 class WeightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Weight
-        fields = ('user_id', 'weight')
+        fields = [
+            'user',
+            'weight',
+        ]
