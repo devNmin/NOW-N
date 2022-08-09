@@ -1,58 +1,36 @@
 from django.http import JsonResponse
 from django.shortcuts import get_list_or_404, get_object_or_404, render
-from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from accounts.models import User
-from trainer.models import Member_Coach
+from trainer.models import coaching
 from .serializers import (
-    CoachingPKSerializer,
-    CoachingSerializer,
-    CounselSerializer,
     TrainerListSerializer,
-    TrainerSerializer,
 )
+from trainer import serializers
 
 # 트레이너 목록 가져오기
 @api_view(['GET'])
 def select(request):
-    trainer = User.objects.filter(grade='트레이너')
+    trainer = User.objects.get(grade='트레이너')
     serializer = TrainerListSerializer(trainer, many=True)
     return Response(serializer.data)
 
 # 트레이너 상세 정보 가져오기
 @api_view(['GET'])
 def detail(request, pk):
-    trainer = get_object_or_404(User, id=pk)
-
-    coaching = Member_Coach.objects.filter(coach=pk)
-    if coaching is None:
-        member_count = 0
-    else:
-        member_count = coaching.count()
+    trainer = get_object_or_404(User, pk=pk)
+    coaching = get_list_or_404(coaching, trainer_id=pk)
 
     context = {
         'name' : trainer.name,
         'nickname' : trainer.nickname,
-        'exercise_category' : trainer.exercise_category,
-        'followers' : trainer.followers.count(),
         'age' : trainer.age,
         'gender' : trainer.gender,
-        'career' : trainer.career,
-        'members' : member_count,
-        'diet_price' : trainer.diet_price,
-        'exercise_price' : trainer.exercise_price,
-        'comment' : trainer.comment,
+        'members' : coaching.count()
     }
 
     return JsonResponse(context)
-
-# 트레이너 상세 정보 수정
-@api_view(['PUT'])
-def modify(request, pk):
-    trainer = get_object_or_404(User, pk=pk)
-    serializer = TrainerSerializer(trainer, request.data)
-    serializer.save()
 
 # 트레이너 닉네임 검색 목록 가져오기
 @api_view(['GET'])
@@ -63,34 +41,7 @@ def search_by_nick(request, nickname):
 
 # 상담 신청 하기
 @api_view(['POST'])
-def request_advice(request, user_pk, coach_pk):
-    # 추출한 회원 ID, 트레이너 ID로 Member_Coach 테이블에 추가
-    coaching = {
-        'member': user_pk,
-        'coach': coach_pk,
-    }
-    serializer = CoachingSerializer(data=coaching)
-    if serializer.is_valid():
-        serializer.save()
-    
-    # 추가된 Member_Coach 테이블 하위의 Counsel 테이블에 상담 기록 추가
-    coaching_id = get_object_or_404(Member_Coach, member_id=user_pk)
-    serial = CounselSerializer(data=request.data)
-    serial.is_valid()
-    print("코칭 필드 : ???", coaching_id.pk)
-    context = {
-        'is_exercise': serial.data.get('is_exercise'),
-        'is_diet': serial.data.get('is_diet'),
-        'times': serial.data.get('times'),
-        'start_date': serial.data.get('start_date'),
-        'end_date': serial.data.get('end_data'),
-        'comment': serial.data.get('comment'),
-        'coaching_id': coaching_id.pk,
-    }
-    print("코칭 필드 : ???휴휴", context)
-    coachserailizer = CounselSerializer(data=context)
-    print(coachserailizer)
-    if coachserailizer.is_valid(raise_exception=True):
-        coachserailizer = coachserailizer.save()
-    sentece='상담신청완료'
-    return Response(sentece,status=status.HTTP_200_OK)
+def search_by_nick(request, user_id, trainer_id):
+    # 상담 신청만으로 일반회원-트레이너의 관계가 성립하는가
+    # 스케줄 조정이 신청서만으로 가능한가
+    pass

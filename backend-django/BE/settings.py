@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'GX',
     'profiles',
     'trainer',
-    'PX',
 
     # 'Library'
     'rest_framework',
@@ -91,12 +90,8 @@ WSGI_APPLICATION = 'BE.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nown',
-        'USER': 'root',
-        'PASSWORD': 'ssafy',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
