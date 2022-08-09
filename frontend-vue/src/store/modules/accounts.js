@@ -129,7 +129,6 @@ export default {
           dispatch('saveToken', Token)
           // dispatch('fetchCurrentUser')
           router.push({ name: 'home' })
-          dispatch('fetchCurrentUser')
         })
         .catch(err => {
           console.error(err.response.data)

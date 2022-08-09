@@ -1,7 +1,5 @@
 <template>
-  <header class="header-base">
-    <!-- <img src="@/assets/logo.png" style="width:50px;height:50px"> -->
-    <div></div>
+  <header >
     <HeaderMenu></HeaderMenu>
   </header>
 </template>

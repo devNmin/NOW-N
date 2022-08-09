@@ -1,44 +1,62 @@
 <template>
-  <HomeView/>
+  <div id="app">
+    <BaseHeader></BaseHeader>
+    <FollowBarHide/>
+    <FollowBar @hideFollow="hideFollow" v-show="data.hideFollow == true"></FollowBar>
+    <main>
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
 <script>
-import HomeView from '@/views/HomeView.vue'
+import FollowBarHide from '@/components/common/FollowBarHide.vue'
+import FollowBar from '@/components/common/FollowBar.vue'
+import BaseHeader from '@/components/common/BaseHeader.vue'
+import { useStore } from 'vuex'
+import { reactive, computed } from '@vue/runtime-core'
+
 export default {
-  components: { HomeView }
+  components: {
+    BaseHeader,
+    FollowBar,
+    FollowBarHide
+  },
+  setup () {
+    const store = useStore()
+    const data = reactive({
+      a: 1,
+      hideFollow: computed(() => store.getters.hideFollow)
+    })
+    function hideFollow () {
+      console.log('메렁' + data.hideFollow)
+    }
+    return {
+      hideFollow,
+      data
+    }
+  }
 }
 </script>
 <style>
-:root {
-  --color-primary: #198d4d;
-  --color-danger: #c72e23;
-  --color-gold: gold;
-  --color-silver: silver;
-  --color-bronze: #c05828;
-  --color-grey-100: #dee1e7;
-  --color-grey-300: #c0c5d1;
-  --color-grey-500: #757880;
-  --color-grey-700: #575a5f;
-  --color-grey-900: #2e3033;
-  --follow-bar-item-width: 15vw
-  --header-height: 1rem;
+
+html {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'MaruBuriOTF';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 1000px;
   display: flex;
-  text-align: center;
+  flex-direction: column;
 }
 
 main {
-  min-height: calc(100vh - var(--footer-height));
-  width: 100vw;
+  min-height: 1000px;
   background: #EEEEEE;
-}
-main.background {
-  background-size: cover;
 }
 
 .container {
