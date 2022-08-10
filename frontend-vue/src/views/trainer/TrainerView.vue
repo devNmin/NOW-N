@@ -49,7 +49,6 @@ export default {
       store.dispatch('trainerList')
     })
     function search (value) {
-      console.log('메렁')
       store.dispatch('trainerSearch', value)
     }
     return {
