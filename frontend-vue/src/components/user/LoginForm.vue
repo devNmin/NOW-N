@@ -1,21 +1,21 @@
 <template>
   <router-view>
-    <div :class="{ background }"
-      class="login-padding-box">
-      <form @submit.prevent="login(credentials)"
-      class="account-form">
-        <h1>로그인</h1>
-        <BaseInput v-model="credentials.user_id" label="Id" err="user_id"></BaseInput>
-        <BaseInput type="password" v-model="credentials.password" label="Password" err="password"></BaseInput>
+    <div :class="{ background }" class="loginbox">
+      <form @submit.prevent="login(credentials)" class="login-form">
+        <a href="/">
+          <img src="@\assets\Logo2.png" alt="Logo.png" style="display:block; margin:auto;" width="230" height="100">
+        </a>
+        <BaseInput v-model="credentials.user_id" label="아이디" err="user_id"></BaseInput>
+        <BaseInput type="password" v-model="credentials.password" label="비밀번호" err="password"></BaseInput>
+        <BaseButton style="display:block; margin:auto;" @click="submit">로그인</BaseButton>
         <div class="login-nav">
           <router-link class="view-button" to="findId/">아이디 찾기</router-link>|
           <router-link class="view-button" to="findId/">아이디 찾기</router-link>|
           <router-link class="view-button" to="signUp/">회원가입</router-link>
         </div>
-        <kakaoLogin></kakaoLogin>
+        <kakaoLogin style="display:block; margin:auto;" ></kakaoLogin>
 
         <GoogleLogin class="google-login"></GoogleLogin>
-        <BaseButton @click="submit">로그인</BaseButton>
       </form>
     </div>
   </router-view>
@@ -52,16 +52,28 @@ export default {
 </script>
 
 <style>
-
-form {
+.login-form {
+  position: sticky;
   width: 400px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 48px;
-  background-color: grey;
+  margin-top: 5px;
+}
+.loginbox{
+  margin-top: 110px;
+}
+form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 48px;
+  margin: auto;
+  /* background-color: grey; */
   /* background-color: rgba(255, 255, 255, 0.8); */
-  backdrop-filter: blur(4px);
+  /* backdrop-filter: blur(4px); */
 }
 
 .form-actions {

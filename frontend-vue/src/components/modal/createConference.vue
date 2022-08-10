@@ -82,7 +82,6 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { reactive } from 'vue'
 
 export default {
   setup () {

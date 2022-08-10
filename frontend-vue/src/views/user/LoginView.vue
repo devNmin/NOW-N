@@ -4,30 +4,12 @@
 
 <script>
 import LoginForm from '@/components/user/LoginForm'
-import { onMounted } from 'vue'
-import { useStore } from 'vuex'
 export default {
-  components: { LoginForm },
-  setup () {
-    const store = useStore()
-    onMounted(() => {
-      if (store.getters.accessToken) {
-        store.dispatch('goHome')
-      }
-    })
-    return {
-      store
-    }
-  }
+  components: { LoginForm }
 }
 </script>
 <style>
 
-.login-padding-box {
-  min-height: calc(100vh - var(--footer-height));
-  justify-content: center;
-  background: #AAAAAA;
-}
 div.background {
   background-size: cover;
 }
@@ -49,18 +31,6 @@ div.background {
 
 v-application{
   font-family: 'MaruBuri';
-}
-
-.account-form {
-  position: sticky;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 48px;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
-  margin: auto;
 }
 
 .form-actions {
