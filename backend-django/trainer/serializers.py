@@ -21,6 +21,9 @@ class TrainerListSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'nickname',
+            'exercise_category',
+            'diet_price',
+            'exercise_price',
             'is_active',
         ]
 

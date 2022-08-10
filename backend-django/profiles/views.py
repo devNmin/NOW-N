@@ -1,7 +1,5 @@
-from functools import partial
 from django.db.models import Count
-from django.core import serializers
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -10,9 +8,8 @@ from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_204_NO_CONTENT,
 )
-from django.shortcuts import get_list_or_404, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from accounts.serializers import UserSerializer
 from .models import Weight
 from accounts.models import User
 from .serializers import (
@@ -21,7 +18,6 @@ from .serializers import (
     WeightSerializer,
     ProfileModifySerializer
 )
-from profiles import serializers
 
 # 프로필 정보 가져오기
 @api_view(['GET'])
