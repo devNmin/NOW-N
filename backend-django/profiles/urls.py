@@ -6,7 +6,7 @@ urlpatterns = [
     path('select/<int:pk>', views.select_profile),
 
     # 프로필 정보 수정하기 / 데일리 몸무게 저장
-    path('modify/<int:pk>', views.modify_profile),
+    path('modify/<int:user_pk>', views.modify_profile),
 
     # 팔로우
     path('select/<int:pk>/follow', views.follow),

@@ -1,3 +1,4 @@
+from functools import partial
 from django.http import JsonResponse
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from rest_framework import status
@@ -50,9 +51,13 @@ def detail(request, pk):
 # 트레이너 상세 정보 수정
 @api_view(['PUT'])
 def modify(request, pk):
+    # 트레이너 PK로 정보 조회
     trainer = get_object_or_404(User, pk=pk)
-    serializer = TrainerSerializer(trainer, request.data)
-    serializer.save()
+    serializer = TrainerSerializer(trainer, request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # 트레이너 닉네임 검색 목록 가져오기
 @api_view(['GET'])

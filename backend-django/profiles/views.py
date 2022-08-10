@@ -39,24 +39,25 @@ def select_profile(request, pk):
 
 # 프로필 정보 수정하기
 @api_view(['PUT'])
-def modify_profile(request, pk):
-    found_user = User.objects.get(id=pk)
+def modify_profile(request, user_pk):
+    found_user = User.objects.get(id=user_pk)
 
     if found_user is None:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     else:
-        serializer = serializers.ProfileModifySerializer(found_user, data=request.data, partial=True)
-        if serializer.is_valid():
-            # 프로필 데이터 중 몸무게 데이터 따로 저장
-            context = {
-            'user' : pk,
-            'weight' : serializer.validated_data.get('user_weight'),
-            }
-            weight_serializer = WeightSerializer(data=context)
-            if weight_serializer.is_valid():
-                weight_serializer.save()
-            serializer.save()
-            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        if request.user.pk == found_user.pk:
+            serializer = serializers.ProfileModifySerializer(found_user, data=request.data, partial=True)
+            if serializer.is_valid():
+                # 프로필 데이터 중 몸무게 데이터 따로 저장
+                context = {
+                'user' : user_pk,
+                'weight' : serializer.validated_data.get('user_weight'),
+                }
+                weight_serializer = WeightSerializer(data=context)
+                if weight_serializer.is_valid():
+                    weight_serializer.save()
+                serializer.save()
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
