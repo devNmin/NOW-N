@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-// export default {
-//   state: {
-//     currentUser: {}
-//   },
-//   getters: {
-//     currentUser: state => state.currentUser
-//   }
-// }
-=======
 export default {
   state: {
     UserInfo: {
@@ -34,4 +24,3 @@ export default {
     currentUser: state => state.currentUser
   }
 }
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48

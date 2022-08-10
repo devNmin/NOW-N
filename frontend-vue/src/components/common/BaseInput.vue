@@ -1,12 +1,7 @@
 <template>
-<<<<<<< HEAD
-  <label for="input-box" class="label-box">{{label}}
-  </label>
-=======
   <h5 for="input-box" class="label-box">{{label}}</h5>
   <!-- <label for="input-box" class="label-box">{{label}}
   </label> -->
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   <input
   class="input-box"
   :label="label"
@@ -54,11 +49,7 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-<<<<<<< HEAD
-  background-color: none;
-=======
   background-color: #EEEEEE;
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 300px;

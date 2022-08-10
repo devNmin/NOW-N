@@ -27,38 +27,17 @@ const routes = [
   },
   {
     // 프로필
-<<<<<<< HEAD
-    path: '/profile/getprofile/',
-    name: 'profile',
-    component: () => import('@/components/user/UserProfile.vue')
-  },
-  {
-    // G.X
-    path: '/GX/getlist/',
-    name: 'GX',
-    component: () => import('@/views/gx/GroupXerciseView.vue')
-  },
-  {
-    // G.X 메인페이지(G.X 페이지와 동일하다)
-=======
     path: '/profiles',
     name: 'profile',
     component: () => import('@/views/user/UserProfileView.vue')
   },
   {
     // G.X 메인페이지
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     path: '/GX/',
     name: 'GX-main',
     component: () => import('@/views/gx/GroupXerciseView.vue')
   },
   {
-<<<<<<< HEAD
-    // 방생성 모달 임시로 사용하는 주소
-    path: '/GX/Room',
-    name: 'makeroom',
-    component: () => import('@/views/gx/GroupXerciseView.vue')
-=======
     // gx 방 생성모달
     path: '/GX/createConference',
     name: 'createConference',
@@ -120,9 +99,7 @@ const routes = [
         component: () => import('@/components/px/CoachingRoom.vue')
       }
     ]
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   }
-
 ]
 
 const router = createRouter({

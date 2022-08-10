@@ -1,13 +1,6 @@
 <template>
-<<<<<<< HEAD
-  <BaseHeader></BaseHeader>
-  <FollowBar></FollowBar>
-  <div class="home">
-    <router-view/>
-=======
  <div class="homeGrid">
   <div class="homeDescription">
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   </div>
  <div class="homeImg">
  <section class="carousel" aria-label="Gallery">
@@ -62,34 +55,17 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import BaseHeader from '@/components/common/BaseHeader.vue'
-import FollowBar from '@/components/common/FollowBar.vue'
-export default {
-  name: 'HomeView',
-  components: {
-    BaseHeader, FollowBar
-  }
-=======
 export default {
   name: 'HomeView'
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 </script>
 
 <style  scoped>
-<<<<<<< HEAD
-.home {
-  width:100%;
-  height:700px;
-  align-items: center;
-=======
 .homeGrid {
   display:grid;
   grid-template-columns: 100%;
   grid-template-areas:
     "homeDescription";
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 .homeDescription {
   margin: auto;

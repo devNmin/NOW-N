@@ -1,10 +1,6 @@
 <template>
   <div>
     <div id="google-signin-btn"></div>
-<<<<<<< HEAD
-    <button type="button" @click="signOut">로그아웃</button>
-=======
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   </div>
 </template>
 
@@ -38,9 +34,6 @@ export default {
 </script>
 
 <style>
-<<<<<<< HEAD
-
-=======
 .abcRioButton {
   width: 300px !important;
   height: 45px !important;
@@ -55,5 +48,4 @@ export default {
 .abcRioButtonIcon {
   margin: 0px 90px 0px 7px;
 }
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 </style>

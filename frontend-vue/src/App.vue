@@ -1,14 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <main :class="{ background }">
-  <router-view></router-view>
-  </main>
-</template>
-
-<script>
-
-export default {
-=======
   <div id="app">
     <BaseHeader></BaseHeader>
     <!-- <FollowBarHide/> -->
@@ -46,18 +36,13 @@ export default {
       data
     }
   }
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 </script>
 <style>
 
-<<<<<<< HEAD
-  --header-height: 1rem;
-=======
 html {
   overflow-x: hidden;
   overflow-y: scroll;
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 
 #app {
@@ -66,20 +51,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
-<<<<<<< HEAD
-  text-align: center;
-}
-
-main {
-  min-height: calc(100vh - var(--footer-height));
-  width: 100vw;
-  background: #198d4d;
-}
-main.background {
-  background-size: cover;
-=======
   flex-direction: column;
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 
 .container {

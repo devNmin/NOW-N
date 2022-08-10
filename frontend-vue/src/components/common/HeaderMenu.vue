@@ -24,13 +24,6 @@
 // @\assets\Logo2.png"
 export default {
   setup () {
-<<<<<<< HEAD
-    const commonItems = [
-      { name: 'gx', link: '/GX' },
-      { name: 'pt', link: '/pt' },
-      { name: '트레이너', link: '/trainer' },
-      { name: '로그인', link: '/login' }
-=======
     const leftItems = [
       { name: 'G . X', link: '/GX', icon: '@\\assets\\Logo2.png' },
       { name: 'P . X', link: '/px', icon: '@\\assets\\Logo2.png' },
@@ -39,7 +32,6 @@ export default {
     const rightItems = [
       { name: 'Login', link: '/login', icon: '@\\assets\\Logo2.png' },
       { name: 'signup', link: '/signUp', icon: '@\\assets\\Logo2.png' }
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     ]
 
     return { leftItems, rightItems }

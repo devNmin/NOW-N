@@ -10,14 +10,6 @@ export default {
 </script>
 <style>
 
-<<<<<<< HEAD
-.login-padding-box {
-  min-height: calc(100vh - var(--footer-height));
-  justify-content: center;
-  background: #198d4d;
-}
-=======
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 div.background {
   background-size: cover;
 }
@@ -41,21 +33,6 @@ v-application{
   font-family: 'MaruBuri';
 }
 
-<<<<<<< HEAD
-.account-form {
-  position: sticky;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 48px;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
-  margin: auto;
-}
-
-=======
->>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 .form-actions {
   display: flex;
   justify-content: space-between;
