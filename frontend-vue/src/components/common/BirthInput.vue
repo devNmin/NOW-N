@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1 class="label-box">birth</h1>
+  <h1 class="label-box">생년월일</h1>
   <div style="height: 10px;"></div>
     <div class="split-page">
       <div>

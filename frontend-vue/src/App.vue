@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <BaseHeader></BaseHeader>
-    <FollowBarHide/>
+    <!-- <FollowBarHide/> -->
     <FollowBar @hideFollow="hideFollow" v-show="data.hideFollow == true"></FollowBar>
     <main>
       <router-view></router-view>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import FollowBarHide from '@/components/common/FollowBarHide.vue'
+// import FollowBarHide from '@/components/common/FollowBarHide.vue'
 import FollowBar from '@/components/common/FollowBar.vue'
 import BaseHeader from '@/components/common/BaseHeader.vue'
 import { useStore } from 'vuex'
@@ -19,8 +19,8 @@ import { reactive, computed } from '@vue/runtime-core'
 export default {
   components: {
     BaseHeader,
-    FollowBar,
-    FollowBarHide
+    FollowBar
+    // FollowBarHide
   },
   setup () {
     const store = useStore()
@@ -46,17 +46,12 @@ html {
 }
 
 #app {
+  height: 100vh;
   font-family: 'MaruBuriOTF';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 1000px;
   display: flex;
   flex-direction: column;
-}
-
-main {
-  min-height: 1000px;
-  background: #EEEEEE;
 }
 
 .container {
