@@ -1,6 +1,6 @@
 <template>
   <div class="modal">
-    <div class="img-box"><img style="object-fit: cover;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
+    <div class="modal-img-box"><img style="object-fit: cover;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
     <div @click="toggleModal" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
       <div>name</div>
     <div class="detail-deco-bar"></div>
@@ -42,9 +42,9 @@ export default {
 .modal-box {
   margin: 10%;
 }
-.img-box {
+.modal-img-box {
   width: 100%;
-  height: 40%;;
+  height: 40%;
 }
 .open {
   display: block !important;

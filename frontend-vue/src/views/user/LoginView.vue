@@ -4,8 +4,21 @@
 
 <script>
 import LoginForm from '@/components/user/LoginForm'
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
-  components: { LoginForm }
+  components: { LoginForm },
+  setup () {
+    const store = useStore()
+    onMounted(() => {
+      if (store.getters.accessToken) {
+        store.dispatch('goHome')
+      }
+    })
+    return {
+      store
+    }
+  }
 }
 </script>
 <style>

@@ -79,7 +79,7 @@
 </template>
 
 <script>
-
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { reactive } from 'vue'
@@ -122,7 +122,7 @@ export default {
       router.push({ name: 'GX-main' })
     }
 
-    return { roomInfo, createRoom, moveToGxRoom, options }
+    return { options, roomInfo, createRoom, moveToGxRoom }
   }
 }
 </script>

@@ -48,12 +48,14 @@ export default {
 <style>
 .trainer-list-box2 {
   display: flex;
+  justify-content: center;
   height: 20%;
   margin: 10px;
   width: 100%;
   font-size: 16px;
 }
 .div1-noPadding {
+  box-sizing: border-box;
     width: 30%;
     margin: 0px 15px 0px 15px;
 }
@@ -80,9 +82,10 @@ export default {
   position: relative;
   left: 5%;
   width: 90%;
-  border: 1px solid #EEE;
+  border: 1px solid var(--trainer-decoBar-color);
 }
 .item-padding {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   padding: 40px 15px;

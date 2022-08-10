@@ -4,7 +4,7 @@
   <div class=""></div>
   <div class="around-box">
     <div>ALL ({{data.ALL_num}})</div>
-    <div><SearchBar/></div>
+    <div><SearchBar @change="search" :value="value"/></div>
   </div>
   <div class="deco-bar"></div>
   <TrainerListEx/>
@@ -27,13 +27,13 @@ import SearchBar from '@/components/common/SearchBar.vue'
 import TrainerListEx from '@/components/trainer/TrainerListEx.vue'
 import TrainerListItem from '@/components/trainer/TrainerListItem.vue'
 import PageNation from '@/components/common/PageNation.vue'
-// import { onMounted } from 'vue'
-// import { useStore } from 'vuex'
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
   name: 'TrainerView',
   components: { SearchBar, TrainerListEx, TrainerListItem, PageNation, TrainerDetailModal },
   setup () {
-    // const store = useStore()
+    const store = useStore()
     const data = {
       ALL_num: 4,
       img: [
@@ -45,10 +45,14 @@ export default {
       exercise: ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ'],
       price: ['1', '2', '3', '4']
     }
-    // onMounted(() => {
-    //   store.dispatch('trainerList')
-    // })
+    onMounted(() => {
+      store.dispatch('trainerList')
+    })
+    function search (value) {
+      store.dispatch('trainerSearch', value)
+    }
     return {
+      search,
       data
     }
   }
@@ -56,6 +60,9 @@ export default {
 </script>
 
 <style>
+:root {
+  --trainer-decoBar-color: #000;
+}
 .trainer-first {
   position: absolute;
   top: 10%;
@@ -69,6 +76,6 @@ export default {
 }
 .deco-bar {
   width: 100%;
-  border: 2px solid #EEE;
+  border: 2px solid var(--trainer-decoBar-color);
 }
 </style>
