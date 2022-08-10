@@ -11,13 +11,13 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
 )
 from django.shortcuts import get_list_or_404, get_object_or_404
-
+from django.contrib.auth import get_user_model
 from accounts.serializers import UserSerializer
 from .models import Weight
 from accounts.models import User
 from .serializers import (
     FollowBarSerializer,
-    ProfileSerializer,
+    FollowListSerializer,
     WeightSerializer,
     ProfileModifySerializer
 )
@@ -78,26 +78,37 @@ def modify_profile(request, user_pk):
 # 팔로우하기
 @api_view(['POST'])
 def follow(request, pk):
-    person = get_object_or_404(User, pk=pk)
-    if person.pk != request.data.get('id'):
-        if person.followers.filter(pk=request.data.get('id')).exists():
-            person.followers.remove(request.data)
+    person = get_object_or_404(get_user_model(), pk=pk)
+    user = request.user
+    if person != user:
+        if person.followers.filter(pk=user.pk).exists():
+            person.followers.remove(user)
+            follow = False
         else:
-            person.followers.add(request.user)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+            person.followers.add(user)
+            follow = True
+
+    follow_status ={
+        'follow':follow,
+        'my_count':user.followings.count(),
+    }
+    return JsonResponse(follow_status)
 
 # 팔로우 목록 가져오기
 @api_view(['GET'])
 def follow_list(request, pk):
-    user = User.objects.filter(pk=pk)
-    print("User : ", user)
-    serializer = UserSerializer(data=user)
-    serializer.is_valid()
-    print("UserSerializer : ", serializer.data)
-    # serializer = ProfileSerializer(data=user)
-    # if serializer.is_valid():
-    #     print("User : ", serializer.data)
-    return Response(serializer.data)
+    person = get_object_or_404(get_user_model(), pk=pk)
+    if request.user.pk == person.pk:
+
+        followlist = person.followings.all()
+        serialized = FollowListSerializer(followlist, many=True)
+
+        context ={
+            'followers': person.followers.count(),
+            'followings': person.followings.count(),
+            'followlist': serialized.data
+        }
+        return Response(context)
             
 # 팔로우 추천 인물 목록
 @api_view(['GET'])

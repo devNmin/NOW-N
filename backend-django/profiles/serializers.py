@@ -26,8 +26,9 @@ class FollowBarSerializer(serializers.ModelSerializer):
         ]
 
 # 팔로우 목록
-class FollowListSerializer(serializers.ModelSerializer):
-    followings = FollowBarSerializer(many=True, read_only=True)
+class FollowListSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=30)
+    nickname = serializers.CharField(max_length=100)
 
 # 태그 이름
 # class TagSerializer(serializers.ModelSerializer):
