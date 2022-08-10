@@ -19,8 +19,9 @@ class FollowBarSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'name',
+            'id',
             'nickname',
+            'img',
             'is_active',
         ]
 
@@ -48,6 +49,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'name',
+            'img',
             'age',
             'gender',
             'height',
@@ -61,6 +63,7 @@ class ProfileModifySerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'nickname',
+            'img',
             'age',
             'gender',
             'height',

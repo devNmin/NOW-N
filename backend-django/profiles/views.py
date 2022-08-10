@@ -1,5 +1,7 @@
 from functools import partial
-from django.http import JsonResponse
+from django.db.models import Count
+from django.core import serializers
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -14,7 +16,7 @@ from accounts.serializers import UserSerializer
 from .models import Weight
 from accounts.models import User
 from .serializers import (
-    FollowListSerializer,
+    FollowBarSerializer,
     ProfileSerializer,
     WeightSerializer,
     ProfileModifySerializer
@@ -27,6 +29,7 @@ def select_profile(request, pk):
     profile = get_object_or_404(User, pk=pk)
     context = {
         'name' : profile.name,
+        'img' : profile.img,
         'age' : profile.age,
         'gender' : profile.gender,
         'height' : profile.height,
@@ -46,7 +49,7 @@ def modify_profile(request, user_pk):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     else:
         if request.user.pk == found_user.pk:
-            serializer = serializers.ProfileModifySerializer(found_user, data=request.data, partial=True)
+            serializer = ProfileModifySerializer(found_user, data=request.data, partial=True)
             if serializer.is_valid():
                 # 프로필 데이터 중 몸무게 데이터 따로 저장
                 context = {
@@ -59,7 +62,7 @@ def modify_profile(request, user_pk):
                 serializer.save()
                 return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     ''' 
         serializer = UserPointUpdateSerializer(data=request.data)
@@ -96,6 +99,14 @@ def follow_list(request, pk):
     #     print("User : ", serializer.data)
     return Response(serializer.data)
             
+# 팔로우 추천 인물 목록
+@api_view(['GET'])
+def recommend_list(request):
+    list = User.objects.all()
+    recommend = list.annotate(follower_count=Count('followings')).order_by('-follower_count')[:10]
+    serializer = FollowBarSerializer(recommend, many=True)
+    print("Recommend List : ", serializer.data)
+    return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 # 해시태그를 통한 유저 검색
 # @api_view(['GET'])
