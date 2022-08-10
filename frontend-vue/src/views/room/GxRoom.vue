@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div id="main-container" class="container">
         <div id="join" v-if="!session">
             <div id="join-dialog" class="jumbotron vertical-center">
@@ -36,6 +37,81 @@
         </div>
         <UserChat ref="chat" @message="sendMessage" :subscribers="subscribers"></UserChat>
     </div>
+=======
+  <div class="gxroom-container">
+    <div id="join" v-if="!session">
+      <div id="join-dialog" class="jumbotron vertical-center">
+        <h1>Join a video session</h1>
+        <div class="form-group">
+          <p>
+            <label>Participant</label>
+            <input
+              v-model="myUserName"
+              class="form-control"
+              type="text"
+              required
+            />
+          </p>
+          <p>
+            <label>Session</label>
+            <input
+              v-model="mySessionId"
+              class="form-control"
+              type="text"
+              required
+            />
+          </p>
+          <p class="text-center">
+            <button class="btn btn-lg btn-success" @click="joinSession()">
+              Join!
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="session" v-if="session">
+      <div class="session-header">
+        <h1 id="session-title">{{ mySessionId }}</h1>
+      </div>
+      <!-- 방장 얼굴
+            <div id="main-video" class="col-md-6">
+                <user-video :stream-manager="mainStreamManager" />
+            </div> -->
+
+      <!-- 입장 인원 화면 -->
+      <div class="session-video" style="background-color: black">
+        <user-video :stream-manager="publisher" />
+        <user-video
+          v-for="sub in subscribers"
+          :key="sub.stream.connection.connectionId"
+          :stream-manager="sub"
+        />
+      </div>
+
+      <div class="session-chat">
+        <UserChat
+          ref="chat"
+          @message="sendMessage"
+          :subscribers="subscribers"
+        ></UserChat>
+      </div>
+
+      <div class="session-footer">
+        <input type="button" value="cam"/>
+        <input type="button" value="mic"/>
+        <input type="button" value="캡쳐"/>
+        <input
+          class="gxroom-button"
+          type="button"
+          id="buttonLeaveSession"
+          @click="leaveSession"
+          value="Leave session"
+        />
+      </div>
+    </div>
+  </div>
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 </template>
 
 <script>
@@ -44,6 +120,7 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/components/room/UserVideo'
 import { reactive, toRefs } from 'vue'
 import { UserChat } from '@/components/room/UserChat.vue'
+<<<<<<< HEAD
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 const OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443'
@@ -62,6 +139,33 @@ export default {
       subscribers: [],
       mySessionId: 'SessionA',
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
+=======
+// import { useRouter } from 'vue-router'
+// import { useStore } from 'vuex'
+
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+const OPENVIDU_SERVER_URL = 'https://' + 'i7b108.p.ssafy.io:8443'
+const OPENVIDU_SERVER_SECRET = 'ssafy'
+export default {
+  name: 'App',
+  components: {
+    UserVideo,
+    UserChat
+  },
+
+  setup () {
+    // const store = useStore()
+
+    const state = reactive({
+      OV: undefined,
+      session: undefined,
+      publisher: undefined,
+      subscribers: [],
+      mySessionId: '',
+      myUserName: ''
+      // router: useRouter(),
+      // store: useStore()
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     })
 
     function joinSession () {
@@ -69,12 +173,23 @@ export default {
       state.OV = new OpenVidu()
       // --- Init a session ---
       state.session = state.OV.initSession()
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       // --- Specify the actions when events take place in the session ---
       // On every new Stream received...
       state.session.on('streamCreated', ({ stream }) => {
         const subscriber = state.session.subscribe(stream)
+<<<<<<< HEAD
         state.subscribers.push(subscriber)
       })
+=======
+        subscriber.userId = state.myUserName // subscriber에 user추가
+        state.subscribers.push(subscriber)
+      })
+
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       // On every Stream destroyed...
       state.session.on('streamDestroyed', ({ stream }) => {
         const index = state.subscribers.indexOf(stream.streamManager, 0)
@@ -86,11 +201,26 @@ export default {
       state.session.on('exception', ({ exception }) => {
         console.warn(exception)
       })
+<<<<<<< HEAD
       // --- Connect to the session with a valid user token ---
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
       getToken(state.mySessionId).then(token => {
         state.session.connect(token, { clientData: state.myUserName })
+=======
+
+      // // 채팅 signal 받기
+      // state.session.on('signal:public-chat', event => {
+      //   this.$refs.chat.addMessage(event.data, JSON.parse(event.data).sender === this.myUserName, false)
+      // })
+
+      // --- Connect to the session with a valid user token ---
+      // 'getToken' method is simulating what your server-side should do.
+      // 'token' parameter should be retrieved and returned by your own backend
+      getToken(state.mySessionId).then((token) => {
+        state.session
+          .connect(token, { clientData: state.myUserName })
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
             const publisher = state.OV.initPublisher(undefined, {
@@ -103,13 +233,25 @@ export default {
               insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
               mirror: false // Whether to mirror your local video or not
             })
+<<<<<<< HEAD
             state.mainStreamManager = publisher
+=======
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
             state.publisher = publisher
             // --- Publish your stream ---
             state.session.publish(state.publisher)
           })
+<<<<<<< HEAD
           .catch(error => {
             console.log('There was an error connecting to the session:', error.code, error.message)
+=======
+          .catch((error) => {
+            console.log(
+              'There was an error connecting to the session:',
+              error.code,
+              error.message
+            )
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
           })
       })
       window.addEventListener('beforeunload', leaveSession)
@@ -119,14 +261,26 @@ export default {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (state.session) state.session.disconnect()
       state.session = undefined
+<<<<<<< HEAD
       state.mainStreamManager = undefined
       state.publisher = undefined
       state.subscribers = []
       state.OV = undefined
+=======
+      state.publisher = undefined
+      state.subscribers = []
+      state.OV = undefined
+
+      // this.$store.commit('', state.publisher)
+
+      // this.$store.dispatch('', state.mySessionId)
+
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       window.removeEventListener('beforeunload', leaveSession)
     }
 
     /**
+<<<<<<< HEAD
          * --------------------------
          * SERVER-SIDE RESPONSIBILITY
          * --------------------------
@@ -139,12 +293,29 @@ export default {
          */
     function getToken (mySessionId) {
       return createSession(mySessionId).then(sessionId => createToken(sessionId))
+=======
+     * --------------------------
+     * SERVER-SIDE RESPONSIBILITY
+     * --------------------------
+     * These methods retrieve the mandatory user token from OpenVidu Server.
+     * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
+     * the API REST, openvidu-java-client or openvidu-node-client):
+     *   1) Initialize a Session in OpenVidu Server(POST /openvidu/api/sessions)
+     *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
+     *   3) The Connection.token must be consumed in Session.connect() method
+     */
+    function getToken (mySessionId) {
+      return createSession(mySessionId).then((sessionId) =>
+        createToken(sessionId)
+      )
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     }
 
     // See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-session
     function createSession (sessionId) {
       return new Promise((resolve, reject) => {
         axios
+<<<<<<< HEAD
           .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
             customSessionId: sessionId
           }), {
@@ -161,6 +332,34 @@ export default {
             } else {
               console.warn(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`)
               if (window.confirm(`No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`)) {
+=======
+          .post(
+            `${OPENVIDU_SERVER_URL}/openvidu/api/sessions`,
+            JSON.stringify({
+              customSessionId: sessionId
+            }),
+            {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET
+              }
+            }
+          )
+          .then((response) => response.data)
+          .then((data) => resolve(data.id))
+          .catch((error) => {
+            if (error.response.status === 409) {
+              resolve(sessionId)
+            } else {
+              console.warn(
+                `No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}`
+              )
+              if (
+                window.confirm(
+                  `No connection to OpenVidu Server. This may be a certificate error at ${OPENVIDU_SERVER_URL}\n\nClick OK to navigate and accept it. If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${OPENVIDU_SERVER_URL}"`
+                )
+              ) {
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
                 location.assign(`${OPENVIDU_SERVER_URL}/accept-certificate`)
               }
               reject(error.response)
@@ -173,6 +372,7 @@ export default {
     function createToken (sessionId) {
       return new Promise((resolve, reject) => {
         axios
+<<<<<<< HEAD
           .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, {}, {
             auth: {
               username: 'OPENVIDUAPP',
@@ -189,3 +389,72 @@ export default {
   }
 }
 </script>
+=======
+          .post(
+            `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`,
+            {},
+            {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET
+              }
+            }
+          )
+          .then((response) => response.data)
+          .then((data) => resolve(data.token))
+          .catch((error) => reject(error.response))
+      })
+    }
+
+    return {
+      ...toRefs(state),
+      joinSession,
+      leaveSession,
+      getToken,
+      createSession,
+      createToken
+    }
+  }
+}
+</script>
+
+<style>
+.session {
+  width: 100%;
+  height: 750px;
+  display: grid;
+  margin: 20px;
+  grid-template-rows: 15% 75% 10%;
+  grid-template-columns: 66% 34%;
+  grid-gap: 1rem;
+}
+
+.session-header {
+  grid-column: 1/3;
+  grid-row: 1/2;
+}
+
+.session-video{
+  display:grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.session-footer{
+  grid-column: 1/3;
+  grid-row: 3/4;
+  display: flex;
+}
+
+.session-footer
+.gxroom-button {
+  background-color: red;
+  color: white;
+  border: none;
+}
+
+.gxroom-button:hover {
+  background-color: firebrick;
+}
+</style>
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48

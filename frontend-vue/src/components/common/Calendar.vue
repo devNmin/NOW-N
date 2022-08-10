@@ -210,4 +210,7 @@ export default {
     padding: 0px 24px;
     gap: 93px;
 }
+.table {
+  margin: auto;
+}
 </style>

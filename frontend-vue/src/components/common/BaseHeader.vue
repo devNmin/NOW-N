@@ -1,6 +1,5 @@
 <template>
-  <header class="header-base">
-    <!-- <img src="@/assets/logo.png" style="width:50px;height:50px"> -->
+  <header >
     <HeaderMenu></HeaderMenu>
   </header>
 </template>
@@ -15,10 +14,19 @@ export default {
 <style>
 
 header.header-base{
-  position: fixed;
   padding: 1rem;
   height: 1rem;
-  width: 100vw;
+  width: calc(100vw - 128px);
+  background-color: #6DCEF5;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 64px;
+}
+.header-base{
+  position: absolute;
+  padding: 1rem;
+  height: 1rem;
+  width: calc(100vw - 128px);
   background-color: #6DCEF5;
   justify-content: space-between;
   align-items: center;

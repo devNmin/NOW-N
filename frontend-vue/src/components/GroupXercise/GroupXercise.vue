@@ -1,6 +1,7 @@
 <template>
   <div class="grid2">
     <div class="GX-header">
+<<<<<<< HEAD
       <!-- 라우터 링크는 커뮤니티룸 만들고 난 이후에 추가하기 -->
       <!-- <router-link
             v-for="categoy in GXcategories" :key="category.link" :to="category.link">{{category.name}}
@@ -15,17 +16,40 @@
         <ThumbNail :src="i.roomsrc"></ThumbNail>
         {{ i.roomname }}
       </div>
+=======
+      <h1 class="gxroom">gx룸</h1>
+      <h1 class="gxcommunity">gx커뮤니티</h1>
+      <button type="button" @click="moveToRegist">방 생성</button>
+      <router-link class="view-button" to="gx/conferences/1/">방입장</router-link>|
+      <input class="search" placeholder="검색">
+    </div>
+    <div class="videos-content">
+      <div class="videos" v-if="roomList.length">
+        <ThumbNail v-for="room in roomList" :key="room.id" :room="room">
+        </ThumbNail>
+      </div>
+      <div class="no-items" v-else>개설된 미팅룸이 없습니다.</div>
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     </div>
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import ThumbNail from '@/components/common/ThumbNail.vue'
+=======
+import ThumbNail from '@/components/GroupXercise/ThumbNail.vue'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 export default {
   components: {
     ThumbNail
   },
   setup () {
+<<<<<<< HEAD
     const th = [
       // roomsrc에다가 사진 주소 넣으면 썸네일 사진으로 사용가능
       { roomname: 'room1', roomsrc: 1 },
@@ -42,6 +66,26 @@ export default {
     return {
       th
       // GXcategories
+=======
+    const store = useStore()
+    const router = useRouter()
+
+    const roomList = computed(() => store.state.room.roomList)
+
+    function moveToRegist () {
+      router.push({ name: 'createConference' })
+    }
+
+    return {
+      roomList, moveToRegist
+    }
+  },
+  async created () {
+    try {
+      this.$store.dispatch('getRoomList')
+    } catch (e) {
+      alert('서버에 문제가 발생하였습니다')
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     }
   }
 }
@@ -49,7 +93,10 @@ export default {
 
 <style scoped>
 .grid2{
+<<<<<<< HEAD
   font-family: 'MaruBuriOTF';
+=======
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   font-style: normal;
   display: grid;
   grid-template-rows: 10% 90%;
@@ -89,6 +136,11 @@ button:hover {
   color: white;
 }
 .search{
+<<<<<<< HEAD
+=======
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   box-sizing: border-box;
   background: #FFFFFF;
   border: 1px solid #000000;
@@ -104,9 +156,13 @@ input{
   width: 100%;
   padding: 10px;
 }
+<<<<<<< HEAD
 .videos{
   grid-area: thumbnail;
   font-family: 'MaruBuriOTF';
+=======
+.videos-content{
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   font-style: normal;
   display: grid;
   grid-template-rows: 50% 50%;
@@ -114,4 +170,16 @@ input{
   column-gap: 10px;
 row-gap: 30px;
 }
+<<<<<<< HEAD
+=======
+
+.no-items {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25em;
+  font-weight: 500;
+}
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 </style>

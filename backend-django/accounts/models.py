@@ -42,6 +42,7 @@ select_class = (
 )
 
 class User(AbstractBaseUser, PermissionsMixin):
+    # 기본 유저 필드
     user_id = models.CharField(max_length=15, unique=True)
     nickname = models.CharField(max_length=100, unique=True, null=True)
     email = models.EmailField(db_index=True, unique=True)
@@ -49,11 +50,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     birth = models.IntegerField() # int
     phone_number = models.IntegerField() # int
     grade = models.CharField(max_length=10, default=1, choices=select_class) # int
-    age = models.IntegerField(null=True)
+    # 프로필 추가 필드
+    img = models.URLField(null=True)
+    age = models.IntegerField(null=True) # 나이
     gender = models.IntegerField(null=True) # 0 : 남 / 1 : 여
-    height = models.FloatField(null=True)
-    user_weight = models.FloatField(null=True)
-    object_weight = models.FloatField(null=True)
+    height = models.FloatField(null=True) # 신장
+    user_weight = models.FloatField(null=True) # 현재 체중
+    object_weight = models.FloatField(null=True) # 목표 체중
+    # 트레이너 추가 필드
+    exercise_category = models.IntegerField(null=True) # 트레이너의 운동 종류
+    career = models.CharField(max_length=500, null=True) # 경력
+    diet_price = models.IntegerField(null=True) # 식단 관리 가격
+    exercise_price = models.IntegerField(null=True) # 운동 가격
+    comment = models.CharField(max_length=500, null=True) # 기타 추가 코맨트
 
     is_active = BooleanField(default=True)
     is_staff = BooleanField(default=False)
@@ -74,3 +83,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.user_id
+
+# 회원 운동 종류 카운팅을 위한 테이블
+class Exercise_Category(models.Model):
+    user_id=models.ForeignKey(User, related_name='exercising', on_delete=models.CASCADE)
+    pilates=models.IntegerField(default=0) # 필라테스 횟수
+    bare_body=models.IntegerField(default=0) # 맨몸운동 횟수
+    yoga=models.IntegerField(default=0) # 요가 횟수
+    stretching=models.IntegerField(default=0) # 스트레칭 횟수
+    machine=models.IntegerField(default=0) # 기구운동 횟수
+    etc=models.IntegerField(default=0) # 기타 횟수

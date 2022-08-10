@@ -1,17 +1,29 @@
 import router from '@/router'
 import axios from 'axios'
 import drf from '@/api/drf'
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 export default {
   // namespaced: true,
 
   // state는 직접 접근하지 않겠다!
   state: {
+<<<<<<< HEAD
     token: localStorage.getItem('token') || '',
     currentUser: {},
     profile: {},
     authError: null,
     reduplication: false // 중복체크
+=======
+    currentUser: {},
+    profile: {},
+    authError: null,
+    reduplication: false,
+    accessToken: localStorage.getItem('accessToken') || '',
+    refreshToken: localStorage.getItem('refreshToken') || ''
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
@@ -19,6 +31,7 @@ export default {
     currentUser: state => state.currentUser,
     profile: state => state.profile,
     authError: state => state.authError,
+<<<<<<< HEAD
     authHeader: state => ({ Authorization: `Token ${state.token}` }),
     loginViewCase: state => state.loginViewCase
 
@@ -27,6 +40,17 @@ export default {
   mutations: {
     // SET_TOKEN: (state, token) => state.token = token,
     // SET_CURRENT_USER: (state, user) => state.currentUser = user,
+=======
+    authHeader: state => ({ Authorization: `Bearer ${state.accessToken}` }),
+    loginViewCase: state => state.loginViewCase,
+    TokenHeader: state => ({ Authorization: `JWT ${state.accessToken}` })
+  },
+
+  mutations: {
+    SET_ACCESSTOKEN: (state, accessToken) => { state.accessToken = accessToken },
+    SET_REFRESHTOKEN: (state, refreshToken) => { state.refreshToken = refreshToken },
+    SET_CURRENT_USER: (state, user) => { state.currentUser = user },
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     // SET_PROFILE: (state, profile) => state.profile = profile,
     SET_REDUPLICATION (state, redup) {
       state.reduplication = redup
@@ -35,13 +59,19 @@ export default {
       state.authError = error
     }
   },
+<<<<<<< HEAD
 
   actions: {
     saveToken ({ commit }, token) {
+=======
+  actions: {
+    saveToken ({ commit }, Token) {
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       /*
             state.token 추가
             localStorage에 token 추가
             */
+<<<<<<< HEAD
       commit('SET_TOKEN', token)
       localStorage.setItem('token', token)
     },
@@ -56,6 +86,27 @@ export default {
     },
 
     login ({ commit, dispatch, state }, credentials) {
+=======
+      commit('SET_ACCESSTOKEN', Token.accessToken)
+      commit('SET_REFRESHTOKEN', Token.refreshToken)
+      localStorage.setItem('accessToken', Token.accessToken)
+      localStorage.setItem('refreshToken', Token.refreshToken)
+    },
+
+    logout ({ commit }) {
+      /*
+            localStorage에 token 추가
+            */
+      // 토큰삭제
+      router.push({ name: 'home' })
+      commit('SET_ACCESSTOKEN', '')
+      commit('SET_REFRESHTOKEN', '')
+      localStorage.setItem('accessToken', '')
+      localStorage.setItem('refreshToken', '')
+    },
+
+    login ({ commit, dispatch, getters }, credentials) {
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       /*
             POST: 사용자 입력정보를 login URL로 보내기
               성공하면
@@ -71,7 +122,10 @@ export default {
       if (credentials.password === '') {
         credentials.password = 'qwerty1234'
       }
+<<<<<<< HEAD
       credentials.face_vector = state.faceVector
+=======
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       console.log(credentials)
       axios({
         url: drf.accounts.login(),
@@ -79,17 +133,38 @@ export default {
         data: credentials
       })
         .then(res => {
+<<<<<<< HEAD
           const token = res.data.key
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
           router.push({ name: 'articles' })
+=======
+          const accessToken = res.data.token.access
+          const refreshToken = res.data.token.refresh
+          const Token = {
+            accessToken,
+            refreshToken
+          }
+          dispatch('saveToken', Token)
+          commit('SET_CURRENT_USER', credentials)
+          console.log(getters.currentUser)
+          // dispatch('fetchCurrentUser')
+          router.push({ name: 'home' })
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
         })
         .catch(err => {
           console.error(err.response.data)
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
+<<<<<<< HEAD
     signup ({ commit, dispatch }, credentials) {
+=======
+
+    signup ({ commit, dispatch }, credentials) {
+      // 회원가입
+      // 1. 프레쉬 토큰과 액세스 토큰저장
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       console.log(credentials)
       axios({
         url: drf.accounts.signup(),
@@ -97,15 +172,28 @@ export default {
         data: credentials
       })
         .then(res => {
+<<<<<<< HEAD
           const token = res.data.key
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
           router.push({ name: 'articles' })
+=======
+          const accessToken = res.data.token.access
+          const refreshToken = res.data.token.refresh
+          const Token = {
+            accessToken,
+            refreshToken
+          }
+          dispatch('saveToken', Token)
+          // dispatch('fetchCurrentUser')
+          router.push({ name: 'home' })
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
         })
         .catch(err => {
           console.error(err.response.data)
           commit('SET_AUTH_ERROR', err.response.data)
         })
+<<<<<<< HEAD
     },
 
     logout ({ getters, dispatch }) {
@@ -174,6 +262,8 @@ export default {
         .then(res => {
           commit('SET_PROFILE', res.data)
         })
+=======
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
     }
   }
 }

@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <main :class="{ background }">
   <router-view></router-view>
   </main>
@@ -7,29 +8,65 @@
 <script>
 
 export default {
+=======
+  <div id="app">
+    <BaseHeader></BaseHeader>
+    <!-- <FollowBarHide/> -->
+    <FollowBar @hideFollow="hideFollow" v-show="data.hideFollow == true"></FollowBar>
+    <main>
+      <router-view></router-view>
+    </main>
+  </div>
+</template>
+
+<script>
+// import FollowBarHide from '@/components/common/FollowBarHide.vue'
+import FollowBar from '@/components/common/FollowBar.vue'
+import BaseHeader from '@/components/common/BaseHeader.vue'
+import { useStore } from 'vuex'
+import { reactive, computed } from '@vue/runtime-core'
+
+export default {
+  components: {
+    BaseHeader,
+    FollowBar
+    // FollowBarHide
+  },
+  setup () {
+    const store = useStore()
+    const data = reactive({
+      a: 1,
+      hideFollow: computed(() => store.getters.hideFollow)
+    })
+    function hideFollow () {
+      console.log('메렁' + data.hideFollow)
+    }
+    return {
+      hideFollow,
+      data
+    }
+  }
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 </script>
 <style>
-:root {
-  --color-primary: #198d4d;
-  --color-danger: #c72e23;
-  --color-gold: gold;
-  --color-silver: silver;
-  --color-bronze: #c05828;
-  --color-grey-100: #dee1e7;
-  --color-grey-300: #c0c5d1;
-  --color-grey-500: #757880;
-  --color-grey-700: #575a5f;
-  --color-grey-900: #2e3033;
 
+<<<<<<< HEAD
   --header-height: 1rem;
+=======
+html {
+  overflow-x: hidden;
+  overflow-y: scroll;
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  height: 100vh;
+  font-family: 'MaruBuriOTF';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
+<<<<<<< HEAD
   text-align: center;
 }
 
@@ -40,6 +77,9 @@ main {
 }
 main.background {
   background-size: cover;
+=======
+  flex-direction: column;
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 
 .container {

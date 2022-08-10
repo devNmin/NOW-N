@@ -1,17 +1,27 @@
 <template>
+<<<<<<< HEAD
   <div @change="onChange">
   <h1 class="label-box">Phone Number</h1>
+=======
+  <div>
+  <h1 class="label-box">전화번호</h1>
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   <div style="height: 10px;"></div>
     <div class="split-page">
       <div>
         <span>
+<<<<<<< HEAD
           <select v-model="phoneData.first" class="input-split-box select-box-border">
+=======
+          <select v-model="phoneData.first" @change="onChange" class="input-split-box select-box-border">
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
             <option v-for="first_ex in phoneData.first_num"
               :key="first_ex"
              :value="first_ex">{{first_ex}}</option>
           </select>
         </span>
       </div>
+<<<<<<< HEAD
       <div class="split-margin-box"></div>
       <div>
         <span class="box">
@@ -23,6 +33,19 @@
       <div>
         <span class="box">
             <input type="text" v-model="phoneData.third" class="input-split-box" maxlength="4">
+=======
+      <div class="split-margin-box">ㅡ</div>
+      <div>
+        <span class="box">
+            <input type="text" @change="onChange" v-model="phoneData.second" class="input-split-box" maxlength="4">
+        </span>
+      </div>
+
+      <div class="split-margin-box">ㅡ</div>
+      <div>
+        <span class="box">
+            <input type="text" @change="onChange" v-model="phoneData.third" class="input-split-box" maxlength="4">
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
         </span>
       </div>
     </div>
@@ -35,7 +58,11 @@ import { reactive, computed } from 'vue'
 export default {
   setup (props, { emit }) {
     const phoneData = reactive({
+<<<<<<< HEAD
       first: '',
+=======
+      first: '010',
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
       second: '',
       third: '',
       phone_number: computed(() => phoneChange()),
@@ -65,7 +92,14 @@ export default {
 }
 
 .split-margin-box {
+<<<<<<< HEAD
   width: 30px;
+=======
+  display: flex;
+  width: 30px;
+  justify-content: center;
+  align-items : center;
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 }
 .input-split-box {
   font-family: 'MaruBuriOTF';

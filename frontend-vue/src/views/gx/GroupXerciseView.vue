@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+<<<<<<< HEAD
     <div class="grid-container">
         <div class="B-header">
           <BaseHeader></BaseHeader>
@@ -11,10 +12,14 @@
         <GroupXercise></GroupXercise>
       </div>
     </div>
+=======
+    <GroupXercise></GroupXercise>
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   </div>
 </template>
 <script>
 import GroupXercise from '@/components/GroupXercise/GroupXercise.vue'
+<<<<<<< HEAD
 import BaseHeader from '@/components/common/BaseHeader.vue'
 import FollowBar from '@/components/common/FollowBar.vue'
 export default {
@@ -22,10 +27,16 @@ export default {
     BaseHeader,
     GroupXercise,
     FollowBar
+=======
+export default {
+  components: {
+    GroupXercise
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
   }
 }
 </script>
 <style scoped>
+<<<<<<< HEAD
 .box{
   height: 1500px;
 }
@@ -53,4 +64,6 @@ row-gap: 30px;
   margin: 0;
   grid-area: G-exercise;
 }
+=======
+>>>>>>> 6e30b2d743e6e8a45fc6337f56e11abda909bc48
 </style>
