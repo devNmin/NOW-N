@@ -20,7 +20,6 @@ export default {
       { name: '트레이너', link: '/trainer' },
       { name: '로그인', link: '/login' }
     ]
-
     return { commonItems }
   }
 }
