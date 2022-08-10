@@ -9,6 +9,8 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
 )
 from django.shortcuts import get_list_or_404, get_object_or_404
+
+from accounts.serializers import UserSerializer
 from .models import Weight
 from accounts.models import User
 from .serializers import (
@@ -84,10 +86,14 @@ def follow(request, pk):
 @api_view(['GET'])
 def follow_list(request, pk):
     user = User.objects.filter(pk=pk)
-    serializer = ProfileSerializer(data=user)
-    if serializer.is_valid():
-        pass
-    print("followers : ", serializer.data.get('followings'))
+    print("User : ", user)
+    serializer = UserSerializer(data=user)
+    serializer.is_valid()
+    print("UserSerializer : ", serializer.data)
+    # serializer = ProfileSerializer(data=user)
+    # if serializer.is_valid():
+    #     print("User : ", serializer.data)
+    return Response(serializer.data)
             
 
 # 해시태그를 통한 유저 검색

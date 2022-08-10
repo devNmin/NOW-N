@@ -60,7 +60,7 @@ def enter_room(request, pk):
     # 유저 PK를 방 참여 테이블에 추가
     context = {
         'user_id' : pk,
-        'confernece_id' : conference.pk,
+        'conference_id' : conference.pk,
     }
     serializer = ConferenceParticipateSerializer(data=context)
     if serializer.is_valid():
@@ -84,27 +84,34 @@ def train_history(request, pk):
 @api_view(['GET'])
 def counsel_history(request, pk):
     # 회원 PK를 통해 유저-트레이너 관계 PK 찾기
-    training = Member_Coach.objects.get(member_id=pk)
+    training = Member_Coach.objects.filter(member_id=pk)
     print("아이디 : ", training.id)
     # 유저-트레이너 관계 PK를 통해 상담 이력 찾기
-    history = Counsel.objects.get(coaching_id=training.id)
-    serializer = CounselHistorySerializer(data=history)
+    history = Counsel.objects.filter(coaching_id=training.id)
+    print("이력 : ", history)
+    serializer = CounselHistorySerializer(data=history, many=True)
     if serializer.is_valid():
         return Response(serializer.data, status=status.HTTP_200_OK)
-    sentece = '응답 실패'
-    return Response(sentece, status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 # 1:1 코칭룸 - 스케쥴 (주간 스케쥴 확인 / 스케쥴 추가)
 @api_view(['GET', 'POST'])
 def schedule_detail(request, pk):
-    schedule = get_list_or_404(Schedule, user_id=pk)
     if request.method == 'GET':
+        schedule = get_list_or_404(Schedule, user_id=pk)
         serializer = ScheduleSerializer(schedule, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = ScheduleSerializer(request.data)
-        serializer.save()
-        return Response(status=HTTP_201_CREATED)
+        context = {
+            'user_id': pk,
+            'day': request.data.get('day'),
+            'start_time': request.data.get('start_time'),
+            'end_time': request.data.get('end_time'),
+        }
+        serializer = ScheduleSerializer(data=context)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data, status=HTTP_201_CREATED)
 
 # 그래프 - 일
 
