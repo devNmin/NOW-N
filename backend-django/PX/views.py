@@ -1,10 +1,13 @@
+from functools import partial
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.status import (
     HTTP_201_CREATED
 )
+from GX.serializers import ConferenceSerializer
 from accounts.models import User
 from accounts.serializers import UserSerializer
 from trainer.models import Counsel, Member_Coach
@@ -49,6 +52,50 @@ def mytrainer(request, pk):
     serializer = UserSerializer(trainer)
     return Response(serializer.data)
 
+# 1:1 코칭룸 - 코칭룸 정보 조회 / 수정
+@api_view(['GET', 'PUT'])
+def coachingroom(request, pk):
+    # 트레이너 PK로 트레이너가 owner인 방 정보 가져오기
+    if request.method == 'GET':
+        room = get_object_or_404(Conference, owner_id=pk)
+        print("Room : ", room)
+        serializer = ConferenceSerializer(room)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'PUT':
+        room = get_object_or_404(Conference, owner_id=pk)
+        serializer = ConferenceSerializer(room, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# 1:1 코칭룸 - 코칭룸 On/Off
+@api_view(['PUT'])
+def coachingroomonoff(request, pk):
+    # 트레이너 PK가 owner인 방 is_active를 조회
+    room = get_object_or_404(Conference, owner_id=pk)
+    # 방이 Off 상태인 경우
+    if room.is_active == False:
+        context = {
+            'is_active': True
+        }
+        serializer = ConferenceSerializer(room, context, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif room.is_active == True:
+        context = {
+            'is_active': False
+        }
+        serializer = ConferenceSerializer(room, context, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 # 1:1 코칭룸 - 나의 트레이너 1:1 코칭룸 입장
 @api_view(['POST'])
 def enter_room(request, pk):
@@ -84,15 +131,24 @@ def train_history(request, pk):
 @api_view(['GET'])
 def counsel_history(request, pk):
     # 회원 PK를 통해 유저-트레이너 관계 PK 찾기
-    training = Member_Coach.objects.filter(member_id=pk)
+    training = Member_Coach.objects.get(member_id=pk)
     print("아이디 : ", training.id)
     # 유저-트레이너 관계 PK를 통해 상담 이력 찾기
-    history = Counsel.objects.filter(coaching_id=training.id)
-    print("이력 : ", history)
-    serializer = CounselHistorySerializer(data=history, many=True)
+    history = get_object_or_404(Counsel, coaching_id=training.id)
+    print("history : ", history)
+    context = {
+        'id': history.pk,
+        'is_exercise': history.is_exercise,
+        'is_diet': history.is_diet,
+        'times': history.times,
+        'start_date': history.start_date,
+        'end_date': history.end_date,
+        'comment': history.comment,
+    }
+    serializer = CounselHistorySerializer(data=context)
     if serializer.is_valid():
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data)
+    return Response("응답실패")
 
 # 1:1 코칭룸 - 스케쥴 (주간 스케쥴 확인 / 스케쥴 추가)
 @api_view(['GET', 'POST'])

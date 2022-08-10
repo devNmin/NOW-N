@@ -57,4 +57,12 @@ class ScheduleSerializer(serializers.ModelSerializer):
 class CounselHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Counsel
-        fields = '__all__'
+        fields = [
+            'id',
+            'is_exercise',
+            'is_diet',
+            'times',
+            'start_date',
+            'end_date',
+            'comment',
+        ]
