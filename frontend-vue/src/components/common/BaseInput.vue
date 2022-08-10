@@ -1,6 +1,7 @@
 <template>
-  <label for="input-box" class="label-box">{{label}}
-  </label>
+  <h5 for="input-box" class="label-box">{{label}}</h5>
+  <!-- <label for="input-box" class="label-box">{{label}}
+  </label> -->
   <input
   class="input-box"
   :label="label"

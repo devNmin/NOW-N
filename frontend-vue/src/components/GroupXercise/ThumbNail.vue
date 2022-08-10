@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/gx/${room.id}`" class="room-item" v-if="room">
+  <router-link :to="`/gx/conferences/${room.id}`" class="room-item" v-if="room" :room="room">
     <div>{{room.title}}</div>
   </router-link>
 </template>

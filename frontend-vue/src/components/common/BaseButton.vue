@@ -20,11 +20,13 @@ export default {
 <style scoped>
 
 .button-container{
-  display:inline-block;
+  display:block;
+  margin:auto;
+  /* display:inline-block; */
 }
 button{
-  background-color: var(--color-grey-900);
-  color: white;
+  /* background-color: var(--color-grey-900); */
+  color: #6dcef5;
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -35,10 +37,13 @@ button{
   height: 50px;
   font-size: 32px;
   text-align: center;
+  font-weight: bold;
 }
 
 button:hover {
   background-color: #6dcef5;
+  color: white;
+  font-weight: bold;
 }
 
 button.disabled{

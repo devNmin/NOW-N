@@ -1,13 +1,11 @@
 <template>
   <div :class="{ background }"
     class="login-padding-box">
-    <form @submit.prevent="signup(credentials)"
-    class="account-form">
-      <h1>회원가입</h1>
-      <BaseInput v-model="credentials.user_id" label="Id" er="user_id"></BaseInput>
-      <BaseInput v-model="credentials.name" label="Name"></BaseInput>
-      <BaseInput v-model="credentials.password" label="Password"></BaseInput>
-      <BaseInput v-model="credentials.password_check" label="Password Check"></BaseInput>
+    <form @submit.prevent="signup(credentials)" class="regist-form">
+      <BaseInput v-model="credentials.name" label="이름"></BaseInput>
+      <BaseInput v-model="credentials.user_id" label="아이디" er="user_id"></BaseInput>
+      <BaseInput v-model="credentials.password" label="비밀번호"></BaseInput>
+      <BaseInput v-model="credentials.password_check" label="비밀번호 확인"></BaseInput>
       <BirthInput v-model="credentials.birth" @birth="birth" type="number"></BirthInput>
       <PhoneInput v-model="credentials.phone_number" @phone="phone" type="number"></PhoneInput>
       <EmailInput v-model="credentials.email" @email="email"></EmailInput>
@@ -53,7 +51,15 @@ export default {
 </script>
 
 <style>
-
+.regist-form {
+  position: sticky;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 48px;
+  margin-top: 5px;
+}
 form {
   width: 400px;
   display: flex;
@@ -61,7 +67,7 @@ form {
   gap: 10px;
   padding: 48px;
   background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
+  /* backdrop-filter: blur(4px); */
   margin: auto;
 }
 

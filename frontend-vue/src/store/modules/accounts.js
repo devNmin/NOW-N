@@ -10,8 +10,8 @@ export default {
     profile: {},
     authError: null,
     reduplication: false,
-    accessToken: localStorage.getItem('accessToken'),
-    refreshToken: localStorage.getItem('refreshToken')
+    accessToken: localStorage.getItem('accessToken') || '',
+    refreshToken: localStorage.getItem('refreshToken') || ''
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
@@ -19,15 +19,15 @@ export default {
     currentUser: state => state.currentUser,
     profile: state => state.profile,
     authError: state => state.authError,
-    authHeader: state => ({ Authorization: `Token ${state.token}` }),
+    authHeader: state => ({ Authorization: `Bearer ${state.accessToken}` }),
     loginViewCase: state => state.loginViewCase,
-    TokenHeader: state => ({ Authorization: `Token ${state.accessToken}` })
+    TokenHeader: state => ({ Authorization: `JWT ${state.accessToken}` })
   },
 
   mutations: {
     SET_ACCESSTOKEN: (state, accessToken) => { state.accessToken = accessToken },
     SET_REFRESHTOKEN: (state, refreshToken) => { state.refreshToken = refreshToken },
-    // SET_CURRENT_USER: (state, user) => state.currentUser = user,
+    SET_CURRENT_USER: (state, user) => { state.currentUser = user },
     // SET_PROFILE: (state, profile) => state.profile = profile,
     SET_REDUPLICATION (state, redup) {
       state.reduplication = redup
@@ -48,16 +48,19 @@ export default {
       localStorage.setItem('refreshToken', Token.refreshToken)
     },
 
-    removeToken ({ commit }) {
+    logout ({ commit }) {
       /*
-            state.token 삭제
             localStorage에 token 추가
             */
-      commit('SET_TOKEN', '')
-      localStorage.setItem('token', '')
+      // 토큰삭제
+      router.push({ name: 'home' })
+      commit('SET_ACCESSTOKEN', '')
+      commit('SET_REFRESHTOKEN', '')
+      localStorage.setItem('accessToken', '')
+      localStorage.setItem('refreshToken', '')
     },
 
-    login ({ commit, dispatch }, credentials) {
+    login ({ commit, dispatch, getters }, credentials) {
       /*
             POST: 사용자 입력정보를 login URL로 보내기
               성공하면
@@ -87,6 +90,8 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
+          commit('SET_CURRENT_USER', credentials)
+          console.log(getters.currentUser)
           // dispatch('fetchCurrentUser')
           router.push({ name: 'home' })
         })
@@ -95,7 +100,10 @@ export default {
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
+
     signup ({ commit, dispatch }, credentials) {
+      // 회원가입
+      // 1. 프레쉬 토큰과 액세스 토큰저장
       console.log(credentials)
       axios({
         url: drf.accounts.signup(),

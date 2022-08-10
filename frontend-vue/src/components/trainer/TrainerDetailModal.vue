@@ -1,10 +1,12 @@
 <template>
   <div class="modal">
-    <div class="img-box"><img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
-    <button type="button" @click="toggleModal" class="modal-x-button"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-img-box"><img style="object-fit: cover;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
+    <div @click="toggleModal" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
       <div>name</div>
     <div class="detail-deco-bar"></div>
+    <div class="trainer-detail-info-box">
     <div>나이:</div> <div>경력:</div>
+    </div>
     <router-link to="/trainer/schedule">스케쥴</router-link>
     <router-link to="/trainer/apply">신청하기</router-link>
   </div>
@@ -37,9 +39,12 @@ export default {
   border-radius: 15px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
-.img-box {
+.modal-box {
+  margin: 10%;
+}
+.modal-img-box {
   width: 100%;
-  height: 40%;;
+  height: 40%;
 }
 .open {
   display: block !important;
@@ -56,8 +61,12 @@ export default {
 }
 .detail-deco-bar {
   position: relative;
-  left: 15%;
-  width: calc(70% - 3px) !important;
+  margin: 0px 15% 0px 15%;
+  width: calc(70% - 6px);
   border: 3px solid #000000;
+}
+.trainer-detail-info-box {
+  margin: 0px 15% 0px 15%;
+  width: 70%;
 }
 </style>
