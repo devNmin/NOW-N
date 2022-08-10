@@ -3,7 +3,7 @@
     <div class="PX-grid">
       <div class="PX-menu">
         <router-link
-          v-for="item in pxItems" :key="item.link" :to="item.link">{{item.title}}
+          v-for="item in pxItems" :key="item.name" :to="item.link">{{item.title}}
         </router-link>
       </div>
       <div class="PX-content">

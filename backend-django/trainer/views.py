@@ -101,9 +101,7 @@ def request_advice(request, user_pk, coach_pk):
         'comment': serial.data.get('comment'),
         'coaching_id': coaching_id.pk,
     }
-    print("코칭 필드 : ???휴휴", context)
     coachserailizer = CounselSerializer(data=context)
-    print(coachserailizer)
     if coachserailizer.is_valid(raise_exception=True):
         coachserailizer = coachserailizer.save()
     sentece='상담신청완료'
