@@ -3,6 +3,7 @@
     <div class="GX-header">
       <h1 class="gxroom">gx룸</h1>
       <h1 class="gxcommunity">gx커뮤니티</h1>
+      <button type="button" @click="moveToRegist">방 생성</button>
       <router-link class="view-button" to="gx/conferences/1/">방입장</router-link>|
       <input class="search" placeholder="검색">
     </div>
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-import ThumbNail from '@/components/common/ThumbNail.vue'
+import ThumbNail from '@/components/GroupXercise/ThumbNail.vue'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'

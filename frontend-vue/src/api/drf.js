@@ -9,9 +9,9 @@ export default {
     // Token 으로 현재 user 판단
   },
   rooms: {
-    roomList: () => HOST + '/gx/getRoomlist/',
-    roomInfo: () => HOST + '/gx/getRoomInfo/',
+    room: () => HOST + '/GX/conferences/',
     createRoom: () => HOST + '/GX/createconference/'
+
   },
   trainer: {
     list: () => HOST + '/trainer/select/'

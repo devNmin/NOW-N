@@ -35,7 +35,7 @@
       <div class="session-header">
         <h1 id="session-title">{{ mySessionId }}</h1>
       </div>
-      <!-- 방장 화면
+      <!-- 방장 얼굴
             <div id="main-video" class="col-md-6">
                 <user-video :stream-manager="mainStreamManager" />
             </div> -->
@@ -99,7 +99,6 @@ export default {
     const state = reactive({
       OV: undefined,
       session: undefined,
-      mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
       mySessionId: '',
@@ -157,7 +156,6 @@ export default {
               insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
               mirror: false // Whether to mirror your local video or not
             })
-            state.mainStreamManager = publisher
             state.publisher = publisher
             // --- Publish your stream ---
             state.session.publish(state.publisher)
@@ -177,7 +175,6 @@ export default {
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (state.session) state.session.disconnect()
       state.session = undefined
-      state.mainStreamManager = undefined
       state.publisher = undefined
       state.subscribers = []
       state.OV = undefined

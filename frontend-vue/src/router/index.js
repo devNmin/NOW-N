@@ -78,13 +78,25 @@ const routes = [
   {
     path: '/PX',
     component: () => import('@/views/px/PxView.vue'),
-    redirect: '/PX/diaries',
-    childeren: [
+    redirect: '/px/diaries',
+    children: [
       {
         // 식단 다이어리
         path: 'diaries',
         name: 'pxDiaries',
         component: () => import('@/components/px/DietDiary.vue')
+      },
+      {
+        // 체중 그래프
+        path: 'graph',
+        name: 'pxGraph',
+        component: () => import('@/components/px/WeightGraph.vue')
+      },
+      {
+        // 1:1 코칭룸
+        path: 'coaching',
+        name: 'pxCoaching',
+        component: () => import('@/components/px/CoachingRoom.vue')
       }
     ]
   }
