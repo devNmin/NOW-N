@@ -1,7 +1,6 @@
 // import router from '@/router'
 import axios from 'axios'
 import drf from '@/api/drf'
-import store from '..'
 
 export default {
   state: {
@@ -37,44 +36,40 @@ export default {
     // gx룸 상세 조회
     async getRoomInfo ({ commit }, roomId) {
       const { data } = await axios({
-        url: drf.rooms.roomInfo() + `${roomId}`,
-        method: 'get'
+        url: drf.rooms.room() + `${roomId}`,
+        method: 'get',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
       commit('SET_ROOM_INFO', data)
     },
 
     // gx룸 리스트 조회
-    async getRoomList ({ commit, getters }) {
+    async getRoomList ({ commit }) {
       const { data } = await axios({
-        url: drf.rooms.roomList(),
+        url: drf.rooms.room(),
         method: 'get',
-        headers: getters.getToken.accessToken
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
       commit('SET_ROOM_LIST', data)
     },
 
     // gx룸 생성
     async createRoomInfo ({ commit }, roomInfo) {
-      console.log(roomInfo)
-      try {
-        await axios({
-          url: drf.rooms.createRoom(),
-          method: 'post',
-          data: roomInfo,
-          headers: 'JWT ' + store.state.accessToken
-        })
-      } catch (e) {
-        console.log('에러')
-        console.log(e)
-      }
+      await axios({
+        url: drf.rooms.createRoom(),
+        method: 'POST',
+        data: roomInfo,
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
       commit('CREATE_ROOM_INFO', roomInfo)
     },
 
     //  gx룸 삭제
     async deleteRoomInfo ({ commit }, roomId) {
       await axios({
-        url: drf.rooms.CDRoom(),
-        method: 'delete'
+        url: drf.rooms.CDRoom() + `${roomId}`,
+        method: 'delete',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
       commit('DELETE_ROOM_INFO', roomId)
     }

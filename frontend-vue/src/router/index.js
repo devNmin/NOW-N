@@ -68,22 +68,37 @@ const routes = [
     component: () => import('@/views/trainer/TrainerApplyView.vue')
   },
   {
-    // 체중그래프
-    path: '/PT/graph/date',
-    name: 'weightgraph',
-    component: () => import('@/components/px/WeightGraph.vue')
-  },
-  {
-    // 1:1 미팅룸 api에 없으므로 주소 만들어서 사용함
-    path: '/PT/onetoone/meetingroom',
-    name: 'meetingroom',
-    component: () => import('@/components/px/MeetingRoom.vue')
-  },
-  {
     // 트레이너 스케쥴
     path: '/trainer/schedule',
     name: 'trainerSchedule',
     component: () => import('@/views/trainer/TrainerScheduleView.vue')
+  },
+
+  // ------------ PX 페이지 관련 ---------------
+  {
+    path: '/PX',
+    component: () => import('@/views/px/PxView.vue'),
+    redirect: '/px/diaries',
+    children: [
+      {
+        // 식단 다이어리
+        path: 'diaries',
+        name: 'pxDiaries',
+        component: () => import('@/components/px/DietDiary.vue')
+      },
+      {
+        // 체중 그래프
+        path: 'graph',
+        name: 'pxGraph',
+        component: () => import('@/components/px/WeightGraph.vue')
+      },
+      {
+        // 1:1 코칭룸
+        path: 'coaching',
+        name: 'pxCoaching',
+        component: () => import('@/components/px/CoachingRoom.vue')
+      }
+    ]
   }
 ]
 

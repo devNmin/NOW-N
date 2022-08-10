@@ -20,7 +20,7 @@
                             {{ day }}
                         </span>
                         <span v-else>
-                            {{ day }}와 {{index2}}
+                            {{ day }}
                         </span>
                     </td>
                 </tr>

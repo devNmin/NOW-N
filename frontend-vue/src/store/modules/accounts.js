@@ -21,16 +21,7 @@ export default {
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.accessToken}` }),
     loginViewCase: state => state.loginViewCase,
-    getAccessToken: state => state.accessToken,
-    getRefreshToken: state => state.refreshToken,
-    getToken (state) {
-      const accessToken = state.accessToken
-      const refreshToken = state.refreshToken
-      return {
-        accessToken,
-        refreshToken
-      }
-    }
+    TokenHeader: state => ({ Authorization: `JWT ${state.accessToken}` })
   },
 
   mutations: {
