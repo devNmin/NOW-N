@@ -72,7 +72,6 @@ export default {
   font-weight: bolder;
   font-size: 1.3rem;
   color: #6DCEF5;
-  vertical-align: middle;
   padding: 0 10px;
   /* color: black; */
 }
