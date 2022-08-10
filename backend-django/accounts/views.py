@@ -1,3 +1,6 @@
+from multiprocessing import context
+
+from GX.serializers import ConferenceSerializer
 from .models import User
 from django.contrib.auth import authenticate
 from rest_framework import permissions, status
@@ -23,6 +26,21 @@ class RegistrationAPIView(APIView):
         serializer = RegisterUserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
+            # 트레이너 가입 시 1:1 코칭 룸 생성, 할당
+            if serializer.data.get('grade') == '트레이너':
+                context = {
+                    'owner_id': serializer.data.get('id'),
+                    'password': 1111,
+                    'category': 5,
+                    'title': serializer.data.get('name'),
+                    'description': '1:1 코칭룸입니다.',
+                    'max_user': 2,
+                    'thumnail': 'https://ibb.co/qg4XZZP',
+                    'is_active': False,
+                }
+                conference = ConferenceSerializer(data=context)
+                if conference.is_valid():
+                    conference.save()
             if user:
                 return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

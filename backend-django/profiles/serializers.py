@@ -8,6 +8,12 @@ class UserPKSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id')
 
+# 유저 모든 정보
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 # 팔로우 Bar에 들어갈 정보
 class FollowBarSerializer(serializers.ModelSerializer):
     class Meta:
