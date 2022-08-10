@@ -3,7 +3,7 @@
     <BaseHeader></BaseHeader>
     <!-- <FollowBarHide/> -->
     <FollowBar @hideFollow="hideFollow" v-show="data.hideFollow == true"></FollowBar>
-    <main>
+    <main class="main">
       <router-view></router-view>
     </main>
   </div>
@@ -54,6 +54,9 @@ html {
   flex-direction: column;
 }
 
+.main{
+  height: calc(100vh - 86px);
+}
 .container {
   display: flex;
   flex-direction: column;
