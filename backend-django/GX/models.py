@@ -17,5 +17,5 @@ class Conference(models.Model):
 
 # 유저 - 운동 방 관계
 class User_Conference(models.Model):
-    conference_id=models.ForeignKey(Conference, on_delete=models.CASCADE)
+    conference_id=models.ForeignKey(Conference, on_delete=models.CASCADE, related_name='entering_room')
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)

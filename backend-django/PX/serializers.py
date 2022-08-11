@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from GX.models import Conference, User_Conference
 
-from trainer.models import Member_Coach
+from trainer.models import Counsel, Member_Coach
 from .models import Diary, Diet, Schedule, Training_History
 
 # 식단 정보
@@ -25,11 +25,6 @@ class MyTrainerPKSerializer(serializers.ModelSerializer):
         fields = [
             'coach_id'
         ]
-
-class ConferencePKSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Conference
-        fields = ('id')
 
 # 방 참여 테이블 정보
 class ConferenceParticipateSerializer(serializers.ModelSerializer):
@@ -57,3 +52,17 @@ class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = '__all__'
+
+# 상담 이력
+class CounselHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Counsel
+        fields = [
+            'id',
+            'is_exercise',
+            'is_diet',
+            'times',
+            'start_date',
+            'end_date',
+            'comment',
+        ]

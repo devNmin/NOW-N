@@ -1,6 +1,5 @@
 <template>
   <div>
-  <div style="height: 10px;"></div>
     <div class="split-page">
       <div>
         <span>
@@ -81,7 +80,6 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: #EEEEEE;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 80px;
