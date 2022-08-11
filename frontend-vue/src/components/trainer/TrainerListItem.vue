@@ -1,4 +1,5 @@
 <template>
+
   <div class="deco-bar2"></div>
   <div class="trainer-list-box2">
     <div class="trainer-list-deco-box"></div>
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import { useStore } from 'vuex'
 export default {
   props: {
     imgData: {
@@ -25,9 +27,13 @@ export default {
     },
     priceData: {
       type: String
+    },
+    trainer: {
+      type: Number
     }
   },
   setup (props) {
+    const store = useStore()
     const trainerItemData = {
       imgdata: props.imgData,
       namedata: props.nameData,
@@ -35,6 +41,7 @@ export default {
       priceData: props.priceData
     }
     function toggleModal () {
+      store.dispatch('requestTrainerDetail', props.trainer)
       document.querySelector('.modal').classList.toggle('open')
     }
     return {
@@ -67,22 +74,29 @@ export default {
   object-fit: cover;
 }
 .trainer-apply-style {
+  box-sizing: border-box;
   width: 100px;
   height: 30px;
   font-size: 16px;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   padding: 5px 15px;
-  border: none;
+  border: 1px solid #6dcef5;
   gap: 10px;
-  background: #35A740;
   border-radius: 25px;
+  background-color: #FFF;
+  color: #6dcef5;
+  text-decoration-line: none;
+  text-align: center;
+}
+.trainer-apply-style:hover {
+  cursor: pointer;
 }
 .deco-bar2 {
   position: relative;
   left: 5%;
   width: 90%;
-  border: 1px solid var(--trainer-decoBar-color);
+  border-bottom: 3px solid var(--trainer-decoBar-color);
 }
 .item-padding {
   box-sizing: border-box;

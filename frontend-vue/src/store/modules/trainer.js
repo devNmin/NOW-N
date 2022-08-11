@@ -4,15 +4,21 @@ import drf from '@/api/drf'
 export default {
   state: {
     hideFollow: false,
-    trainerList: {}
+    trainerList: {},
+    currentTrainerPk: localStorage.getItem('coachPk') || '',
+    currentTrainer: {}
   },
   getters: {
     hideFollow: state => state.hideFollow,
-    trainerList: state => state.trainerList
+    trainerList: state => state.trainerList,
+    currentTrainerPk: state => state.currentTrainerPk,
+    currentTrainer: state => state.currentTrainer
   },
   mutations: {
     SET_HIDE_FOLLOW: (state) => (state.hideFollow = !state.hideFollow),
-    SET_TRAINER_LIST: (state, trainerList) => (state.trainerList = trainerList)
+    SET_TRAINER_LIST: (state, trainerList) => (state.trainerList = trainerList),
+    SET_CURRENT_TRAINER_PK: (state, currentTrainerPk) => (state.currentTrainerPk = currentTrainerPk),
+    SET_CURRENT_TRAINER: (state, currentTrainer) => (state.currentTrainer = currentTrainer)
   },
   actions: {
     hide ({ commit }) {
@@ -26,30 +32,50 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
+          commit('SET_TRAINER_LIST', res.data)
         })
     },
     trainerSearch ({ commit }, nickname) {
       axios({
-        url: drf.trainer.list(),
+        url: drf.trainer.search(nickname),
         method: 'get',
         data: nickname,
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log(res)
-          commit('SET_NICK_NAME_SEARCH_USER')
+          commit('SET_TRAINER_LIST', res.data)
         })
     },
-    requestAdvice ({ commit }, { userPk, coachPk, context }) {
+    requestTrainerDetail ({ commit }, coachPk) {
       axios({
-        url: drf.trainer.request(userPk, coachPk),
+        url: drf.trainer.requestDetail(coachPk),
+        method: 'get',
+        data: coachPk,
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          commit('SET_CURRENT_TRAINER_PK', coachPk)
+          commit('SET_CURRENT_TRAINER', res.data)
+          localStorage.setItem('coachPk', coachPk)
+        })
+    },
+    requestAdvice ({ commit, getters }, context) {
+      const userPk = getters.currentUserPk
+      const coachPk = getters.currentTrainerPk
+      console.log('메렁')
+      console.log(context.applyData)
+      axios({
+        url: drf.trainer.requestCounsel(userPk, coachPk),
         method: 'post',
-        data: context,
+        data: context.applyData,
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
           console.log(res)
-          commit('SET_NICK_NAME_SEARCH_USER')
+          // commit('SET_NICK_NAME_SEARCH_USER')
+        })
+        .catch(err => {
+          console.error(err.response.data)
         })
     }
   }

@@ -1,6 +1,5 @@
 <template>
   <div>
-  <div style="height: 10px;"></div>
     <div class="split-page">
       <div>
         <span>
@@ -48,6 +47,7 @@ export default {
       } else {
         date.days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29']
       }
+      emit('update:modelValue', date.scedule)
     }
     function onChange (event) {
       emit('update:modelValue', date.scedule)
@@ -80,7 +80,6 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: #EEEEEE;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 80px;
