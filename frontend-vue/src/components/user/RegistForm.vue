@@ -37,7 +37,8 @@ export default {
       email: '@naver.com',
       birth: '0101',
       phone_number: '010',
-      grade: '일반유저'
+      grade: '일반유저',
+      nickname: 'asd'
     })
     function signup () {
       store.dispatch('signup', credentials)
