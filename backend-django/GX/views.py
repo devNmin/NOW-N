@@ -14,6 +14,7 @@ from .models import Conference, User_Conference
 from accounts.models import User
 from .serializers import (
     ConferenceSerializer,
+    ConferenceListSerializer
 )
 
 # 전체 방 조회
@@ -21,7 +22,7 @@ from .serializers import (
 def conference_list(request):
     list = Conference.objects.all()
     conferences = list.annotate(participate_count=Count('entering_room'))
-    serializer = ConferenceSerializer(conferences, many=True)
+    serializer = ConferenceListSerializer(conferences, many=True)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 # 방 생성
