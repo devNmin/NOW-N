@@ -31,11 +31,21 @@ const routes = [
     name: 'profile',
     component: () => import('@/views/user/UserProfileView.vue')
   },
+
+  // ------------ GX 페이지 Start ---------------
   {
     // G.X 메인페이지
-    path: '/GX/',
-    name: 'GX-main',
-    component: () => import('@/views/gx/GroupXerciseView.vue')
+    path: '/GX',
+    component: () => import('@/views/gx/GroupXerciseView.vue'),
+    redirect: '/gx/conferences',
+    children: [
+      {
+        // gx룸
+        path: 'conferences',
+        name: 'gxConferences',
+        component: () => import('@/components/gx/GroupXercise.vue')
+      }
+    ]
   },
   {
     // gx 방 생성모달
@@ -49,6 +59,8 @@ const routes = [
     name: 'GxRoom',
     component: () => import('@/views/room/GxRoom.vue')
   },
+  // ------------ GX 페이지 End ---------------
+
   {
     // 트레이너
     path: '/trainer',
@@ -74,7 +86,7 @@ const routes = [
     component: () => import('@/views/trainer/TrainerScheduleView.vue')
   },
 
-  // ------------ PX 페이지 관련 ---------------
+  // ------------ PX 페이지 Start ---------------
   {
     path: '/PX',
     component: () => import('@/views/px/PxView.vue'),
@@ -100,6 +112,7 @@ const routes = [
       }
     ]
   }
+  // ------------ PX 페이지 End ---------------
 ]
 
 const router = createRouter({
