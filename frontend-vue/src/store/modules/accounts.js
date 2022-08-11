@@ -56,11 +56,12 @@ export default {
       router.push({ name: 'home' })
       commit('SET_ACCESSTOKEN', '')
       commit('SET_REFRESHTOKEN', '')
-      localStorage.setItem('accessToken', '')
-      localStorage.setItem('refreshToken', '')
+      commit('SET_CURRENT_USER', {})
+      window.localStorage.clear()
+      router.push({ name: 'home' })
     },
 
-    login ({ commit, dispatch, getters }, credentials) {
+    login ({ commit, dispatch }, credentials) {
       /*
             POST: 사용자 입력정보를 login URL로 보내기
               성공하면
@@ -76,7 +77,6 @@ export default {
       if (credentials.password === '') {
         credentials.password = 'qwerty1234'
       }
-      console.log(credentials)
       axios({
         url: drf.accounts.login(),
         method: 'post',
@@ -90,9 +90,9 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
-          commit('SET_CURRENT_USER', credentials)
-          console.log(getters.currentUser)
-          // dispatch('fetchCurrentUser')
+          commit('SET_CURRENT_USER', res.data.user)
+          console.log(res.data.user.id)
+          localStorage.setItem('userPk', res.data.user.id)
           router.push({ name: 'home' })
         })
         .catch(err => {
