@@ -5,7 +5,7 @@ export default {
   state: {
     hideFollow: false,
     trainerList: {},
-    currentTrainerPk: 0,
+    currentTrainerPk: localStorage.getItem('coachPk') || '',
     currentTrainer: {}
   },
   getters: {
@@ -54,18 +54,20 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log(res)
           commit('SET_CURRENT_TRAINER_PK', coachPk)
           commit('SET_CURRENT_TRAINER', res.data)
           localStorage.setItem('coachPk', coachPk)
         })
     },
-    requestAdvice ({ commit }, { userPk, coachPk, context }) {
-      console.log(context)
+    requestAdvice ({ commit, getters }, context) {
+      const userPk = getters.currentUserPk
+      const coachPk = getters.currentTrainerPk
+      console.log('메렁')
+      console.log(context.applyData)
       axios({
         url: drf.trainer.requestCounsel(userPk, coachPk),
         method: 'post',
-        data: context,
+        data: context.applyData,
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {

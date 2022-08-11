@@ -13,6 +13,12 @@ urlpatterns = [
     # 1:1 코칭룸 - 나의 트레이너 정보 가져오기
     path('mytrainer/<int:pk>', views.mytrainer),
 
+    # 1:1 코칭룸 - 코칭룸 정보 조회 / 수정
+    path('coachingroom/<int:pk>', views.coachingroom),
+
+    # 1:1 코칭룸 - 코칭룸 On/Off
+    path('coachingroomonoff/<int:pk>', views.coachingroomonoff),
+
     # 1:1 코칭룸 - 나의 트레이너 1:1 코칭룸 입장
     path('enterroom/<int:pk>', views.enter_room),
 

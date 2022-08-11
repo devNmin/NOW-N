@@ -8,6 +8,12 @@ urlpatterns = [
     # 방 생성
     path('createconference/', views.conference_create),
 
+    # 방 입장하기
+    path('enterroom/<int:pk>/', views.enter_room),
+
+    # 방에서 퇴장하기
+    path('exitroom/<int:pk>', views.exit_room),
+
     # 방 상세 정보 조회 / 수정 / 삭제
     path('conferences/<int:pk>/', views.conference_detail),
 

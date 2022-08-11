@@ -1,3 +1,4 @@
+from functools import partial
 from django.http import JsonResponse
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from rest_framework import status
@@ -50,9 +51,18 @@ def detail(request, pk):
 # 트레이너 상세 정보 수정
 @api_view(['PUT'])
 def modify(request, pk):
+    # 트레이너 PK로 정보 조회
     trainer = get_object_or_404(User, pk=pk)
-    serializer = TrainerSerializer(trainer, request.data)
-    serializer.save()
+
+    if request.user.pk == trainer.pk:
+        serializer = TrainerSerializer(trainer, request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        msg = '실패 : 본인만 수정가능합니다.'
+        return Response(msg, status=status.HTTP_400_BAD_REQUEST)
 
 # 트레이너 닉네임 검색 목록 가져오기
 @api_view(['GET'])
@@ -70,11 +80,17 @@ def request_advice(request, user_pk, coach_pk):
         'coach': coach_pk,
     }
     serializer = CoachingSerializer(data=coaching)
-    if serializer.is_valid():
-        serializer.save()
-    
+    from django.db.models import Q
+
+    if Member_Coach.objects.filter(Q(coach_id=coach_pk) & Q(member_id=user_pk)).exists():
+        return Response("이미 상담예약이 있습니다.", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        if serializer.is_valid():
+            serializer.save()
+
+
     # 추가된 Member_Coach 테이블 하위의 Counsel 테이블에 상담 기록 추가
-    coaching_id = get_object_or_404(Member_Coach, member_id=user_pk)
+    coaching_id = get_object_or_404(Member_Coach, member_id=user_pk, coach_id=coach_pk)
     serial = CounselSerializer(data=request.data)
     serial.is_valid()
     print("코칭 필드 : ???", coaching_id.pk)
@@ -87,9 +103,7 @@ def request_advice(request, user_pk, coach_pk):
         'comment': serial.data.get('comment'),
         'coaching_id': coaching_id.pk,
     }
-    print("코칭 필드 : ???휴휴", context)
     coachserailizer = CounselSerializer(data=context)
-    print(coachserailizer)
     if coachserailizer.is_valid(raise_exception=True):
         coachserailizer = coachserailizer.save()
     sentece='상담신청완료'

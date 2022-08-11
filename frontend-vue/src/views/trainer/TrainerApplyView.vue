@@ -6,41 +6,48 @@
    </div>
   <div class="deco-bar"></div>
   <div class="calender-box">
-  <div></div>
-  <TrainerCalendar/>
-  <div> 채팅룸</div>
-  <div></div>
-  </div>
-    <form @submit.prevent="apply(credentials)" class="login-form">
+    <div class="apply-info-box">
+    <form @submit.prevent="apply(credentials)">
       <PurposeInput @purposechange="purposechange"/>
+      <div class="apply-date-split apply-info-box">
+      <div style="font-size: 24px; padding-top: 10px;">식단관리 기간: &nbsp;</div>
       <ScheduleDateInput v-model="applyData.start_date"/>
+      <div style="font-size: 24px; padding-top: 6px;">&nbsp;~&nbsp;</div>
       <ScheduleDateInput v-model="applyData.end_date"/>
-      <input type="number" v-model="applyData.times">
-      <textarea v-model="applyData.comment" cols="30" rows="10"></textarea>
+      </div>
+      <div class="apply-info-box">
+      <label for="exercise_value" style="font-size: 24px; padding-top: 10px;">운동 횟수: &nbsp;</label>
+      <input id="exercise_value" min="0" max="100" class="apply-input" type="number" v-model="applyData.times">
+      </div>
+      <div class="apply-info-box">
+      <textarea style="width: 100%;" v-model="applyData.comment" cols="30" rows="10"></textarea>
+      </div>
       <button type="button" @click="apply">제출</button>
       <div class="deco-bar"></div>
     </form>
+  </div>
+  <div> 채팅룸</div>
+  </div>
+
   </div>
 </template>
 
 <script>
 import ScheduleDateInput from '@/components/trainer/scheduleDateInput.vue'
-import TrainerCalendar from '@/components/trainer/TrainerCalendar.vue'
 import PurposeInput from '@/components/trainer/purposeInput.vue'
 import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import { computed } from '@vue/runtime-core'
 export default {
-  components: { ScheduleDateInput, TrainerCalendar, PurposeInput },
+  components: { ScheduleDateInput, PurposeInput },
   setup () {
     const store = useStore()
-    const userPk = store.getters.currentUser.id
     const applyData = reactive({
       coaching_id: computed(() => store.getters.currentTrainerPk),
       is_exercise: true,
       is_diet: false,
-      times: 1,
-      start_date: '01.01',
+      times: '1',
+      start_date: '01.02',
       end_date: '01.01',
       comment: ''
     })
@@ -49,10 +56,7 @@ export default {
       applyData.is_diet = purposeData.is_diet
     }
     function apply () {
-      const coachPk = applyData.coaching_id
-      console.log('asdf')
-      console.log(applyData)
-      store.dispatch('requestAdvice', { userPk, coachPk, applyData })
+      store.dispatch('requestAdvice', { applyData })
     }
     return {
       applyData,
@@ -83,12 +87,40 @@ export default {
   margin: 0px;
 }
 .around-box {
-  padding: 10px;
+  padding: 50px;
   display: flex;
   justify-content: space-between;
+}
+.apply-info-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
 }
 .deco-bar {
   width: 100%;
   border-bottom: 4px solid var(--trainer-decoBar-color);
+}
+.apply-date-split {
+  font-size: 16px;
+  text-align: center;
+  height: 47px;
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.apply-input {
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  text-align: center;
+  color: black;
+  border: 0px;
+  border-bottom: solid 2px #6dcef5;
+  border-radius: 2px;
+  width: 80px;
+  height: 45px;
+  margin: auto;
+  font-size: 20px;
 }
 </style>
