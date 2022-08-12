@@ -13,7 +13,6 @@ export default {
     reduplication: false,
     accessToken: localStorage.getItem('accessToken') || '',
     refreshToken: localStorage.getItem('refreshToken') || '',
-    currentUserPk: localStorage.getItem('userPk') || '',
     currentTrainerPk: localStorage.getItem('coachPk') || ''
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
