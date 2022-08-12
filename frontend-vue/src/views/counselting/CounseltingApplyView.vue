@@ -1,13 +1,13 @@
 <template>
   <div class="trainer-first">
     <div class=""></div>
-    <div class="around-box">
+    <div class="around-box2">
 
    </div>
   <div class="apply-box">
     <div class="apply-info-box">
       <img class="apply-img" src="@/assets/paper.png" alt="">
-    <form @submit.prevent="apply(credentials)">
+    <form @submit.prevent="apply(credentials)" >
       <div class="apply-form">
       <PurposeInput @purposechange="purposechange"/>
       <div class="apply-info-box">
@@ -106,7 +106,7 @@ export default {
   margin: 0px;
   z-index: 1;
 }
-.around-box {
+.around-box2 {
   padding: 20px;
   display: flex;
   justify-content: space-between;

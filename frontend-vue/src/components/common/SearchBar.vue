@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="search(data.searchValue)">
+  <form @submit.prevent="search(data.searchValue)" class="form-default">
     <div class="search">
       <input id="searchId" type="text" v-model="data.searchValue" @change="onChange" class="search-input" placeholder="Search">
       <label for="searchId"><img class="search-icon" src="@\assets\search.png" alt="검색"></label>
@@ -56,5 +56,13 @@ export default {
 }
 .search-icon:hover {
   cursor: pointer;
+}
+.form-default {
+  left: 0%;
+  display: block;
+  margin: 0px;
+  gap: 0px;
+  padding: 0px;
+  width: 250px;
 }
 </style>
