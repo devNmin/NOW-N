@@ -12,7 +12,8 @@ export default {
     authError: null,
     reduplication: false,
     accessToken: localStorage.getItem('accessToken') || '',
-    refreshToken: localStorage.getItem('refreshToken') || ''
+    refreshToken: localStorage.getItem('refreshToken') || '',
+    currentTrainerPk: localStorage.getItem('coachPk') || ''
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
@@ -92,6 +93,8 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
+          console.log(res.data)
+          console.log(res.data.user)
           commit('SET_CURRENT_USER', res.data.user)
           console.log(res.data.user.id)
           localStorage.setItem('userPk', res.data.user.id)
@@ -120,7 +123,6 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
-          // dispatch('fetchCurrentUser')
           router.push({ name: 'home' })
         })
         .catch(err => {

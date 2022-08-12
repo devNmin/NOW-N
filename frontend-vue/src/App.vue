@@ -28,11 +28,7 @@ export default {
       a: 1,
       hideFollow: computed(() => store.getters.hideFollow)
     })
-    function hideFollow () {
-      console.log('메렁' + data.hideFollow)
-    }
     return {
-      hideFollow,
       data
     }
   }
@@ -75,4 +71,11 @@ html {
 v-application{
   font-family: 'MaruBuri';
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 </style>

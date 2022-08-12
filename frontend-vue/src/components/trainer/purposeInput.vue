@@ -55,12 +55,14 @@ export default {
   background-color: none;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
-  width: 80px;
+  width: 200px;
   height: 45px;
   margin: 0px;
   font-size: 20px;
   padding-left: 20px;
   padding: 0px;
   min-width: 20px;
+  text-align: center;
+  outline: none;
   }
 </style>

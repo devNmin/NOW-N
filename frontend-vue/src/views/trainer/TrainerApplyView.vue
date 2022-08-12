@@ -4,26 +4,31 @@
     <div class="around-box">
 
    </div>
-  <div class="deco-bar"></div>
-  <div class="calender-box">
+  <div class="apply-box">
     <div class="apply-info-box">
+      <img class="apply-img" src="@/assets/paper.png" alt="">
     <form @submit.prevent="apply(credentials)">
+      <div class="apply-form">
       <PurposeInput @purposechange="purposechange"/>
+      <div class="apply-info-box">
+        <label for="exercise_value" style="font-size: 24px; padding-top: 10px;">트레이닝 횟수: &nbsp;</label>
+        <input id="exercise_value" min="0" max="100" class="apply-input" type="number" v-model="applyData.times">
+      </div>
+      <div class=" apply-info-box">
+        <div style="font-size: 24px; padding-top: 10px;">식단관리 기간</div>
+      </div>
       <div class="apply-date-split apply-info-box">
-      <div style="font-size: 24px; padding-top: 10px;">식단관리 기간: &nbsp;</div>
-      <ScheduleDateInput v-model="applyData.start_date"/>
+        <ScheduleDateInput v-model="applyData.start_date"/>
       <div style="font-size: 24px; padding-top: 6px;">&nbsp;~&nbsp;</div>
-      <ScheduleDateInput v-model="applyData.end_date"/>
+        <ScheduleDateInput v-model="applyData.end_date"/>
       </div>
+
       <div class="apply-info-box">
-      <label for="exercise_value" style="font-size: 24px; padding-top: 10px;">운동 횟수: &nbsp;</label>
-      <input id="exercise_value" min="0" max="100" class="apply-input" type="number" v-model="applyData.times">
+      <textarea class="comment-box" placeholder="comment" v-model="applyData.comment" cols="30" rows="10"></textarea>
       </div>
-      <div class="apply-info-box">
-      <textarea style="width: 100%;" v-model="applyData.comment" cols="30" rows="10"></textarea>
+      <div class="apply-button" type="button" @click="apply">제출</div>
       </div>
-      <button type="button" @click="apply">제출</button>
-      <div class="deco-bar"></div>
+      <div class="stamp" v-show="data.toggle_submit"><img src="@/assets/stamp.png" alt=""></div>
     </form>
   </div>
   <div> 채팅룸</div>
@@ -42,6 +47,9 @@ export default {
   components: { ScheduleDateInput, PurposeInput },
   setup () {
     const store = useStore()
+    const data = reactive({
+      toggle_submit: computed(() => store.getters.applyStamp)
+    })
     const applyData = reactive({
       coaching_id: computed(() => store.getters.currentTrainerPk),
       is_exercise: true,
@@ -58,8 +66,10 @@ export default {
     function apply () {
       store.dispatch('requestAdvice', { applyData })
     }
+
     return {
       applyData,
+      data,
       purposechange,
       apply
     }
@@ -78,22 +88,23 @@ export default {
 .chat {
   display: flex;
   width: 30%;
+
 }
-.calender-box {
+.apply-box {
   display: flex;
   justify-content: space-around;
   width: 100%;
   height: 30%;
   margin: 0px;
+  z-index: 1;
 }
 .around-box {
-  padding: 50px;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
 }
 .apply-info-box {
   display: flex;
-  justify-content: center;
   margin-top: 24px;
 }
 .deco-bar {
@@ -110,6 +121,15 @@ export default {
   display: flex;
   justify-content: center;
 }
+.apply-img {
+  position: absolute;
+  z-index: -1;
+}
+.apply-form {
+  left: 100px;
+  position: relative;
+  top: 20%;
+}
 .apply-input {
   font-family: 'MaruBuriOTF';
   font-style: normal;
@@ -120,7 +140,25 @@ export default {
   border-radius: 2px;
   width: 80px;
   height: 45px;
-  margin: auto;
+  margin: none;
   font-size: 20px;
+  outline: none;
+}
+.comment-box {
+  width: 100%;
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  border: solid 2px #6dcef5;
+  resize: none;
+}
+.apply-button {
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  color: #6dcef5;
+}
+.stamp {
+  position: absolute;
+   left: 35%;
+  z-index: 1;
 }
 </style>

@@ -11,7 +11,6 @@ export default {
   rooms: {
     room: () => HOST + '/GX/conferences/',
     createRoom: () => HOST + '/GX/createconference/'
-
   },
   trainer: {
     list: () => HOST + '/trainer/select/',

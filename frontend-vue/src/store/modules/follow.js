@@ -1,25 +1,25 @@
-// import axios from 'axios'
-// import drf from '@/api/drf'
+import axios from 'axios'
+import drf from '@/api/drf'
 
-// export default {
-//   state: {
-//   },
-//   getters: {
-//   },
-//   mutations: {
-//   },
-//   actions: {
-//     followList ({ commit }) {
-//       axios({
-//         url: drf.trainer.requestDetail(coachPk),
-//         method: 'get',
-//         data: coachPk,
-//         headers: { Authorization: 'JWT ' + localStorage.accessToken }
-//       })
-//         .then(res => {
-//           commit('SET_CURRENT_TRAINER_PK', coachPk)
-//           commit('SET_CURRENT_TRAINER', res.data)
-//           localStorage.setItem('coachPk', coachPk)
-//         })
-//   }
-// }
+export default {
+  state: {
+  },
+  getters: {
+  },
+  mutations: {
+  },
+  actions: {
+    followList ({ commit, getters }) {
+      const userPk = getters.currentUserPk
+      axios({
+        url: drf.trainer.requestDetail(userPk),
+        method: 'get',
+        data: userPk,
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          console.log(res)
+        })
+    }
+  }
+}

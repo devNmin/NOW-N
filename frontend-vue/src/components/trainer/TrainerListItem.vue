@@ -1,15 +1,14 @@
 <template>
-
-  <div class="deco-bar2"></div>
-  <div class="trainer-list-box2">
-    <div class="trainer-list-deco-box"></div>
-    <div class="div1-noPadding"><img class="trainer-list-img" :src="imgData" alt=""></div>
-    <div class="div2 item-padding">{{nameData}}</div>
-    <div class="div3 item-padding">{{exerciseData}}</div>
-    <div class="div3 item-padding">{{priceData}}</div>
-    <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">신청하기</button></div>
-    <div class="trainer-list-deco-box"></div>
-  </div>
+    <div class="deco-bar2" v-show="hide"></div>
+    <div class="trainer-list-box2" v-show="hide">
+      <div class="trainer-list-deco-box"></div>
+      <div class="div1-noPadding"><img class="trainer-list-img" :src="imgData" alt=""></div>
+      <div class="div2 item-padding">{{nameData}}</div>
+      <div class="div3 item-padding">{{exerciseData}}</div>
+      <div class="div3 item-padding">{{priceData}}</div>
+      <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">신청</button></div>
+      <div class="trainer-list-deco-box"></div>
+    </div>
 </template>
 
 <script>
@@ -30,19 +29,23 @@ export default {
     },
     trainer: {
       type: Number
+    },
+    hide: {
+      type: Boolean
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const store = useStore()
     const trainerItemData = {
       imgdata: props.imgData,
       namedata: props.nameData,
       exerciseData: props.exerciseData,
-      priceData: props.priceData
+      priceData: props.priceData,
+      hide: props.hide
     }
     function toggleModal () {
       store.dispatch('requestTrainerDetail', props.trainer)
-      document.querySelector('.modal').classList.toggle('open')
+      emit('toggleModal', true)
     }
     return {
       trainerItemData,

@@ -1,49 +1,53 @@
 <template>
-  <div class="modal">
-    <div class="modal-box">
-      <div class="modal-name-box">name: {{data.name}}</div>
-      <div class="modal-img-box"><img style="object-fit: cover;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
-      <div @click="toggleModal" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
-      <div class="modal-follow-box">
-        <div></div>
-        <div>follower:{{data.followers}}</div>
-        <div></div>
-      </div>
-      <div class="detail-deco-bar"></div>
-      <div class="trainer-detail-info-box">
-        <div class="split-box-info1">
-          <div class="modal-info">나이: {{data.age}}</div>
-          <div class="modal-info">트레이닝 비용: {{data.exercise_price}}</div>
-          <div class="modal-info">코멘트: {{data.comment}}</div>
+  <div class="modal-background" @click="toggleModal">
+    <div class="modal open">
+      <div class="modal-box">
+        <div class="modal-name-box">name: {{data.name}}</div>
+        <div class="modal-img-box"><img style="object-fit: cover;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
+        <div @click="toggleModal" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
+        <div class="modal-follow-box">
+          <div></div>
+          <div>follower:{{data.followers}}</div>
+          <div></div>
         </div>
-        <div class="split-box-info2">
-          <div class="modal-info">경력: {{data.career}}</div>
-          <div class="modal-info">식단관리 비용: {{data.diet_price}}</div>
+        <div class="detail-deco-bar"></div>
+        <div class="trainer-detail-info-box">
+          <div class="split-box-info1">
+            <div class="modal-info">나이: {{data.age}}</div>
+            <div class="modal-info">트레이닝 비용: {{data.exercise_price}}</div>
+            <div class="modal-info">코멘트: {{data.comment}}</div>
+          </div>
+          <div class="split-box-info2">
+            <div class="modal-info">경력: {{data.career}}</div>
+            <div class="modal-info">식단관리 비용: {{data.diet_price}}</div>
+          </div>
         </div>
-      </div>
-      <div class="modal-view-button">
-        <div></div>
-        <router-link to="/trainer/schedule" class="trainer-apply-style">스케쥴</router-link>
-        <router-link to="/trainer/apply" class="trainer-apply-style">신청하기</router-link>
-        <div></div>
+        <div class="modal-view-button">
+          <div></div>
+          <router-link to="/trainer/apply" class="trainer-apply-style">신청하기</router-link>
+          <div></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
+import { reactive, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import { computed } from '@vue/runtime-core'
 export default {
-  setup () {
+  setup (props, { emit }) {
     const store = useStore()
+    const backgroundData = reactive({
+      back: false
+    })
     const data = ref(computed(() => store.getters.currentTrainer))
     function toggleModal () {
-      document.querySelector('.modal').classList.toggle('open')
+      emit('toggleModal', false)
     }
     return {
-
+      backgroundData,
       data,
       toggleModal
     }
@@ -52,6 +56,11 @@ export default {
 </script>
 
 <style>
+.modal-background {
+  position: fixed;
+  top:0; left: 0; bottom: 0; right: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
 .modal {
   min-height: 315px;
   font-size: 16px;
