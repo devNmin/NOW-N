@@ -11,9 +11,10 @@ class Diary(models.Model):
 # 식단
 class Diet(models.Model):
     diaryID=models.ForeignKey(Diary, on_delete=models.CASCADE)# 식단 정보가 입력될 다이어리 PK
-    moment=models.IntegerField()# 식단 입력 시간 (아침, 점심, 저녁, 간식)
+    moment=models.CharField(max_length=50)# 식단 입력 시간 (아침, 점심, 저녁, 간식)
     time=models.DateTimeField()# 식단 입력 시각
     picture=models.URLField()
+    comment=models.CharField(max_length=500)
 
 # 트레이닝 이력
 class Training_History(models.Model):
