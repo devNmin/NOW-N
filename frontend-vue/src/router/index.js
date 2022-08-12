@@ -118,7 +118,7 @@ const routes = [
     path: '/px/createDiet',
     name: 'createDiet',
     component: () => import('@/components/modal/createDiet.vue')
-  }
+  },
   // ------------ PX 페이지 End ---------------
   // ------------ counselting 페이지 start ----------
   {
