@@ -1,53 +1,55 @@
 <template>
-  <div >
-    <div class="middlebox">
-      <div class="userName"> {{ UserInfoP.name }} </div>
-      <div>
-        <img class="userProfileImg" :src="UserInfoP.profile_url" alt="유저프로필URL">
-        <!-- <input ref="image" id="input" type="file" name="image" accept="image/*" multiple="multiple" class="hidden" @change="uploadFile"> -->
-        <div class="bbbbox">
-            <div style="display:flex; justify-content:space-between; margin-bottom: 5px;">
-              <p style="margin: 0;" >팔로워 +{{ UserInfoP.follower }}</p>
-              <button type="button" @click="toggleModalInfo">내 정보</button>
+  <div>
+  <div class="middlebox">
+      <div class="userName"> {{ UserInfoP.name }}<img src="@/assets/info_icon.png" @click="toggleModalInfo" style="margin-left: 10px; vertical-align:middle;" alt="123" width="35"> </div>
+        <label for="img">
+          <img class="userProfileImg" :src="UserInfoP.profile_url" alt="유저프로필URL">
+        </label>
+        <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile">
+        <div style="display:flex; justify-content: space-between; ">
+          <div style="display:flex;margin-top:-65px; margin-left:480px; font-weight: bolder; ">
+            <div>
+              <div style="margin: 0;" >팔로워</div><div style="text-align:center;"> {{ UserInfoP.follower }}</div>
             </div>
-            <div style="display:flex; justify-content:space-between;">
-              <p style="margin: 0;" >팔로잉 +{{ UserInfoP.following }}</p>
-              <button type="button" @click="toggleModalChart" >운동 그래프</button>
+            <div style="margin-left:20px;">
+              <div style="margin: 0;" >팔로잉</div><div style="text-align:center;"> {{ UserInfoP.following }}</div>
             </div>
+          </div>
         </div>
-      </div>
-      <div class="userTextbox">
+      <div class="userTextbox" style="margin-top:1px">
         <div class="userText">{{ UserInfoP.information }}</div>
       </div>
+      <button type="button" class='graphBtn' @click="toggleModalChart" ><img src="@/assets/radar_icon2.png" style="margin:auto;" width="40" alt="그래프아이콘"><div style="margin:auto;">운동 그래프</div></button>
     </div>
-  </div>
+  <div class="modal__background">
   <div class="modalMyInfo">
-    <div class="modal-box">
-      <h1 >{{ UserInfoP.name }}</h1>
+    <div class="modalBox">
+      <div style="display:flex;"><h1 >{{ UserInfoP.name }}</h1><img src="@/assets/boy.png" alt="성별아이콘" width="40" height="40" style="display:flex; margin-left:20px;margin-top:20px; "></div>
       <div @click="toggleModalInfo" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
       <div class="MyInfoText">
-        <div style="display: flex; justify-content: space-between;">
-          <div>성별</div>
-          <div>{{UserInfoP.sex}}</div>
-          <div>신장</div>
-          <div>{{UserInfoP.height}}</div>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
+        <div style="display: flex; justify-content: space-between; margin-bottom:10px">
+          <div>신장 </div>
+          <div>{{UserInfoP.height}} cm</div>
           <div>체중</div>
-          <div>{{UserInfoP.weight}}</div>
-          <div>목표체중</div>
-          <div>{{UserInfoP.weight2}}</div>
+          <div>{{UserInfoP.weight}} kg</div>
         </div>
-      <i class="fa-solid fa-xmark bmiIcon" id="bmiId"></i>
-      <div style="display: flex; height: 20%;">BMI
+      <img src="@/assets/run.png" class="bmiIcon" style="width: 5%; height:5%" id="bmiId">
+      <div style=" display: flex; height: 20%; margin-top:2px; ">
+        <div>&nbsp;</div>
         <div class="box1"></div>
         <div class="box2"></div>
         <div class="box3"></div>
         <div class="box4"></div>
       </div>
+      <div style="text-align: right; font-size:10px; margin-top:2px;">체질량지수:{{(UserInfoP.weight / ((UserInfoP.height / 100) * (UserInfoP.height / 100))).toFixed(2)}}</div>
+        <div style=" display: flex; justify-content: space-between; " >
+          <div style="margin-top:20px">목표체중 {{UserInfoP.weight2}} kg </div>
+          <div style="margin-top:20px"> {{UserInfoP.weight - UserInfoP.weight2}} kg </div>
+        </div>
     </div>
-    <div  class="Modbutton">수정하기</div>
+      <img src="@/assets/edit_icon.png" width="25" alt="" class="Modbutton">
     </div>
+  </div>
   </div>
   <div class="modalChart">
     <div class="radarBox">
@@ -55,6 +57,7 @@
       <div @click="toggleModalChart" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
       <RadarChart class="radarStyle"></RadarChart>
     </div>
+  </div>
   </div>
 </template>
 
@@ -84,11 +87,14 @@ export default {
       const bmiTag = document.getElementById('bmiId')
       console.log('bmiTagbmiTag', bmiTag)
       const bmiData = UserInfoP.weight / ((UserInfoP.height / 100) * (UserInfoP.height / 100))
-      // bmiTag.style.left = `${bmiData}` + 'px'
-      bmiTag.style.setProperty('left', bmiData * 2 + '%')
+      bmiTag.style.setProperty('left', (bmiData * 2) + 10 + '%')
     }
-
     )
+    const clickImg = (e) => {
+      console.log('클릭')
+      const file = e.target.files[0]
+      console.log(file)
+    }
     const uploadFile = (e) => {
       const storage = getStorage()
       const file = e.target.files[0]
@@ -99,25 +105,32 @@ export default {
       })
     }
     function toggleModalInfo () {
-      console.log('toggle')
-      const aa = document.querySelector('.modalMyInfo')
-      console.log(aa)
       document.querySelector('.modalMyInfo').classList.toggle('open')
+      document.querySelector('.modal__background').classList.toggle('open')
     }
     function toggleModalChart () {
-      console.log('toggle')
-      const aa = document.querySelector('.modalChart')
-      console.log(aa)
       document.querySelector('.modalChart').classList.toggle('open')
+      document.querySelector('.modal__background').classList.toggle('open')
     }
     return {
-      uploadFile, UserInfoP, toggleModalInfo, toggleModalChart
+      uploadFile, UserInfoP, toggleModalInfo, toggleModalChart, clickImg
     }
   }
 }
 </script>
 
 <style>
+.modalBox{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.modal__background{
+  display: none;
+  position: fixed;
+  top:0; left: 0; bottom: 0; right: 0; z-index: 0;
+  background: rgba(0, 0, 0, 0.65);
+}
+
 .radarBox {
   display: flex;
   align-items: center;
@@ -134,27 +147,29 @@ export default {
 }
 .box1 {
   width: 37%;
-  background-color: blue;
+  background-color: rgb(147, 180, 215);
+  border-radius: 15px 0% 0% 15px;
 }
 .box2 {
   width: 15%;
-  background-color: green;
+  background-color: rgb(142,198,159)
 }
 .box3 {
   width: 10%;
-  background-color: orange;
+  background-color: rgb(231,152,95);
 }
 .box4 {
   width: 48%;
-  background-color: red;
+  background-color: rgb(214,93,92);
+  border-radius: 0 15px 15px 0;
 }
 
 .MyInfoText {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-top: 25px;
+  font-size: 20px;
+  font-weight: bolder;
 }
 .open {
   display: block !important;
@@ -167,7 +182,7 @@ export default {
 .Modbutton {
   position: absolute;
   bottom: 3%;
-  left: 95%;
+  left: 93%;
 }
 .modalMyInfo {
   min-height: 315px;
@@ -178,10 +193,13 @@ export default {
   display: none;
   z-index: 200;
   top: 30%;
-  left: 35%;
-  width: 30%;
-  height: 40%;
-  background: #FEFCED;
+  left: 37.5%;
+  width: 25%;
+  height: 35%;
+  background-color: rgba( 191, 229, 255, 0.95 );
+  /* background-color: rgba( 191, 229, 255, 0.7 ); */
+  /* background-color: rgba(109, 188, 230, 0.99); */
+  /* background-color: rgba(191, 239, 255, 1); */
   border: 1px solid #6dcef5;
   border-radius: 15px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -204,26 +222,22 @@ export default {
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-button{
-  /* background-color: var(--color-grey-900); */
+.graphBtn{
+  display: flex;
+  justify-items: center;
   color: #6dcef5;
+  margin-top:20px;
+  width: 250px;
+  height: 50px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   border-width: 0;
-
+  font-size: 25px;
   text-align: center;
-  font-weight: bold;
+  font-weight: bolder;
 }
-
-.bbbbox {
-  position:relative;
-  bottom: 50px;
-  right: 6px;
-  flex-direction: column;
-}
-
 .middlebox{
   display: flex;
   flex-direction: column;
@@ -235,7 +249,6 @@ button{
   margin: auto;
   border: 5px solid ;
   border-radius: 50%;
-  /* background: url(https://upload.wikimedia.org/wikipedia/commons/e/e8/Flag-map_of_the_world_%282018%29.png) */
 }
 .userName{
   margin: auto;
@@ -253,8 +266,7 @@ button{
   justify-content: center;
   width: 35vw;
   height: 10vh;
-
-  background: #FEFCED;
+  background-color: rgba( 191, 229, 255, 0.4 );
   border-radius: 50px;
   font-size: 20px;
 }

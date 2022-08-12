@@ -116,14 +116,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          const accessToken = res.data.token.access
-          const refreshToken = res.data.token.refresh
-          const Token = {
-            accessToken,
-            refreshToken
-          }
-          dispatch('saveToken', Token)
-          router.push({ name: 'home' })
+          router.push({ name: 'login' })
         })
         .catch(err => {
           console.error(err.response.data)

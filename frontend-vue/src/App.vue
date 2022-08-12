@@ -6,11 +6,13 @@
     <main class="main">
       <router-view></router-view>
     </main>
+    <FooterButton></FooterButton>
   </div>
 </template>
 
 <script>
 // import FollowBarHide from '@/components/common/FollowBarHide.vue'
+import FooterButton from '@/components/common/FooterButton.vue'
 import FollowBar from '@/components/common/FollowBar.vue'
 import BaseHeader from '@/components/common/BaseHeader.vue'
 import { useStore } from 'vuex'
@@ -19,6 +21,7 @@ import { reactive, computed } from '@vue/runtime-core'
 export default {
   components: {
     BaseHeader,
+    FooterButton,
     FollowBar
     // FollowBarHide
   },
@@ -28,14 +31,22 @@ export default {
       a: 1,
       hideFollow: computed(() => store.getters.hideFollow)
     })
+    function hideFollow () {
+      console.log('메렁' + data.hideFollow)
+    }
     return {
+      hideFollow,
       data
     }
   }
 }
 </script>
 <style>
-
+.footer {
+  position: fixed;
+  right: 15px;
+  bottom: 25px;
+}
 html {
   overflow-x: hidden;
   overflow-y: scroll;
@@ -71,11 +82,4 @@ html {
 v-application{
   font-family: 'MaruBuri';
 }
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 </style>
