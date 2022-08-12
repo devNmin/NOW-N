@@ -2,7 +2,7 @@
   <div class="PX-container">
     <div class="PX-grid">
       <div class="PX-menu">
-        <router-link
+        <router-link class="menu-item"
           v-for="item in pxItems" :key="item.name" :to="item.link">{{item.title}}
         </router-link>
       </div>
@@ -29,25 +29,33 @@ export default {
 
 <style scoped>
 .PX-container{
-  display: flex;
+  height: 100%;
 }
 .PX-grid{
   display: grid;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   grid-template-rows: 1fr 7fr;
-  grid-template-areas:
-  "px-menu"
-  "px-content";
 }
 
 .PX-menu{
-  grid-area: px-menu;
   display: flex;
-  gap: 50px;
+  align-items: center;
+  margin: 20px 20px 20px 100px;
+  gap: 100px;
+}
+
+.menu-item{
+  margin: 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-weight: bolder;
+  font-size:1.5rem;
+  color: black;
 }
 
 .PX-content{
-  grid-area: px-content;
+  height:100%;
 }
 </style>>

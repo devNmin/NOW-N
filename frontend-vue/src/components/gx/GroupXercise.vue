@@ -13,7 +13,6 @@
 <script>
 import ThumbNail from '@/components/gx/ThumbNail.vue'
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
@@ -22,16 +21,11 @@ export default {
   },
   setup () {
     const store = useStore()
-    const router = useRouter()
 
     const roomList = computed(() => store.state.room.roomList)
 
-    function moveToRegist () {
-      router.push({ name: 'createConference' })
-    }
-
     return {
-      roomList, moveToRegist
+      roomList
     }
   },
   async created () {

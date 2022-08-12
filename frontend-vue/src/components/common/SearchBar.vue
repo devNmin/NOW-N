@@ -1,12 +1,26 @@
 <template>
-<div class="search">
-  <input id="searchId" type="text" class="search-input" placeholder="Search">
-  <label for="searchId"><img class="search-icon" src="@\assets\search.png" alt="검색"></label>
-</div>
+  <form @submit.prevent="search(data.searchValue)" class="form-default">
+    <div class="search">
+      <input id="searchId" type="text" v-model="data.searchValue" @change="onChange" class="search-input" placeholder="Search">
+      <label for="searchId"><img class="search-icon" src="@\assets\search.png" alt="검색"></label>
+    </div>
+  </form>
 </template>
 
 <script>
 export default {
+  setup (props, { emit }) {
+    const data = {
+      searchValue: ''
+    }
+    function search () {
+      emit('search', data.searchValue)
+    }
+    return {
+      data,
+      search
+    }
+  }
 
 }
 </script>
@@ -19,7 +33,7 @@ export default {
   font-style: normal;
   box-sizing: border-box;
   background: #FFFFFF;
-  border: 1px solid #000000;
+  border: 1px solid #6DCEF5;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   width: 250px;
@@ -42,5 +56,13 @@ export default {
 }
 .search-icon:hover {
   cursor: pointer;
+}
+.form-default {
+  left: 0%;
+  display: block;
+  margin: 0px;
+  gap: 0px;
+  padding: 0px;
+  width: 250px;
 }
 </style>

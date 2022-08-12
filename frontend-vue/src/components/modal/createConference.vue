@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="create-conference">
     <div class="gx-make-modal">
       <div class="gx-title">
         <label>
@@ -71,15 +71,17 @@
       </div>
       <div class="gx-explain">
         <input type="text" v-model="roomInfo.description">
-        <button type="button" @click="createRoom">방 생성</button>
-        <button type="button" @click="moveToGxRoom">취소</button>
       </div>
+    </div>
+    <div class="conference-button">
+      <button type="button" @click="createRoom">방 생성</button>
+      <button type="button" @click="moveToGxRoom">취소</button>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -98,7 +100,7 @@ export default {
     ]
 
     const roomInfo = reactive({
-      owner_id: 1,
+      owner_id: computed(() => store.state.accounts.currentUserPk),
       password: 0,
       category: 0,
       start_time: '',
@@ -110,11 +112,14 @@ export default {
       is_active: false
     })
 
-    function createRoom () {
+    async function createRoom () {
       // 유효성 검사 필요
 
-      store.dispatch('createRoomInfo', roomInfo)
-      router.push(`gx/conferences/${roomInfo.owner_id}`)
+      await store.dispatch('createRoomInfo', roomInfo)
+
+      const conference = store.state.room.roomInfo
+      console.log(conference)
+      router.push({ path: `/gx/conferences/${conference.id}`, params: { conference_id: conference.id } })
     }
 
     function moveToGxRoom () {
@@ -127,6 +132,14 @@ export default {
 </script>
 
 <style scoped>
+.create-conference{
+  height:100%;
+  width: 100%;
+  position: absolute;
+  top: 250px;
+  left: 600px;
+}
+
 .gx-make-modal{
   display:grid;
   width: 700px;
@@ -139,6 +152,9 @@ export default {
   "gx-category gx-category gx-image"
   "gx-time gx-personal gx-personal"
   "gx-explain gx-explain gx-explain";
+  padding: 50px;
+  background-color: #6DCEF5;
+  border-radius: 10px;
 }
 
 .gx-title{

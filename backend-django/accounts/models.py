@@ -44,7 +44,7 @@ select_class = (
 class User(AbstractBaseUser, PermissionsMixin):
     # 기본 유저 필드
     user_id = models.CharField(max_length=15, unique=True)
-    nickname = models.CharField(max_length=100, unique=True, null=True)
+    nickname = models.CharField(max_length=100, null=True)
     email = models.EmailField(db_index=True, unique=True)
     name = models.CharField(max_length=30)
     birth = models.IntegerField() # int
@@ -68,6 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = BooleanField(default=False)
 
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
+    alarm = models.BooleanField(default=False)
     # tags = models.ManyToManyField(Tag, symmetrical=False, related_name='taggings')
     USERNAME_FIELD = 'user_id'
 

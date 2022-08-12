@@ -41,7 +41,7 @@
             </div> -->
 
       <!-- 입장 인원 화면 -->
-      <div class="session-video" style="background-color: black">
+      <div class="session-video" style="background-color: gray">
         <user-video :stream-manager="publisher" />
         <user-video
           v-for="sub in subscribers"
@@ -80,6 +80,7 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/components/room/UserVideo'
 import { reactive, toRefs } from 'vue'
 import { UserChat } from '@/components/room/UserChat.vue'
+import { useStore } from 'vuex'
 // import { useRouter } from 'vue-router'
 // import { useStore } from 'vuex'
 
@@ -93,18 +94,23 @@ export default {
     UserChat
   },
 
-  setup () {
-    // const store = useStore()
+  props: {
+    conference_id: {
+      type: Number
+    }
+  },
+
+  setup (props) {
+    const store = useStore()
 
     const state = reactive({
       OV: undefined,
       session: undefined,
       publisher: undefined,
       subscribers: [],
-      mySessionId: '',
-      myUserName: ''
+      mySessionId: props.conference_id,
+      myUserName: store.state.accounts.currentUser.name
       // router: useRouter(),
-      // store: useStore()
     })
 
     function joinSession () {
@@ -171,17 +177,15 @@ export default {
       window.addEventListener('beforeunload', leaveSession)
     }
 
-    function leaveSession () {
+    async function leaveSession () {
+      console.log(props.conference_id)
+      await store.dispatch('deleteRoomInfo', props.conference_id)
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (state.session) state.session.disconnect()
       state.session = undefined
       state.publisher = undefined
       state.subscribers = []
       state.OV = undefined
-
-      // this.$store.commit('', state.publisher)
-
-      // this.$store.dispatch('', state.mySessionId)
 
       window.removeEventListener('beforeunload', leaveSession)
     }
@@ -269,6 +273,11 @@ export default {
       createSession,
       createToken
     }
+  },
+
+  mounted () {
+    console.log('mounted')
+    this.joinSession()
   }
 }
 </script>
