@@ -55,8 +55,9 @@ const routes = [
   },
   {
     // gx룸
-    path: '/gx/conferences/:conference_id',
+    path: '/GX/conferences/:conference_id',
     name: 'GxRoom',
+    props: true,
     component: () => import('@/views/room/GxRoom.vue')
   },
   // ------------ GX 페이지 End ---------------

@@ -1,7 +1,6 @@
 <template>
   <div>
-  <div style="height: 10px;"></div>
-    <div class="split-page">
+    <div class="split-page2">
       <div>
         <span>
           <select v-model="date.mm" class="schedule-input-split-box schedule-select-box-border" @change="changeMonth">
@@ -48,6 +47,7 @@ export default {
       } else {
         date.days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29']
       }
+      emit('update:modelValue', date.scedule)
     }
     function onChange (event) {
       emit('update:modelValue', date.scedule)
@@ -63,10 +63,12 @@ export default {
 </script>
 
 <style>
-.split-page {
+.split-page2 {
   display: flex;
   justify-content: center;
   margin: auto;
+  border-bottom: solid 1px #6dcef5;
+
 }
 
 .schedule-split-margin-box {
@@ -80,10 +82,8 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: #EEEEEE;
-  border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
-  width: 80px;
+  width: 60px;
   height: 45px;
   margin: auto;
   font-size: 20px;

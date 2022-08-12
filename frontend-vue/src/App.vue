@@ -6,11 +6,13 @@
     <main class="main">
       <router-view></router-view>
     </main>
+    <FooterButton></FooterButton>
   </div>
 </template>
 
 <script>
 // import FollowBarHide from '@/components/common/FollowBarHide.vue'
+import FooterButton from '@/components/common/FooterButton.vue'
 import FollowBar from '@/components/common/FollowBar.vue'
 import BaseHeader from '@/components/common/BaseHeader.vue'
 import { useStore } from 'vuex'
@@ -19,6 +21,7 @@ import { reactive, computed } from '@vue/runtime-core'
 export default {
   components: {
     BaseHeader,
+    FooterButton,
     FollowBar
     // FollowBarHide
   },
@@ -39,7 +42,11 @@ export default {
 }
 </script>
 <style>
-
+.footer {
+  position: fixed;
+  right: 15px;
+  bottom: 25px;
+}
 html {
   overflow-x: hidden;
   overflow-y: scroll;

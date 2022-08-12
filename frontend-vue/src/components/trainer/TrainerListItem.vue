@@ -1,17 +1,18 @@
 <template>
-  <div class="deco-bar2"></div>
-  <div class="trainer-list-box2">
-    <div class="trainer-list-deco-box"></div>
-    <div class="div1-noPadding"><img class="trainer-list-img" :src="imgData" alt=""></div>
-    <div class="div2 item-padding">{{nameData}}</div>
-    <div class="div3 item-padding">{{exerciseData}}</div>
-    <div class="div3 item-padding">{{priceData}}</div>
-    <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">신청하기</button></div>
-    <div class="trainer-list-deco-box"></div>
-  </div>
+    <div class="deco-bar2" v-show="hide"></div>
+    <div class="trainer-list-box2" v-show="hide">
+      <div class="trainer-list-deco-box"></div>
+      <div class="div1-noPadding"><img class="trainer-list-img" :src="imgData" alt=""></div>
+      <div class="div2 item-padding">{{nameData}}</div>
+      <div class="div3 item-padding">{{exerciseData}}</div>
+      <div class="div3 item-padding">{{priceData}}</div>
+      <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">신청</button></div>
+      <div class="trainer-list-deco-box"></div>
+    </div>
 </template>
 
 <script>
+import { useStore } from 'vuex'
 export default {
   props: {
     imgData: {
@@ -25,17 +26,26 @@ export default {
     },
     priceData: {
       type: String
+    },
+    trainer: {
+      type: Number
+    },
+    hide: {
+      type: Boolean
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
+    const store = useStore()
     const trainerItemData = {
       imgdata: props.imgData,
       namedata: props.nameData,
       exerciseData: props.exerciseData,
-      priceData: props.priceData
+      priceData: props.priceData,
+      hide: props.hide
     }
     function toggleModal () {
-      document.querySelector('.modal').classList.toggle('open')
+      store.dispatch('requestTrainerDetail', props.trainer)
+      emit('toggleModal', true)
     }
     return {
       trainerItemData,
@@ -67,22 +77,29 @@ export default {
   object-fit: cover;
 }
 .trainer-apply-style {
+  box-sizing: border-box;
   width: 100px;
   height: 30px;
   font-size: 16px;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   padding: 5px 15px;
-  border: none;
+  border: 1px solid #6dcef5;
   gap: 10px;
-  background: #35A740;
   border-radius: 25px;
+  background-color: #FFF;
+  color: #6dcef5;
+  text-decoration-line: none;
+  text-align: center;
+}
+.trainer-apply-style:hover {
+  cursor: pointer;
 }
 .deco-bar2 {
   position: relative;
   left: 5%;
   width: 90%;
-  border: 1px solid var(--trainer-decoBar-color);
+  border-bottom: 3px solid var(--trainer-decoBar-color);
 }
 .item-padding {
   box-sizing: border-box;

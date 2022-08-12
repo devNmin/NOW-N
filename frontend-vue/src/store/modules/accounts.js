@@ -7,16 +7,19 @@ export default {
   // state는 직접 접근하지 않겠다!
   state: {
     currentUser: {},
+    currentUserPk: localStorage.getItem('userPk') || '',
     profile: {},
     authError: null,
     reduplication: false,
     accessToken: localStorage.getItem('accessToken') || '',
-    refreshToken: localStorage.getItem('refreshToken') || ''
+    refreshToken: localStorage.getItem('refreshToken') || '',
+    currentTrainerPk: localStorage.getItem('coachPk') || ''
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
-    isLoggedIn: state => !!state.accessToken,
-    currentUser: state => !!state.currentUser,
+    isLoggedIn: state => !!state.token,
+    currentUser: state => state.currentUser,
+    currentUserPk: state => state.currentUserPk,
     profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.accessToken}` }),
@@ -56,11 +59,12 @@ export default {
       router.push({ name: 'home' })
       commit('SET_ACCESSTOKEN', '')
       commit('SET_REFRESHTOKEN', '')
-      localStorage.setItem('accessToken', '')
-      localStorage.setItem('refreshToken', '')
+      commit('SET_CURRENT_USER', {})
+      window.localStorage.clear()
+      router.push({ name: 'home' })
     },
 
-    login ({ commit, dispatch, getters }, credentials) {
+    login ({ commit, dispatch }, credentials) {
       /*
             POST: 사용자 입력정보를 login URL로 보내기
               성공하면
@@ -76,7 +80,6 @@ export default {
       if (credentials.password === '') {
         credentials.password = 'qwerty1234'
       }
-      console.log(credentials)
       axios({
         url: drf.accounts.login(),
         method: 'post',
@@ -90,9 +93,11 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
-          commit('SET_CURRENT_USER', credentials)
-          console.log(getters.currentUser)
-          // dispatch('fetchCurrentUser')
+          console.log(res.data)
+          console.log(res.data.user)
+          commit('SET_CURRENT_USER', res.data.user)
+          console.log(res.data.user.id)
+          localStorage.setItem('userPk', res.data.user.id)
           router.push({ name: 'home' })
         })
         .catch(err => {
@@ -111,15 +116,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          const accessToken = res.data.token.access
-          const refreshToken = res.data.token.refresh
-          const Token = {
-            accessToken,
-            refreshToken
-          }
-          dispatch('saveToken', Token)
-          // dispatch('fetchCurrentUser')
-          router.push({ name: 'home' })
+          router.push({ name: 'login' })
         })
         .catch(err => {
           console.error(err.response.data)

@@ -16,6 +16,11 @@
       <div @click="changeView" class="follow-hide-bar">
         <div class="hide-icon">
           <i class="fa-solid fa-angle-left"></i>
+        <div
+    class="hide-icon-position"
+    @click="changeView">
+      <i class="fa-solid fa-angle-right"></i>
+    </div>
         </div>
       </div>
     </div>
@@ -96,5 +101,23 @@ export default {
   display:grid;
   height: 50px;
   grid-template-columns: 50px 300px;
+}
+
+/*
+
+ */
+
+.followbar-hide {
+  background-color: #FFFFFF;
+  width: 20px ;
+  height: 980px;
+  position: fixed;
+  margin-top: 5rem;
+}
+.followbar-hide:hover {
+  cursor: pointer;
+}
+.hide-icon-position {
+  top: 500px;
 }
 </style>
