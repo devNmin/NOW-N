@@ -5,30 +5,26 @@ import drf from '@/api/drf'
 export default {
   state: {
     roomList: [], // 모든 룸 리스트
-    roomInfo: {} // 현재 룸
+    roomInfo: [] // 현재 룸
   },
   getters: {
   },
   mutations: {
-    // 현재 룸 번호 State에 저장
-    SET_ROOM_INFO (state, roomId) {
-      state.roomId = roomId
-    },
-
     // 모든 룸 리스트를 State에 저장
     SET_ROOM_LIST (state, roomList) {
       state.roomList = roomList
     },
 
-    // 모든 룸 생성
+    // 룸 생성시 리스트, 현재 룸을 State에 저장
     CREATE_ROOM_INFO (state, roomInfo) {
       state.roomList.push(roomInfo)
+      state.roomInfo = roomInfo
     },
 
     // 룸 삭제
-    DELETE_ROOM_INFO (state, roomInfo) {
+    DELETE_ROOM_INFO (state, roomId) {
       state.roomList = state.roomList.filter(
-        room => room.roomId !== roomInfo
+        room => room.id !== roomId
       )
     }
   },
@@ -60,18 +56,22 @@ export default {
         method: 'POST',
         data: roomInfo,
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      }).then(res => {
+        commit('CREATE_ROOM_INFO', res.data)
       })
-      commit('CREATE_ROOM_INFO', roomInfo)
     },
 
     //  gx룸 삭제
     async deleteRoomInfo ({ commit }, roomId) {
+      console.log(drf.rooms.room + `${roomId}/`)
+      console.log(drf.trainer.requestDetail)
       await axios({
-        url: drf.rooms.CDRoom() + `${roomId}`,
+        url: drf.rooms.room + `${roomId}`,
         method: 'delete',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      }).then(res => {
+        commit('DELETE_ROOM_INFO', roomId)
       })
-      commit('DELETE_ROOM_INFO', roomId)
     }
   }
 }
