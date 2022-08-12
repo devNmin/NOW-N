@@ -61,7 +61,7 @@ const routes = [
     component: () => import('@/views/room/GxRoom.vue')
   },
   // ------------ GX 페이지 End ---------------
-
+  // ------------ 트레이너 페이지 start ----------
   {
     // 트레이너
     path: '/trainer',
@@ -86,7 +86,7 @@ const routes = [
     name: 'trainerSchedule',
     component: () => import('@/views/trainer/TrainerScheduleView.vue')
   },
-
+  // ------------ 트레이너 페이지 end ----------
   // ------------ PX 페이지 Start ---------------
   {
     path: '/PX',
@@ -120,6 +120,13 @@ const routes = [
     component: () => import('@/components/modal/createDiet.vue')
   }
   // ------------ PX 페이지 End ---------------
+  // ------------ counselting 페이지 start ----------
+  {
+    // counsel 유저 리스트
+    path: '/counselting',
+    name: 'counselting',
+    component: () => import('@/views/counselting/CounseltingView.vue')
+  }
 ]
 
 const router = createRouter({
