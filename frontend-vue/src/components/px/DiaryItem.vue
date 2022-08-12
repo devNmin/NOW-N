@@ -1,7 +1,6 @@
 <template>
     <div class="diary-item">
         <div id="image">
-            이미지
         </div>
         <div id="info">
             <h1>아침</h1>
@@ -19,15 +18,19 @@ export default {
 
 <style scoped>
 .diary-item{
-    width: 450px;
+    width: 500px;
     height: 180px;
     border-radius: 30px;
     display:grid;
     grid-template-columns: 30% 70%;
     background-color: #F9F9F9;
+    padding: 20px;
 }
 
 .diary-item #image{
-    margin: auto;
+    background-color:#6DCEF5;
+    margin: 20px 0px 0px 0px;
+    height:80%;
+    width:80%;
 }
 </style>

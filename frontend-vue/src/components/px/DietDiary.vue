@@ -6,25 +6,38 @@
     <div class="px-diary-info">
         <h1>8월 8일</h1>
         <!-- <DietDiary v-for="diary in " -->
-        <DietDiary></DietDiary>
-        <button type="button">이미지 추가 버튼</button>
+        <DiaryItem></DiaryItem>
+        <button type="button" @click="RegistDiet">이미지 추가 버튼</button>
     </div>
   </div>>
 </template>
 
 <script>
 import Calendar from '../common/Calendar.vue'
-import DietDiary from '@/components/px/DiaryItem.vue'
+import DiaryItem from '@/components/px/DiaryItem.vue'
+import { useRouter } from 'vue-router'
+// import { useStore } from 'vuex'
+
 export default {
-  components: { Calendar, DietDiary }
+  components: { Calendar, DiaryItem },
+  setup () {
+    // const store = useStore()
+    const router = useRouter()
+
+    function RegistDiet () {
+      router.push({ name: 'createDiet' })
+    }
+
+    return { RegistDiet }
+  }
 }
 </script>
 
 <style scoped>
 .px-diary-content{
   display:grid;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   grid-template-columns: 1fr 1fr;
 }
 
