@@ -20,5 +20,8 @@ export default {
   },
   profiels: {
     profiels: (userPk) => HOST + '/profiles/followlist/' + `${userPk}`
+  },
+  px: {
+    dietList: (userPk) => HOST + '/PX/diaries/' + `${userPk}`
   }
 }
