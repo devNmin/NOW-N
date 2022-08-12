@@ -120,7 +120,6 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
-          // dispatch('fetchCurrentUser')
           router.push({ name: 'home' })
         })
         .catch(err => {
