@@ -80,13 +80,16 @@ def request_advice(request, user_pk, coach_pk):
         'coach': coach_pk,
     }
     serializer = CoachingSerializer(data=coaching)
+
     from django.db.models import Q
 
     if Member_Coach.objects.filter(Q(coach_id=coach_pk) & Q(member_id=user_pk)).exists():
+
         return Response("이미 상담예약이 있습니다.", status=status.HTTP_400_BAD_REQUEST)
     else:
         if serializer.is_valid():
             serializer.save()
+
 
 
     # 추가된 Member_Coach 테이블 하위의 Counsel 테이블에 상담 기록 추가
