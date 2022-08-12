@@ -7,6 +7,7 @@ export default {
   // state는 직접 접근하지 않겠다!
   state: {
     currentUser: {},
+    currentUserPk: localStorage.getItem('userPk') || '',
     profile: {},
     authError: null,
     reduplication: false,
@@ -17,8 +18,9 @@ export default {
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
-    isLoggedIn: state => !!state.accessToken,
-    currentUser: state => !!state.currentUser,
+    isLoggedIn: state => !!state.token,
+    currentUser: state => state.currentUser,
+    currentUserPk: state => state.currentUserPk,
     profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.accessToken}` }),

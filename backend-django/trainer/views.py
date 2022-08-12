@@ -80,11 +80,20 @@ def request_advice(request, user_pk, coach_pk):
         'coach': coach_pk,
     }
     serializer = CoachingSerializer(data=coaching)
-    if serializer.is_valid():
-        serializer.save()
-    
+
+    from django.db.models import Q
+
+    if Member_Coach.objects.filter(Q(coach_id=coach_pk) & Q(member_id=user_pk)).exists():
+
+        return Response("이미 상담예약이 있습니다.", status=status.HTTP_400_BAD_REQUEST)
+    else:
+        if serializer.is_valid():
+            serializer.save()
+
+
+
     # 추가된 Member_Coach 테이블 하위의 Counsel 테이블에 상담 기록 추가
-    coaching_id = get_object_or_404(Member_Coach, member_id=user_pk)
+    coaching_id = get_object_or_404(Member_Coach, member_id=user_pk, coach_id=coach_pk)
     serial = CounselSerializer(data=request.data)
     serial.is_valid()
     print("코칭 필드 : ???", coaching_id.pk)
@@ -97,9 +106,7 @@ def request_advice(request, user_pk, coach_pk):
         'comment': serial.data.get('comment'),
         'coaching_id': coaching_id.pk,
     }
-    print("코칭 필드 : ???휴휴", context)
     coachserailizer = CounselSerializer(data=context)
-    print(coachserailizer)
     if coachserailizer.is_valid(raise_exception=True):
         coachserailizer = coachserailizer.save()
     sentece='상담신청완료'

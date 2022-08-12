@@ -17,5 +17,8 @@ export default {
     search: (nickname) => HOST + '/trainer/' + 'searchbynick/' + `${nickname}`,
     requestDetail: (coachPK) => HOST + '/trainer/select/' + `${coachPK}`,
     requestCounsel: (userPk, coachPk) => HOST + '/trainer/counsel/' + `${userPk}/` + `${coachPk}`
+  },
+  profiels: {
+    profiels: (userPk) => HOST + '/profiles/followlist/' + `${userPk}`
   }
 }

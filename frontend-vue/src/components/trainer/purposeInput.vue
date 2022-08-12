@@ -1,6 +1,6 @@
 <template>
   <div class="purpose-box">
-    <div>목표</div>
+    <h1 style="margin: 0px;">목표: &nbsp;</h1>
     <select v-model="purposeData.select_case" @change="purposechange" class="purpose-select">
       <option value="1">운동</option>
       <option value="2">다이어트</option>
@@ -46,10 +46,10 @@ export default {
 <style>
 .purpose-box {
   display: flex;
+  justify-content: center;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   color: black;
-
 }
 .purpose-select {border: 0px;
   background-color: none;
@@ -57,8 +57,10 @@ export default {
   border-radius: 2px;
   width: 80px;
   height: 45px;
-  margin: auto;
+  margin: 0px;
   font-size: 20px;
   padding-left: 20px;
-  padding: 0px;}
+  padding: 0px;
+  min-width: 20px;
+  }
 </style>
