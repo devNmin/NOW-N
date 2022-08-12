@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="split-page">
+    <div class="split-page2">
       <div>
         <span>
           <select v-model="date.mm" class="schedule-input-split-box schedule-select-box-border" @change="changeMonth">
@@ -63,10 +63,12 @@ export default {
 </script>
 
 <style>
-.split-page {
+.split-page2 {
   display: flex;
   justify-content: center;
   margin: auto;
+  border-bottom: solid 1px #6dcef5;
+
 }
 
 .schedule-split-margin-box {
@@ -80,9 +82,8 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
-  width: 80px;
+  width: 60px;
   height: 45px;
   margin: auto;
   font-size: 20px;

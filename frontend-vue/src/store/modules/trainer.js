@@ -6,19 +6,22 @@ export default {
     hideFollow: false,
     trainerList: {},
     currentTrainerPk: localStorage.getItem('coachPk') || '',
-    currentTrainer: {}
+    currentTrainer: {},
+    applyStamp: false
   },
   getters: {
     hideFollow: state => state.hideFollow,
     trainerList: state => state.trainerList,
     currentTrainerPk: state => state.currentTrainerPk,
-    currentTrainer: state => state.currentTrainer
+    currentTrainer: state => state.currentTrainer,
+    applyStamp: state => state.applyStamp
   },
   mutations: {
     SET_HIDE_FOLLOW: (state) => (state.hideFollow = !state.hideFollow),
     SET_TRAINER_LIST: (state, trainerList) => (state.trainerList = trainerList),
     SET_CURRENT_TRAINER_PK: (state, currentTrainerPk) => (state.currentTrainerPk = currentTrainerPk),
-    SET_CURRENT_TRAINER: (state, currentTrainer) => (state.currentTrainer = currentTrainer)
+    SET_CURRENT_TRAINER: (state, currentTrainer) => (state.currentTrainer = currentTrainer),
+    SET_APPLY_STAMP: (state, applyStamp) => (state.applyStamp = applyStamp)
   },
   actions: {
     hide ({ commit }) {
@@ -62,8 +65,7 @@ export default {
     requestAdvice ({ commit, getters }, context) {
       const userPk = getters.currentUserPk
       const coachPk = getters.currentTrainerPk
-      console.log('메렁')
-      console.log(context.applyData)
+      commit('SET_APPLY_STAMP', true)
       axios({
         url: drf.trainer.requestCounsel(userPk, coachPk),
         method: 'post',
@@ -71,8 +73,7 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log(res)
-          // commit('SET_NICK_NAME_SEARCH_USER')
+          commit('SET_APPLY_STAMP', true)
         })
         .catch(err => {
           console.error(err.response.data)
