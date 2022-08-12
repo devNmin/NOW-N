@@ -112,6 +112,12 @@ const routes = [
         component: () => import('@/components/px/CoachingRoom.vue')
       }
     ]
+  },
+  {
+    // px 식단 등록 모달
+    path: '/px/createDiet',
+    name: 'createDiet',
+    component: () => import('@/components/modal/createDiet.vue')
   }
   // ------------ PX 페이지 End ---------------
 ]
