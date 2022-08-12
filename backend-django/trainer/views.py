@@ -107,6 +107,7 @@ def request_advice(request, coach_pk):
 # 유저 입장 - 상담 신청 승낙 후 상담 내용 조율 저장 후, 상담 내용 조회
 @api_view(['GET'])
 def get_request_detail(request, coach_pk):
+<<<<<<< backend-django/trainer/views.py
     
     member = User.objects.get(pk=request.user.pk)
     member.alarm = False
@@ -136,6 +137,7 @@ def get_request_list(request):
 # 상담 신청 수락 - 트레이너-유저 간 조율 후 상담 내용 저장
 @api_view(['POST'])
 def save_counsel(request, member_pk):
+<<<<<<< backend-django/trainer/views.py
     member = User.objects.get(pk=member_pk)
     member.alarm = True
     member.save()
