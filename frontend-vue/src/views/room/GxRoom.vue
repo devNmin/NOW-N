@@ -34,6 +34,7 @@
     <div class="session" v-if="session">
       <div class="session-header">
         <h1 id="session-title">{{ mySessionId }}</h1>
+        <h1 id="session-title">{{ mySessiontitle }}</h1>
       </div>
       <!-- 방장 얼굴
             <div id="main-video" class="col-md-6">
@@ -97,6 +98,9 @@ export default {
   props: {
     conference_id: {
       type: Number
+    },
+    title: {
+      type: Number
     }
   },
 
@@ -109,6 +113,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       mySessionId: props.conference_id,
+      mySessiontitle: props.title,
       myUserName: store.state.accounts.currentUser.name
       // router: useRouter(),
     })

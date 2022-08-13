@@ -27,7 +27,6 @@ import BaseInput from '../common/BaseInput.vue'
 import kakaoLogin from '@/components/user/KakaoLogin.vue'
 import GoogleLogin from '@/components/user/GoogleLogin.vue'
 import { useStore } from 'vuex'
-
 export default {
   components: { BaseButton, BaseInput, kakaoLogin, GoogleLogin },
   setup (props, { emit }) {

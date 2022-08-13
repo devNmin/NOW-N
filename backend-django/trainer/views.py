@@ -97,11 +97,21 @@ def request_advice(request, coach_pk):
     else:
         if serializer.is_valid():
             serializer.save()
+
+            trainer = User.objects.get(pk=coach_pk)
+            trainer.alarm = True
+            trainer.save()
+
         return Response(serializer.data)
 
 # 유저 입장 - 상담 신청 승낙 후 상담 내용 조율 저장 후, 상담 내용 조회
 @api_view(['GET'])
 def get_request_detail(request, coach_pk):
+    
+    member = User.objects.get(pk=request.user.pk)
+    member.alarm = False
+    member.save()
+    
     coaching = get_object_or_404(Member_Coach, member_id=request.user.pk, coach_id=coach_pk)
     counsel = get_object_or_404(Counsel, coaching_id=coaching.pk)
     serializer = CounselSerializer(counsel)
@@ -111,6 +121,11 @@ def get_request_detail(request, coach_pk):
 @api_view(['GET'])
 def get_request_list(request):
     reqs = Request_Counsel.objects.filter(coach_id=request.user.pk)
+
+    trainer = User.objects.get(pk=request.user.pk)
+    trainer.alarm = False
+    trainer.save()
+
     users = list()
     for req in reqs:
         users.append(req.member_id)
@@ -121,6 +136,10 @@ def get_request_list(request):
 # 상담 신청 수락 - 트레이너-유저 간 조율 후 상담 내용 저장
 @api_view(['POST'])
 def save_counsel(request, member_pk):
+    member = User.objects.get(pk=member_pk)
+    member.alarm = True
+    member.save()
+
     # 트레이너-회원 관계 설정
     print("TrainerID : ", request.user.pk)
     coaching = {

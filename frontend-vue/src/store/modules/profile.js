@@ -19,8 +19,8 @@ export default {
         Etc: 2
       }
     }
-  },
-  getters: {
-    currentUser: state => state.currentUser
   }
+  // getters: {
+  //   currentUser: state => state.currentUser
+  // }
 }

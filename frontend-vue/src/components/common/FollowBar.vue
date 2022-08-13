@@ -55,8 +55,9 @@ export default {
 </script>
 <style>
 .followbar{
-  background-color: #EFEFF1;
-  width: 300px ;
+  /* background-color: #EFEFF1; */
+  background: linear-gradient(to right,rgba(202, 217, 218, 0.5),rgba(255,255,255, 0.5));
+  width: 15% ;
   height: 980px;
   position: fixed;
   display: flex;

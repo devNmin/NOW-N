@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <BaseHeader></BaseHeader>
-    <!-- <FollowBarHide/> -->
-    <FollowBar @hideFollow="hideFollow" v-show="data.hideFollow == true"></FollowBar>
     <main class="main">
       <router-view></router-view>
     </main>
@@ -11,31 +9,21 @@
 </template>
 
 <script>
-// import FollowBarHide from '@/components/common/FollowBarHide.vue'
 import FooterButton from '@/components/common/FooterButton.vue'
-import FollowBar from '@/components/common/FollowBar.vue'
 import BaseHeader from '@/components/common/BaseHeader.vue'
-import { useStore } from 'vuex'
-import { reactive, computed } from '@vue/runtime-core'
+import { reactive } from '@vue/runtime-core'
 
 export default {
   components: {
     BaseHeader,
-    FooterButton,
-    FollowBar
-    // FollowBarHide
+    FooterButton
   },
   setup () {
-    const store = useStore()
     const data = reactive({
-      a: 1,
-      hideFollow: computed(() => store.getters.hideFollow)
+      a: 1
     })
-    function hideFollow () {
-      console.log('메렁' + data.hideFollow)
-    }
+
     return {
-      hideFollow,
       data
     }
   }
