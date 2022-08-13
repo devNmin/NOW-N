@@ -39,6 +39,19 @@
               Trainer
             </router-link>
           </div>
+        <div class="dropdown">
+        <router-link class="dropbtn headerItem" to="/counselting">
+          Consulting
+          </router-link>
+        <div class="dropdown-content">
+          <router-link class='' to="/counselting">
+          Consulting1
+          </router-link>
+          <router-link class='' to="/counselting">
+          Consulting2
+          </router-link>
+        </div>
+      </div>
         </div>
         <div class="navRight">
           <template v-if="isLoggedIn">
@@ -75,12 +88,6 @@ export default {
       return store.getters.isLoggedIn
     })
 
-    const leftItems = [
-      { name: 'G . X', link: '/GX', icon: '@\\assets\\Logo2.png' },
-      { name: 'P . X', link: '/px', icon: '@\\assets\\Logo2.png' },
-      { name: 'Trainer', link: '/trainer', icon: '@\\assets\\Logo2.png' },
-      { name: 'counselting', link: '/counselting', icon: '@\\assets\\Logo2.png' }
-    ]
     const rightItems = [
       { name: 'Login', link: '/login', icon: '@/assets/Logo2.png' }, // require('@/assets/Logo2.png')
       { name: 'signup', link: '/signUp', icon: '@\\assets\\Logo2.png' }
@@ -102,7 +109,7 @@ export default {
       store.dispatch('logout')
     }
 
-    return { isLoggedIn, leftItems, rightItems, LogInItems, logout }
+    return { isLoggedIn, rightItems, LogInItems, logout }
   }
 }
 </script>

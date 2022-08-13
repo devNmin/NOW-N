@@ -124,15 +124,15 @@ const routes = [
     path: '/px/createDiet',
     name: 'createDiet',
     component: () => import('@/components/modal/createDiet.vue')
-  }
-  // ------------ PX 페이지 End ---------------
-  // ------------ counselting 페이지 start ----------
+  },
   {
     // counsel 유저 리스트
     path: '/counselting',
     name: 'counselting',
     component: () => import('@/views/counselting/CounseltingView.vue')
   }
+  // ------------ PX 페이지 End ---------------
+  // ------------ counselting 페이지 start ----------
 ]
 
 const router = createRouter({
