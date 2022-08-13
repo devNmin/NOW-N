@@ -90,7 +90,6 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: #EEEEEE;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 80px;
@@ -100,6 +99,11 @@ export default {
   padding-left: 20px;
   padding: 0px;
 }
+
+.input-split-box:hover {
+  border-bottom: solid 2px #57b0d4;
+}
+
 .select-box-border {
  height: 47px;
 }

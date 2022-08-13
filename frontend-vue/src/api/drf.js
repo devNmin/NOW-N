@@ -1,4 +1,5 @@
 const HOST = 'http://127.0.0.1:8000'
+// const HOST = 'http://i7b108.p.ssafy.io/:8000'
 
 // const USERS = 'users/'
 

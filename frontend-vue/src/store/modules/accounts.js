@@ -93,10 +93,7 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
-          console.log(res.data)
-          console.log(res.data.user)
           commit('SET_CURRENT_USER', res.data.user)
-          console.log(res.data.user.id)
           localStorage.setItem('userPk', res.data.user.id)
           router.push({ name: 'home' })
         })

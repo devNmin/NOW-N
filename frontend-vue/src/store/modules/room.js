@@ -1,4 +1,4 @@
-// import router from '@/router'
+import router from '@/router'
 import axios from 'axios'
 import drf from '@/api/drf'
 
@@ -63,14 +63,14 @@ export default {
 
     //  gx룸 삭제
     async deleteRoomInfo ({ commit }, roomId) {
-      console.log(drf.rooms.room + `${roomId}/`)
-      console.log(drf.trainer.requestDetail)
       await axios({
-        url: drf.rooms.room + `${roomId}`,
+        url: drf.rooms.room() + roomId + '/',
         method: 'delete',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       }).then(res => {
+        console.log('삭제 완료 로직')
         commit('DELETE_ROOM_INFO', roomId)
+        router.push({ name: 'gxConferences' })
       })
     }
   }
