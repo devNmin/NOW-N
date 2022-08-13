@@ -17,7 +17,7 @@ export default {
   },
   // 모든 state는 getters 를 통해서 접근하겠다.
   getters: {
-    isLoggedIn: state => !!state.token,
+    isLoggedIn: state => !!state.accessToken,
     currentUser: state => state.currentUser,
     currentUserPk: state => state.currentUserPk,
     profile: state => state.profile,
@@ -93,10 +93,7 @@ export default {
             refreshToken
           }
           dispatch('saveToken', Token)
-          console.log(res.data)
-          console.log(res.data.user)
           commit('SET_CURRENT_USER', res.data.user)
-          console.log(res.data.user.id)
           localStorage.setItem('userPk', res.data.user.id)
           router.push({ name: 'home' })
         })

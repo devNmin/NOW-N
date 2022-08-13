@@ -1,14 +1,14 @@
 <template>
 
 <div class="trainer-first">
-  <div class=""></div>
+  <div></div>
   <div class="around-box">
-    <div>ALL ({{data.ALL_num}})</div>
-    <div><SearchBar @search="search" v-model="data.searchValue"/></div>
+    <div>ALL ({{trainerListCount}})</div>
+    <SearchBar @search="search" v-model="data.searchValue"/>
   </div>
   <div class="deco-bar"></div>
-  <div></div>
   <TrainerListEx/>
+  <div class="empty-img" v-show="trainerListCount === 0"><img src="@/assets/x.png" alt=""><h1> 검색 결과가 없습니다</h1></div>
   <TrainerListItem v-for="( t_item, i ) in trainerList"
   :hide="changeList(i)"
   :key="i"
@@ -19,7 +19,7 @@
   :trainer="trainerList[i]"
   @toggleModal="toggleModal"/>
   <div class="deco-bar"></div>
-  <div class="trainer-page-nation"> <PageNation  @changePage="changePage"/></div>
+  <div class="trainer-page-nation"> <PageNation :maxCount="trainerListCount" :countGap="4" @changePage="changePage"/></div>
   <TrainerDetailModal v-show="data.is_modal" :trainer="data.trainerId" @toggleModal="toggleModal"/>
 </div>
 
@@ -39,6 +39,7 @@ export default {
   setup () {
     const store = useStore()
     const trainerList = ref(computed(() => store.getters.trainerList))
+    const trainerListCount = ref(computed(() => store.getters.trainerListCount))
     const data = reactive({
       img: [
         'data:image/png;base64,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',
@@ -52,7 +53,6 @@ export default {
     })
     const getTrainerList = store.dispatch('trainerList')
     function search (searchValue) {
-      console.log(searchValue)
       store.dispatch('trainerSearch', searchValue)
     }
     function changePage (pageValue) {
@@ -61,10 +61,8 @@ export default {
     }
     function changeList (i) {
       if (data.pageStart <= i && i < data.pageEnd) {
-        console.log(i, true)
         return true
       } else {
-        console.log(i, false)
         return false
       }
     }
@@ -73,6 +71,7 @@ export default {
     }
     return {
       trainerList,
+      trainerListCount,
       getTrainerList,
       changePage,
       changeList,
@@ -100,6 +99,7 @@ export default {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+
 }
 .deco-bar {
   width: 100%;
@@ -107,5 +107,9 @@ export default {
 }
 .trainer-page-nation {
   margin-left: 90%;
+}
+.empty-img {
+  display: flex;
+  align-items: center;
 }
 </style>

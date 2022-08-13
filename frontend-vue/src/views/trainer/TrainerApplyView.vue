@@ -78,6 +78,14 @@ export default {
 </script>
 
 <style>
+.trainer-first {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 60%;
+  min-width: 760px;
+}
 .trainer-appl {
   position: absolute;
   top: 10%;
