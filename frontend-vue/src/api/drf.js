@@ -1,4 +1,5 @@
 const HOST = 'http://127.0.0.1:8000'
+// const HOST = 'http://i7b108.p.ssafy.io/:8000'
 
 // const USERS = 'users/'
 
@@ -22,6 +23,7 @@ export default {
     profiels: (userPk) => HOST + '/profiles/followlist/' + `${userPk}`
   },
   px: {
-    dietList: (userPk) => HOST + '/PX/diaries/' + `${userPk}`
+    dietList: (userPk) => HOST + '/PX/diaries/' + `${userPk}`,
+    trainerId: (userPk) => HOST + '/PX/trainer/' + `${userPk}`
   }
 }

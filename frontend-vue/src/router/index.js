@@ -37,13 +37,19 @@ const routes = [
     // G.X 메인페이지
     path: '/GX',
     component: () => import('@/views/gx/GroupXerciseView.vue'),
-    redirect: '/gx/conferences',
+    redirect: '/GX/conferences',
     children: [
       {
         // gx룸
         path: 'conferences',
         name: 'gxConferences',
         component: () => import('@/components/gx/GroupXercise.vue')
+      },
+      {
+        // GX 커뮤니티
+        path: 'community',
+        name: 'GXcommunity',
+        component: () => import('@/components/gx/GXcommunity.vue')
       }
     ]
   },
@@ -119,14 +125,14 @@ const routes = [
     name: 'createDiet',
     component: () => import('@/components/modal/createDiet.vue')
   },
-  // ------------ PX 페이지 End ---------------
-  // ------------ counselting 페이지 start ----------
   {
     // counsel 유저 리스트
     path: '/counselting',
     name: 'counselting',
     component: () => import('@/views/counselting/CounseltingView.vue')
   }
+  // ------------ PX 페이지 End ---------------
+  // ------------ counselting 페이지 start ----------
 ]
 
 const router = createRouter({

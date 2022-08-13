@@ -33,8 +33,8 @@ export default {
   font-style: normal;
   box-sizing: border-box;
   background: #FFFFFF;
-  border: 1px solid #6DCEF5;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 2px solid #6DCEF5;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   width: 250px;
   height: 30px;

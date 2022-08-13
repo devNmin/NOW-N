@@ -16,12 +16,13 @@ export default {
     function showAlert () {
       swal({
         title: '알림',
-        text: '수신된 메시지가 없습니다.',
+        // text: '수신된 메시지가 없습니다.',
+        text: '수신된 메세지가 1개 있습니다.',
         type: 'warning',
-        timer: 1500,
+        // timer: 1500,
         customClass: 'sweet-size',
         confirmButtonClass: 'btn-danger',
-        showConfirmButton: false
+        showConfirmButton: true
       })
     }
     return { showAlert }

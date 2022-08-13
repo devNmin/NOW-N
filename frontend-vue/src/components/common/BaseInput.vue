@@ -49,7 +49,7 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: #EEEEEE;
+  background-color: none;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 300px;
@@ -60,11 +60,11 @@ export default {
   padding: 0px;
 }
 .input-box:hover {
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid #57b0d4;
 }
 .input-box:focus {
   outline: none;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid #57b0d4;
 }
 .label-box {
   font-family: 'MaruBuriOTF';
@@ -79,7 +79,7 @@ export default {
   font-family: 'MaruBuriOTF';
   font-style: normal;
   font-size: 10px;
-  color: red;
+  color: #6dcef5;
   text-align: left;
   width: 300px;
   height: 20px;

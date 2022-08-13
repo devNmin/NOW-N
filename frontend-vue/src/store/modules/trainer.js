@@ -5,6 +5,7 @@ export default {
   state: {
     hideFollow: false,
     trainerList: {},
+    trainerListCount: 0,
     currentTrainerPk: localStorage.getItem('coachPk') || '',
     currentTrainer: {},
     applyStamp: false
@@ -12,6 +13,7 @@ export default {
   getters: {
     hideFollow: state => state.hideFollow,
     trainerList: state => state.trainerList,
+    trainerListCount: state => state.trainerListCount,
     currentTrainerPk: state => state.currentTrainerPk,
     currentTrainer: state => state.currentTrainer,
     applyStamp: state => state.applyStamp
@@ -19,6 +21,7 @@ export default {
   mutations: {
     SET_HIDE_FOLLOW: (state) => (state.hideFollow = !state.hideFollow),
     SET_TRAINER_LIST: (state, trainerList) => (state.trainerList = trainerList),
+    SET_TRAINER_LIST_COUNT: (state, trainerListCount) => (state.trainerListCount = trainerListCount),
     SET_CURRENT_TRAINER_PK: (state, currentTrainerPk) => (state.currentTrainerPk = currentTrainerPk),
     SET_CURRENT_TRAINER: (state, currentTrainer) => (state.currentTrainer = currentTrainer),
     SET_APPLY_STAMP: (state, applyStamp) => (state.applyStamp = applyStamp)
@@ -35,7 +38,8 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          commit('SET_TRAINER_LIST', res.data)
+          commit('SET_TRAINER_LIST_COUNT', res.data.Trainer_count)
+          commit('SET_TRAINER_LIST', res.data.Trainer_List)
         })
     },
     trainerSearch ({ commit }, nickname) {

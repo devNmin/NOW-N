@@ -8,10 +8,22 @@
 
 <script>
 import { reactive } from '@vue/reactivity'
+import { computed } from '@vue/runtime-core'
 export default {
+  props: {
+    maxCount: {
+      type: Number
+    },
+    countGap: {
+      type: Number
+    }
+  },
+
   setup (props, { emit }) {
     const pageData = reactive({
-      page: 1
+      page: 1,
+      maxCount: computed(() => props.maxCount),
+      countGap: props.countGap
     })
     function pageDown () {
       if (pageData.page > 1) {
@@ -20,8 +32,10 @@ export default {
       emit('changePage', pageData.page)
     }
     function pageUp () {
-      pageData.page = pageData.page + 1
-      emit('changePage', pageData.page)
+      if (pageData.maxCount > pageData.page * pageData.countGap) {
+        pageData.page = pageData.page + 1
+        emit('changePage', pageData.page)
+      }
     }
     return {
       pageDown,

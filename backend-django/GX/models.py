@@ -12,7 +12,7 @@ class Conference(models.Model):
     title=models.CharField(max_length=100)
     description=models.TextField()
     max_user=models.IntegerField(default=6)
-    thumnail=models.URLField()
+    thumnail=models.TextField()
     is_active=models.BooleanField(default=True)
 
 # 유저 - 운동 방 관계

@@ -2,19 +2,16 @@
     <div class="create-diet">
         <div class="regist-diet-container">
             <div class="diet-img">
-              <img class="food-img" />
-                <!-- <label for="img">
-                    <img class="food-img" :src="UserInfoP.profile_url" alt="식단 사진">
+                <label for="img">
+                  <img class="food-img" :src="DietInfo.food_url" alt="식단 사진">
                 </label>
-                <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile"> -->
+                <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile">
             </div>
             <fieldset class="diet-moment">
                 <legend>분 류</legend>
-                <div v-for="item in options" :key="item.value" style="margin-top:7px">
-                    <label>
-                    <input type="radio" v-model="DietInfo.moment" :value="item.value" />
-                    {{item.text}}
-                    </label>
+                <div class="radio" v-for="item in options" :key="item.value">
+                    <input type="radio" name="radio" :value="item.value" v-model="DietInfo.moment" :id="item.id"/>
+                    <label :for="item.id">{{item.value}}</label>
                 </div>
             </fieldset>
 
@@ -43,6 +40,7 @@
         <div class="diet-button">
         <button type="button" @click="regist">추가하기</button>
         <button type="button" @click="moveToDietDiary">취소</button>
+        <button type="button" @click="test">test</button>
         </div>
         </div>
     </div>
@@ -52,33 +50,31 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { getStorage, uploadBytes, ref } from 'firebase/storage'
-
+import { getStorage, uploadBytes, ref, listAll, getDownloadURL } from 'firebase/storage'
 export default {
   porps: {
     diary_pk: {
       type: Number
     }
   },
-
   setup (props) {
     const store = useStore()
     const router = useRouter()
-    const currentUser = store.state.accounts.currentUser
-
+    const storage = getStorage()
     const DietInfo = reactive({
-      moment: '',
+      moment: '아침',
       time: new Date(),
       picture: 'https://ibb.co/qg4XZZP',
-      comment: ''
+      comment: '',
+      food_url: require('@/assets/food4.jpg')
     })
 
     const options = [
-      { text: '아침', value: '아침' },
-      { text: '점심', value: '점심' },
-      { text: '저녁', value: '저녁' },
-      { text: '간식', value: '간식' },
-      { text: '야식', value: '야식' }
+      { id: '아침', value: '아침' },
+      { id: '점심', value: '점심' },
+      { id: '저녁', value: '저녁' },
+      { id: '간식', value: '간식' },
+      { id: '야식', value: '야식' }
     ]
 
     const time = reactive({
@@ -89,28 +85,47 @@ export default {
       hour: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       minute: ['0', '10', '20', '30', '40', '50']
     })
+    const test = () => {
+      const listRef = ref(storage)
 
+      // Find all the prefixes and items.
+      listAll(listRef)
+        .then((res) => {
+          res.prefixes.forEach((folderRef) => {
+            console.log('folderRef', folderRef)
+            // All the prefixes under listRef.
+            // You may call listAll() recursively on them.
+          })
+          res.items.forEach((itemRef) => {
+            console.log('itemRef', itemRef)
+            // All the items under listRef.
+          })
+        })
+    }
     const uploadFile = (e) => {
-      const storage = getStorage()
       const file = e.target.files[0]
-      console.log(file)
-      const storageRef = ref(storage, currentUser.name + props.diary_pk)
+      // 현재 모멘트 개수 +1 해서 추가해줘야함
+      const saveName = 'foods/' + localStorage.getItem('userPk') + '_' + DietInfo.moment
+      const storageRef = ref(storage, saveName)
       uploadBytes(storageRef, file).then(() => {
         console.log('Uploaded a blob or file!')
+        getDownloadURL(ref(storage, saveName))
+          .then((url) => {
+            DietInfo.food_url = url
+          })
       })
     }
 
     async function regist () {
       const userPk = store.state.accounts.currentUserPk
       await store.dispatch('getDietList', userPk, DietInfo)
-
       router.push({ name: 'pxDiaries' })
     }
 
     function moveToDietDiary () {
       router.push({ name: 'pxDiaries' })
     }
-    return { DietInfo, regist, moveToDietDiary, options, uploadFile, time }
+    return { DietInfo, regist, moveToDietDiary, options, uploadFile, time, test }
   }
 }
 </script>
@@ -143,15 +158,14 @@ export default {
 
 .diet-img{
     grid-area: diet-img;
-    display: flex;
     Justify-content: center;
 }
 
 .food-img{
-    background-color:gray;
-    margin: 20px 0px 0px 0px;
-    height:80%;
+    display: flex;
+    Justify-content: center;
     width:30%;
+    margin: auto;
     border-radius: 20px;
 }
 
@@ -186,5 +200,27 @@ export default {
   display: flex;
   justify-content: flex-end;
   gap: 50px;
+}
+
+.diet-moment .radio label {
+  font-size: 18px;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  cursor: pointer;
+  color: #444;
+  transition: box-shadow 400ms ease;
+}
+.diet-moment .radio label:hover {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+.diet-moment .radio input[type=radio] {
+  display: none;
+}
+.diet-moment .radio input[type=radio]:checked + label {
+  background: #2196F3;
+  color: #fff;
+  border-color: #2196F3;
 }
 </style>
