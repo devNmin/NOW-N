@@ -37,13 +37,19 @@ const routes = [
     // G.X 메인페이지
     path: '/GX',
     component: () => import('@/views/gx/GroupXerciseView.vue'),
-    redirect: '/gx/conferences',
+    redirect: '/GX/conferences',
     children: [
       {
         // gx룸
         path: 'conferences',
         name: 'gxConferences',
         component: () => import('@/components/gx/GroupXercise.vue')
+      },
+      {
+        // GX 커뮤니티
+        path: 'community',
+        name: 'GXcommunity',
+        component: () => import('@/components/gx/GXcommunity.vue')
       }
     ]
   },
@@ -61,7 +67,7 @@ const routes = [
     component: () => import('@/views/room/GxRoom.vue')
   },
   // ------------ GX 페이지 End ---------------
-
+  // ------------ 트레이너 페이지 start ----------
   {
     // 트레이너
     path: '/trainer',
@@ -86,7 +92,7 @@ const routes = [
     name: 'trainerSchedule',
     component: () => import('@/views/trainer/TrainerScheduleView.vue')
   },
-
+  // ------------ 트레이너 페이지 end ----------
   // ------------ PX 페이지 Start ---------------
   {
     path: '/PX',
@@ -112,8 +118,21 @@ const routes = [
         component: () => import('@/components/px/CoachingRoom.vue')
       }
     ]
+  },
+  {
+    // px 식단 등록 모달
+    path: '/px/createDiet',
+    name: 'createDiet',
+    component: () => import('@/components/modal/createDiet.vue')
   }
   // ------------ PX 페이지 End ---------------
+  // ------------ counselting 페이지 start ----------
+  {
+    // counsel 유저 리스트
+    path: '/counselting',
+    name: 'counselting',
+    component: () => import('@/views/counselting/CounseltingView.vue')
+  }
 ]
 
 const router = createRouter({

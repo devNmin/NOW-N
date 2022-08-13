@@ -2,7 +2,7 @@
   <div class="gx-room-content">
     <div class="videos-content" v-if="roomList.length">
       <div class="videos">
-        <ThumbNail v-for="room in roomList" :key="room.id" :room="room">
+        <ThumbNail style="margin-left:50px;" v-for="room in roomList" :key="room.id" :room="room">
         </ThumbNail>
       </div>
     </div>
@@ -39,18 +39,16 @@ export default {
 </script>
 
 <style scoped>
-.gx-room-content{
-  height: 100%;
-  display:flex;
-  align-items: center;
-}
 .videos-content{
-  font-style: normal;
-  display: grid;
-  grid-template-rows: 45% 45%;
-  grid-template-columns: 32% 32% 30%;
-  column-gap: 10px;
-  row-gap: 30px;
+  margin-left:-20px ;
+}
+.videos {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  position: relative;
+  left: 70px;
+  top: 10px;
 }
 
 .no-items {

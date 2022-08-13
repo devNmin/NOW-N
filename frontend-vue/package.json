@@ -15,8 +15,11 @@
     "docker": "^1.0.0",
     "firebase": "^9.9.2",
     "openvidu-browser": "2.22.0",
+    "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.13",
+    "vue-chartjs": "^4.1.1",
     "vue-router": "^4.0.3",
+    "vue-sweetalert2": "^5.0.5",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

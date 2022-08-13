@@ -60,7 +60,6 @@ export default {
   font-style: normal;
   color: black;
   border: 0px;
-  background-color: #EEEEEE;
   border-bottom: solid 2px #6dcef5;
   border-radius: 2px;
   width: 130px;
@@ -69,5 +68,8 @@ export default {
   font-size: 20px;
   padding-left: 20px;
   padding: 0px;
+}
+.input-split-box2:hover {
+  border-bottom: solid 2px #57b0d4;
 }
 </style>

@@ -1,11 +1,8 @@
 <template>
+  <FollowBar></FollowBar>
   <div class="PX-container">
     <div class="PX-grid">
-      <div class="PX-menu">
-        <router-link
-          v-for="item in pxItems" :key="item.name" :to="item.link">{{item.title}}
-        </router-link>
-      </div>
+      <div class="PX-menu"></div>
       <div class="PX-content">
         <router-view></router-view>
       </div>
@@ -14,40 +11,43 @@
 </template>
 
 <script>
+import FollowBar from '@/components/common/FollowBar.vue'
 export default {
+  components: {
+    FollowBar
+  },
   setup () {
-    const pxItems = [
-      { name: 'pxDiaries', link: '/PX/Diaries', title: '식단 다이어리' },
-      { name: 'pxGraph', link: '/PX/graph', title: '체중 그래프' },
-      { name: 'pxCoaching', link: '/PX/coaching', title: '1:1 코칭룸' }
-    ]
-
-    return { pxItems }
+    return { }
   }
 }
 </script>
 
 <style scoped>
-.PX-container{
+.PX-menu{
   display: flex;
+  align-items: center;
+  margin: 20px 20px 20px 0px;
+  gap: 50px;
 }
 .PX-grid{
   display: grid;
-  width: 100vw;
-  height: 100vh;
+  width:100vw;
+  height:100%;
   grid-template-rows: 1fr 7fr;
-  grid-template-areas:
-  "px-menu"
-  "px-content";
+  position: relative;
+  left: 150px;
+  top: 15px;
 }
-
-.PX-menu{
-  grid-area: px-menu;
-  display: flex;
-  gap: 50px;
-}
-
 .PX-content{
-  grid-area: px-content;
+  height: 100%;
+  width: 70%;
 }
+
+.PX-container{
+  height: 85%;
+  position: relative;
+  width: 85%;
+  left: 15%;
+}
+
 </style>>

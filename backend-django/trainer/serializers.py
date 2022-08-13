@@ -1,18 +1,16 @@
 from rest_framework import serializers
 from accounts.models import User
-from trainer.models import Counsel, Member_Coach
+from trainer.models import Counsel, Member_Coach, Request_Counsel
+
+class RequestCounselSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Request_Counsel
+        fields = '__all__'
 
 class CoachingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member_Coach
         fields = '__all__'
-
-class CoachingPKSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Member_Coach
-        fields = [
-            'id',
-        ]
 
 class TrainerListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,11 +25,10 @@ class TrainerListSerializer(serializers.ModelSerializer):
             'is_active',
         ]
 
-class CounselSerializer(serializers.ModelSerializer):
+class CounselWithoutCoachingPKSerializer(serializers.ModelSerializer):
     class Meta:
         model = Counsel
         fields = [
-            'coaching_id',
             'is_exercise',
             'is_diet',
             'times',
@@ -40,7 +37,27 @@ class CounselSerializer(serializers.ModelSerializer):
             'comment',
         ]
 
+class CounselSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Counsel
+        fields = '__all__'
+
 class TrainerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+# 회원 정보
+class MemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'name',
+            'nickname',
+            'age',
+            'gender',
+            'height',
+            'user_weight',
+            'object_weight',
+        ]
