@@ -78,7 +78,8 @@ export default {
     const leftItems = [
       { name: 'G . X', link: '/GX', icon: '@\\assets\\Logo2.png' },
       { name: 'P . X', link: '/px', icon: '@\\assets\\Logo2.png' },
-      { name: 'Trainer', link: '/trainer', icon: '@\\assets\\Logo2.png' }
+      { name: 'Trainer', link: '/trainer', icon: '@\\assets\\Logo2.png' },
+      { name: 'counselting', link: '/counselting', icon: '@\\assets\\Logo2.png' }
     ]
     const rightItems = [
       { name: 'Login', link: '/login', icon: '@/assets/Logo2.png' }, // require('@/assets/Logo2.png')

@@ -58,8 +58,10 @@
         <input type="text" v-model="roomInfo.description">
       </div>
     </div>
-        <button type="button" @click="createRoom">방 생성</button>
-        <button type="button" @click="moveToGxRoom">취소</button>
+    <div class="conference-button">
+      <button type="button" @click="createRoom">방 생성</button>
+      <button type="button" @click="moveToGxRoom">취소</button>
+    </div>
   </div>
 </template>
 

@@ -2,6 +2,13 @@ from rest_framework import serializers
 from .models import Conference, User_Conference
 from accounts.models import User
 
+# 방 목록
+class ConferenceListSerializer(serializers.ModelSerializer):
+    participate_count = serializers.IntegerField()
+    class Meta:
+        model = Conference
+        fields = '__all__'
+
 # 단일 방 
 class ConferenceSerializer(serializers.ModelSerializer):
     class Meta:

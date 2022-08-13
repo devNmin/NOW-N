@@ -58,7 +58,7 @@ export default {
 }
 .GX-grid{
   display: grid;
-  width:100vw;
+  width:100%;
   height:100%;
   grid-template-rows: 1fr 7fr;
   position: relative;
@@ -84,7 +84,6 @@ export default {
   font-weight: bolder;
   font-size:1.5rem;
   color: black;
-
 }
 
 .make-btn:hover{
