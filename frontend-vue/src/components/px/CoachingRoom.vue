@@ -16,16 +16,27 @@
 </template>
 
 <script>
+// import { reactive, computed } from 'vue'
+// import { useStore } from 'vuex'
 export default {
+  setup () {
+    // const store = useStore()
+
+    const trainerInfo = ''
+
+    return { trainerInfo }
+  },
+  async created () {
+    this.$store.dispatch('getTrainerId')
+  }
 }
 </script>
 
 <style scoped>
 .px-coaching-content{
   display: grid;
-  width:100vw;
-  height: 100vh-60px;
-  margin-top: 60px;
+  width:100%;
+  height: 100%;
   grid-template-columns: 3fr 2fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:

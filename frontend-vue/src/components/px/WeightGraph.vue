@@ -13,28 +13,27 @@
       </div>
     </div>
     <div class="graph">
-      {{data.cycle}}
-      {{data.category}}
+      <LineChart></LineChart>
     </div>
   </div>
 </template>
 
 <script>
 import { reactive } from 'vue'
+import LineChart from './Chart/LineChart'
 export default {
+  components: { LineChart },
   setup () {
     const caoptions = [
       { id: 'bmi', value: 'bmi 지수' },
       { id: 'kcal', value: '칼로리' },
       { id: 'nutrient', value: '영양소' }
     ]
-
     const cyoptions = [
       { id: 'daily', value: '일별' },
       { id: 'weekly', value: '주별' },
       { id: 'montly', value: '월별' }
     ]
-
     const data = reactive({
       cycle: '',
       category: ''
@@ -116,6 +115,7 @@ export default {
 }
 
 .graph{
+  width: 100%;
   grid-area: graph;
   display: flex;
   justify-content: center;
