@@ -23,6 +23,7 @@ export default {
     profiels: (userPk) => HOST + '/profiles/followlist/' + `${userPk}`
   },
   px: {
-    dietList: (userPk) => HOST + '/PX/diaries/' + `${userPk}`
+    dietList: (userPk) => HOST + '/PX/diaries/' + `${userPk}`,
+    trainerId: (userPk) => HOST + '/PX/trainer/' + `${userPk}`
   }
 }

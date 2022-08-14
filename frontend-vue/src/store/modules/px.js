@@ -3,7 +3,8 @@ import drf from '@/api/drf'
 
 export default {
   state: {
-    dietList: [] // 해당 날짜 식단 리스트
+    dietList: [], // 해당 날짜 식단 리스트
+    user_trainer: [] // 현재 유저의 트레이너
   },
   getters: {
   },
@@ -18,11 +19,9 @@ export default {
       state.dietList.push(dietInfo)
     },
 
-    // 룸 삭제
-    DELETE_DIET_INFO (state, dietId) {
-      state.dietList = state.dietList.filter(
-        diet => diet.id !== dietId
-      )
+    // 현재 유저의 트레이너 저장
+    SET_USER_TRAINER (state, info) {
+      state.user_trainer = info
     }
   },
   actions: {
@@ -37,16 +36,22 @@ export default {
       commit('SET_DIET_LIST', data)
     },
 
-    //  gx룸 삭제
-    async deleteRoomInfo ({ commit }, roomId) {
-      console.log(drf.rooms.room + `${roomId}/`)
-      console.log(drf.trainer.requestDetail)
-      await axios({
-        url: drf.rooms.room + `${roomId}`,
-        method: 'delete',
+    // 코치 정보 조회
+    getTrainerId ({ commit }, userPk) {
+      axios({
+        url: drf.px.trainerId(userPk),
+        method: 'get',
+        data: userPk,
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       }).then(res => {
-        commit('DELETE_ROOM_INFO', roomId)
+        axios({
+          url: drf.px.trainerInfo(res.data),
+          method: 'get',
+          data: res.data,
+          headers: { Authorization: 'JWT ' + localStorage.accessToken }
+        }).then(info => {
+          commit('SET_USER_TRAINER', info)
+        })
       })
     }
   }
