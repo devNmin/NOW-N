@@ -4,8 +4,8 @@
     <form @submit.prevent="signup(credentials)" class="regist-form">
       <BaseInput v-model="credentials.name" label="이름"></BaseInput>
       <BaseInput v-model="credentials.user_id" label="아이디" er="user_id"></BaseInput>
-      <BaseInput v-model="credentials.password" label="비밀번호"></BaseInput>
-      <BaseInput v-model="credentials.password_check" label="비밀번호 확인"></BaseInput>
+      <BaseInput type="password" v-model="credentials.password" label="비밀번호"></BaseInput>
+      <BaseInput type="password" v-model="credentials.password_check" label="비밀번호 확인"></BaseInput>
       <BirthInput v-model="credentials.birth" @birth="birth" type="number"></BirthInput>
       <PhoneInput v-model="credentials.phone_number" @phone="phone" type="number"></PhoneInput>
       <EmailInput v-model="credentials.email" @email="email"></EmailInput>

@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import ScheduleCaseInput from '@/components/counselting/scheduleCaseInput.vue'
-import ScheduleDateInput from '@/components/counselting/scheduleDateInput.vue'
+import ScheduleCaseInput from '@/components/counselting/CounseltingscheduleCaseInput.vue'
+import ScheduleDateInput from '@/components/counselting/CounseltingscheduleDateInput.vue'
 export default {
   components: { ScheduleCaseInput, ScheduleDateInput }
 

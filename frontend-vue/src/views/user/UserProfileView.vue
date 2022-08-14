@@ -3,7 +3,7 @@
   <div class="middlebox">
       <div class="userName"> {{ UserInfoP.name }}<img src="@/assets/info_icon.png" @click="toggleModalInfo" style="margin-left: 10px; vertical-align:middle;" alt="123" width="35"> </div>
         <label for="img">
-          <img class="userProfileImg" :src="UserInfoP.profile_url" alt="유저프로필URL">
+          <img class="userProfileImg" :src="state.ProfileUrl" alt="유저프로필URL">
         </label>
         <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile">
         <div style="display:flex; justify-content: space-between; ">
@@ -25,7 +25,6 @@
   <div class="modalMyInfo">
     <div class="modalBox">
       <div style="display:flex;"><h1 >{{ UserInfoP.name }}</h1><img src="@/assets/boy.png" alt="성별아이콘" width="40" height="40" style="display:flex; margin-left:20px;margin-top:20px; "></div>
-      <div @click="toggleModalInfo" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
       <div class="MyInfoText">
         <div style="display: flex; justify-content: space-between; margin-bottom:10px">
           <div>신장 </div>
@@ -46,8 +45,11 @@
           <div style="margin-top:20px">목표체중 {{UserInfoP.weight2}} kg </div>
           <div style="margin-top:20px"> {{UserInfoP.weight - UserInfoP.weight2}} kg </div>
         </div>
+      <div class="bottomButton">
+        <button style="margin-right:5px" >수정 </button>
+        <button @click="toggleModalInfo" >닫기</button>
+      </div>
     </div>
-      <img src="@/assets/edit_icon.png" width="25" alt="" class="Modbutton">
     </div>
   </div>
   </div>
@@ -62,10 +64,11 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
 import { useStore } from 'vuex'
-import { onMounted } from 'vue'
 import { getStorage, uploadBytes, ref, getDownloadURL } from 'firebase/storage'
 import RadarChart from '../../components/user/RadarChart.vue'
+import { onMounted } from '@vue/runtime-core'
 
 export default {
   components: {
@@ -74,34 +77,27 @@ export default {
   setup () {
     const store = useStore()
     const UserInfoP = store.state.profile.UserInfo
-    console.log(UserInfoP)
+    const storage = getStorage()
+    const state = reactive({ ProfileUrl: '' })
+    const saveName = 'profiles/' + UserInfoP.name
+    const storageRef = ref(storage, saveName)
     onMounted(() => {
-      console.log(UserInfoP)
-      const storage = getStorage()
-      getDownloadURL(ref(storage, UserInfoP.name))
+      getDownloadURL(storageRef)
         .then((url) => {
-          console.log('org', url)
-          // `url` is the download URL for 'images/stars.jpg'
-          UserInfoP.profile_url = url
+          state.ProfileUrl = url
         })
       const bmiTag = document.getElementById('bmiId')
-      console.log('bmiTagbmiTag', bmiTag)
       const bmiData = UserInfoP.weight / ((UserInfoP.height / 100) * (UserInfoP.height / 100))
       bmiTag.style.setProperty('left', (bmiData * 2) + 10 + '%')
-    }
-    )
-    const clickImg = (e) => {
-      console.log('클릭')
-      const file = e.target.files[0]
-      console.log(file)
-    }
+    })
     const uploadFile = (e) => {
-      const storage = getStorage()
       const file = e.target.files[0]
-      console.log(file)
-      const storageRef = ref(storage, UserInfoP.name)
       uploadBytes(storageRef, file).then(() => {
         console.log('Uploaded a blob or file!')
+        getDownloadURL(ref(storage, saveName))
+          .then((url) => {
+            state.ProfileUrl = url
+          })
       })
     }
     function toggleModalInfo () {
@@ -113,7 +109,7 @@ export default {
       document.querySelector('.modal__background').classList.toggle('open')
     }
     return {
-      uploadFile, UserInfoP, toggleModalInfo, toggleModalChart, clickImg
+      uploadFile, UserInfoP, toggleModalInfo, toggleModalChart, state
     }
   }
 }
@@ -121,8 +117,8 @@ export default {
 
 <style>
 .modalBox{
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 .modal__background{
   display: none;
@@ -174,15 +170,23 @@ export default {
 .open {
   display: block !important;
 }
-.modal-x-button {
-  position: absolute;
-  top: 3%;
-  left: 95%;
+button{
+  color: #6dcef5;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  border-width: 0;
+  width: 50px;
+  height: 40px;
+  font-size: 15px;
+  text-align: center;
+  font-weight: bold;
 }
-.Modbutton {
-  position: absolute;
-  bottom: 3%;
-  left: 93%;
+.bottomButton {
+  position: relative;
+  margin-top: 35px;
+  left: 85%;
 }
 .modalMyInfo {
   min-height: 315px;
@@ -193,10 +197,10 @@ export default {
   display: none;
   z-index: 200;
   top: 30%;
-  left: 37.5%;
-  width: 25%;
-  height: 35%;
-  background-color: rgba( 191, 229, 255, 0.95 );
+  left: 30%;
+  width: 40%;
+  height: 40%;
+  background-color: rgba(255,255,255,1 );
   /* background-color: rgba( 191, 229, 255, 0.7 ); */
   /* background-color: rgba(109, 188, 230, 0.99); */
   /* background-color: rgba(191, 239, 255, 1); */
