@@ -18,7 +18,7 @@ def category(request, category_pk):
         articles = Article.objects.annotate(
             comment_count=Count('comments', distinct=True),
             like_count=Count('like_users', distinct=True)
-        ).order_by('-pk')
+        ).order_by('pk')
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data)
     # 공지사항

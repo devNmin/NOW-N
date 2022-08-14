@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = models.IntegerField() # int
     grade = models.CharField(max_length=10, default=1, choices=select_class)
     # 프로필 추가 필드
-    img = models.URLField(null=True)
+    img = models.CharField(max_length=255, null=True)
     age = models.IntegerField(null=True) # 나이
     gender = models.IntegerField(null=True) # 0 : 남 / 1 : 여
     height = models.FloatField(null=True) # 신장

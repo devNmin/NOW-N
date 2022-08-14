@@ -24,6 +24,7 @@ def select_profile(request, pk):
     hashtags = TagSerializer(profile.tags, many=True)
     context = {
         'name' : profile.name,
+        'nickname' : profile.nickname,
         'img' : profile.img,
         'age' : profile.age,
         'gender' : profile.gender,
@@ -31,6 +32,7 @@ def select_profile(request, pk):
         'weight' : profile.user_weight,
         'object_weight' : profile.object_weight,
         'followers' : profile.followers.count(),
+        'followings' : profile.followings.count(),
         'hashtag' : hashtags.data
     }
 
