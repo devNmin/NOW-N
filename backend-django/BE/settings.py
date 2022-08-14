@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'profiles',
     'trainer',
     'PX',
+    'community',
 
     # 'Library'
     'rest_framework',
@@ -159,7 +160,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 }
 
 AUTH_USER_MODEL = 'accounts.User'

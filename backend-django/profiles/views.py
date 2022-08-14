@@ -58,18 +58,8 @@ def modify_profile(request, user_pk):
                 serializer.save()
                 return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response('본인의 프로필이 아닙니다.', status=status.HTTP_400_BAD_REQUEST)
 
-    ''' 
-        serializer = UserPointUpdateSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            person = get_object_or_404(get_user_model(),username=username)
-            user_point = serializer.validated_data.get('point')
-            person.point = user_point
-            person.save()
-            
-            return Response(person.point)
-    '''
 
 # 팔로우하기
 @api_view(['POST'])
@@ -115,8 +105,3 @@ def recommend_list(request):
     print("Recommend List : ", serializer.data)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-# 해시태그를 통한 유저 검색
-# @api_view(['GET'])
-# def search_by_tag(request, tag_name):
-#     tag = get_object_or_404(Tag, tag_name=tag_name)
-#     serializer = TagPKSerializer(tag)
