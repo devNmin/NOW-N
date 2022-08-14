@@ -69,7 +69,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     followers = models.ManyToManyField('self', symmetrical=False, related_name='followings')
     alarm = models.BooleanField(default=False)
-    # tags = models.ManyToManyField(Tag, symmetrical=False, related_name='taggings')
+    tags = models.ManyToManyField('Tag', related_name='users')
+    hashtag_cnt = models.IntegerField(default=0)
+
     USERNAME_FIELD = 'user_id'
 
     REQUIRED_FIELDS = [
@@ -94,3 +96,8 @@ class Exercise_Category(models.Model):
     stretching=models.IntegerField(default=0) # 스트레칭 횟수
     machine=models.IntegerField(default=0) # 기구운동 횟수
     etc=models.IntegerField(default=0) # 기타 횟수
+
+
+class Tag(models.Model):
+    hashtag = models.CharField(max_length=50)
+    

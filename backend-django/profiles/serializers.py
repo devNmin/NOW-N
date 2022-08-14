@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Weight
-from accounts.models import User
+from accounts.models import User, Tag
 
 # 유저 pk
 class UserPKSerializer(serializers.ModelSerializer):
@@ -30,25 +30,22 @@ class FollowListSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=30)
     nickname = serializers.CharField(max_length=100)
 
-# 태그 이름
-# class TagSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Tag
-#         fileds = '__all__'
 
-# 태그 pk
-# class TagPKSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Tag
-#         fields = ('id')
+# 태그 이름
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
+
 
 # 프로필 정보
 class ProfileSerializer(serializers.ModelSerializer):
     followings = UserPKSerializer(many=True, read_only=True)
-    # taggings = TagSerializer(many=True)
     class Meta:
         model = User
         fields = [
+            'id',
             'name',
             'img',
             'age',
@@ -59,10 +56,13 @@ class ProfileSerializer(serializers.ModelSerializer):
             'followings',
         ]
 
+
+# 프로필 수정
 class ProfileModifySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
+            'id',
             'nickname',
             'img',
             'age',
@@ -77,6 +77,7 @@ class WeightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Weight
         fields = [
+            'id',
             'user',
             'weight',
         ]

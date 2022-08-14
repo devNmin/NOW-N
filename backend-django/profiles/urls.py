@@ -17,6 +17,12 @@ urlpatterns = [
     # 팔로우 추천 인물 목록 가져오기
     path('recommendlist', views.recommend_list),
 
-    # 해쉬태그를 통한 검색
-    # path('searchbytag/<str:tag_name>/', views.search_by_tag),
+    # 해쉬태그 추가
+    path('hashtag/<int:user_pk>/', views.hashtag),
+
+    # 해쉬태그 삭제
+    path('hashtag/<int:user_pk>/<tag_pk>/', views.delete_hashtag),
+
+    # 해쉬태그 검색
+    path('search_hashtag/', views.search_hashtag),
 ]
