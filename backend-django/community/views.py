@@ -67,6 +67,7 @@ def search(request):
         return Response(serializer.data)
     return Response('해당 내용이 없습니다.', status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 def article_create(request):
     serializer = ArticleSerializer(data=request.data)
