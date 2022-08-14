@@ -49,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=30)
     birth = models.IntegerField() # int
     phone_number = models.IntegerField() # int
-    grade = models.CharField(max_length=10, default=1, choices=select_class) # int
+    grade = models.CharField(max_length=10, default=1, choices=select_class)
     # 프로필 추가 필드
     img = models.URLField(null=True)
     age = models.IntegerField(null=True) # 나이

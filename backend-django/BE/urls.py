@@ -28,4 +28,6 @@ urlpatterns = [
     path('trainer/', include('trainer.urls')),
 
     path('PX/', include('PX.urls')),
+
+    path('community/', include('community.urls')),
 ]
