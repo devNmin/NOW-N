@@ -1,30 +1,30 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT,
-)
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from .models import Weight
-from accounts.models import User
+from accounts.models import User, Tag
 from .serializers import (
     FollowBarSerializer,
     FollowListSerializer,
     WeightSerializer,
-    ProfileModifySerializer
+    ProfileSerializer,
+    ProfileModifySerializer,
+    TagSerializer,
 )
+from profiles import serializers
 
 # 프로필 정보 가져오기
 @api_view(['GET'])
 def select_profile(request, pk):
     profile = get_object_or_404(User, pk=pk)
+    hashtags = TagSerializer(profile.tags, many=True)
     context = {
         'name' : profile.name,
+        'nickname' : profile.nickname,
         'img' : profile.img,
         'age' : profile.age,
         'gender' : profile.gender,
@@ -32,18 +32,21 @@ def select_profile(request, pk):
         'weight' : profile.user_weight,
         'object_weight' : profile.object_weight,
         'followers' : profile.followers.count(),
+        'followings' : profile.followings.count(),
+        'hashtag' : hashtags.data
     }
 
+
     return JsonResponse(context)
+
 
 # 프로필 정보 수정하기
 @api_view(['PUT'])
 def modify_profile(request, user_pk):
-    found_user = User.objects.get(id=user_pk)
-
-    if found_user is None:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+    if not User.objects.filter(pk=user_pk).exists():
+        return Response('유저가 존재하지 않습니다', status=status.HTTP_400_BAD_REQUEST)
     else:
+        found_user = User.objects.get(id=user_pk)
         if request.user.pk == found_user.pk:
             serializer = ProfileModifySerializer(found_user, data=request.data, partial=True)
             if serializer.is_valid():
@@ -80,6 +83,7 @@ def follow(request, pk):
     }
     return JsonResponse(follow_status)
 
+
 # 팔로우 목록 가져오기
 @api_view(['GET'])
 def follow_list(request, pk):
@@ -95,7 +99,8 @@ def follow_list(request, pk):
             'followlist': serialized.data
         }
         return Response(context)
-            
+
+
 # 팔로우 추천 인물 목록
 @api_view(['GET'])
 def recommend_list(request):
@@ -105,3 +110,49 @@ def recommend_list(request):
     print("Recommend List : ", serializer.data)
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
+
+# 해시태그 추가
+@api_view(['POST'])
+def hashtag(request, user_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    if request.user.pk == user.pk:
+        if user.hashtag_cnt < 5:
+            if not user.tags.filter(hashtag=request.data.get('hashtag')).exists():
+                serializer = TagSerializer(data = request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    user.tags.add(serializer.data['id'])
+                    user.hashtag_cnt += 1
+                    user.save()
+                    return Response(serializer.data , status=status.HTTP_200_OK)
+            return Response('해시태그가 존재합니다.', status=status.HTTP_400_BAD_REQUEST)
+        return Response('해시태그의 수가 초과되었습니다..', status=status.HTTP_400_BAD_REQUEST)
+    return Response('본인의 해시태그만 추가 가능.', status=status.HTTP_400_BAD_REQUEST)
+
+
+# 해시태그 삭제
+@api_view(['DELETE'])
+def delete_hashtag(request, user_pk, tag_pk):
+    user=get_object_or_404(User, pk=user_pk)
+    if request.user.pk == user.pk:
+        tag=get_object_or_404(Tag, pk=tag_pk)
+        user.tags.remove(tag)
+        user.hashtag_cnt -= 1
+        user.save()
+        if tag.users.count() == 0:
+            tag.delete() 
+        return Response('삭제되었습니다.')
+    return Response('본인의 해시태그만 삭제 가능.', status=status.HTTP_400_BAD_REQUEST)
+
+
+# 해시태그 검색
+@api_view(['get'])
+def search_hashtag(request):
+    keyword = request.data.get('hashtag')
+    tag = Tag.objects.filter(hashtag = keyword)
+    if tag:
+        user = User.objects.filter(tags__in = tag).order_by('-pk') 
+        serializer = ProfileSerializer(user, many=True)
+        return Response(serializer.data)
+    else:
+        return Response('해당 태그가 없습니다.', status=status.HTTP_400_BAD_REQUEST)
