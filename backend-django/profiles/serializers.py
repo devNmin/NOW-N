@@ -26,11 +26,21 @@ class FollowBarSerializer(serializers.ModelSerializer):
         ]
 
 # 팔로우 목록
-class FollowListSerializer(serializers.Serializer):
-    pk = serializers.IntegerField()
-    name = serializers.CharField(max_length=30)
-    nickname = serializers.CharField(max_length=100)
-    follow_count = serializers.IntegerField()
+class FollowListSerializer(serializers.ModelSerializer):
+    follow_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = [
+            'pk',
+            'name',
+            'nickname',
+            'followers',
+            'follow_count',
+        ]
+
+    def get_follow_count(self, obj):
+        return obj.followers.count()
 
 
 # 태그 이름

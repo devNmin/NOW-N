@@ -105,17 +105,13 @@ def follow_list(request, pk):
     person = get_object_or_404(get_user_model(), pk=pk)
     if request.user.pk == person.pk:
         followlist = person.followings.all()
-        
-        follow = followlist.annotate(
-            follow_count=Count('followings', distinct=True),
-        ).order_by('followers')
-        print(follow)
-        serialized = FollowListSerializer(follow, many=True)
+
+        serialize = FollowListSerializer(followlist, many=True)
 
         context ={
             'followers': person.followers.count(),
             'followings': person.followings.count(),
-            'followlist': serialized.data
+            'followlist': serialize.data
         }
         return Response(context)
     else:
