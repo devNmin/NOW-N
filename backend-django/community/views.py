@@ -26,7 +26,7 @@ def category(request, category_pk):
         articles = Article.objects.annotate(
             comment_count=Count('comments', distinct=True),
             like_count=Count('like_users', distinct=True)
-        ).order_by('-pk')
+        ).order_by('pk')
         article = articles.filter(category='공지사항')
         serializer = ArticleListSerializer(article, many=True)
         return Response(serializer.data)
@@ -35,7 +35,7 @@ def category(request, category_pk):
         articles = Article.objects.annotate(
             comment_count=Count('comments', distinct=True),
             like_count=Count('like_users', distinct=True)
-        ).order_by('-pk')
+        ).order_by('pk')
         article = articles.filter(category='자유게시판')
         serializer = ArticleListSerializer(article, many=True)
         return Response(serializer.data)
@@ -44,7 +44,7 @@ def category(request, category_pk):
         articles = Article.objects.annotate(
             comment_count=Count('comments', distinct=True),
             like_count=Count('like_users', distinct=True)
-        ).order_by('-pk')
+        ).order_by('pk')
         article = articles.filter(category='질문게시판')
         serializer = ArticleListSerializer(article, many=True)
         return Response(serializer.data)
@@ -103,8 +103,6 @@ def article_detail_or_update_or_delete(request, article_pk):
 def like_article(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     user = request.user
-    print(article.user.pk)
-    print(user.pk)
     if article.user.pk != user.pk:
         if article.like_users.filter(pk=user.pk).exists():
             article.like_users.remove(user)

@@ -64,11 +64,32 @@ def modify_profile(request, user_pk):
             return Response('본인의 프로필이 아닙니다.', status=status.HTTP_400_BAD_REQUEST)
 
 
+# 팔로우 체크
+@api_view(['GET'])
+def checkfollow(request, user_pk):
+    person = get_object_or_404(get_user_model(), pk=user_pk)
+    user = request.user
+    if person.pk == user.pk:
+        return Response('본인입니다.')
+    elif person.followers.filter(pk=user.pk).exists():
+        context ={
+            'value' : True,
+        }
+        return JsonResponse(context)
+    else:
+        context ={
+            'value' : False,
+        }
+        return JsonResponse(context)
+    
+
 # 팔로우하기
 @api_view(['POST'])
 def follow(request, pk):
     person = get_object_or_404(get_user_model(), pk=pk)
     user = request.user
+    if person.pk == user.pk:
+        return Response('자기 자신입니다.')
     if person != user:
         if person.followers.filter(pk=user.pk).exists():
             person.followers.remove(user)
@@ -89,25 +110,27 @@ def follow(request, pk):
 def follow_list(request, pk):
     person = get_object_or_404(get_user_model(), pk=pk)
     if request.user.pk == person.pk:
-
         followlist = person.followings.all()
-        serialized = FollowListSerializer(followlist, many=True)
+
+        serialize = FollowListSerializer(followlist, many=True)
 
         context ={
             'followers': person.followers.count(),
             'followings': person.followings.count(),
-            'followlist': serialized.data
+            'followlist': serialize.data
         }
         return Response(context)
+    else:
+        return Response('본인의 팔로우 목록만 가져올 수 있습니다.')
 
 
 # 팔로우 추천 인물 목록
 @api_view(['GET'])
 def recommend_list(request):
-    list = User.objects.all()
+    list = User.objects.all().exclude(pk=request.user.pk)
     recommend = list.annotate(follower_count=Count('followings')).order_by('-follower_count')[:10]
     serializer = FollowBarSerializer(recommend, many=True)
-    print("Recommend List : ", serializer.data)
+
     return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
