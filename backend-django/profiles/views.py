@@ -127,7 +127,7 @@ def follow_list(request, pk):
 # 팔로우 추천 인물 목록
 @api_view(['GET'])
 def recommend_list(request):
-    list = User.objects.all()
+    list = User.objects.all().exclude(pk=request.user.pk)
     recommend = list.annotate(follower_count=Count('followings')).order_by('-follower_count')[:10]
     serializer = FollowBarSerializer(recommend, many=True)
 
