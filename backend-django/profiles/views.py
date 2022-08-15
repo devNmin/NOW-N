@@ -72,9 +72,15 @@ def checkfollow(request, user_pk):
     if person.pk == user.pk:
         return Response('본인입니다.')
     elif person.followers.filter(pk=user.pk).exists():
-        return Response('팔로우 관계입니다.')
+        context ={
+            'value' : True,
+        }
+        return JsonResponse(context)
     else:
-        return Response('팔로우 관계가 아닙니다.')
+        context ={
+            'value' : False,
+        }
+        return JsonResponse(context)
     
 
 # 팔로우하기
