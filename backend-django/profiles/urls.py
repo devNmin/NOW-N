@@ -8,6 +8,9 @@ urlpatterns = [
     # 프로필 정보 수정하기 / 데일리 몸무게 저장
     path('modify/<int:user_pk>', views.modify_profile),
 
+    # 팔로우 했는지 확인
+    path('checkfollow/<int:user_pk>', views.checkfollow),
+
     # 팔로우
     path('select/<int:pk>/follow', views.follow),
 

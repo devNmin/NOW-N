@@ -27,8 +27,10 @@ class FollowBarSerializer(serializers.ModelSerializer):
 
 # 팔로우 목록
 class FollowListSerializer(serializers.Serializer):
+    pk = serializers.IntegerField()
     name = serializers.CharField(max_length=30)
     nickname = serializers.CharField(max_length=100)
+    follow_count = serializers.IntegerField()
 
 
 # 태그 이름

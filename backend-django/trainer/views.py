@@ -189,7 +189,7 @@ def delete_request(request, member_pk):
 def get_member_list(request, coach_pk):
     # 요청 coach_pk가 coach_id인 유저 목록 가져오기
     members = Member_Coach.objects.filter(coach_id=coach_pk)
-    users = User.objects.filter(pk__in=members)
+    users = User.objects.filter(pk__in=members.values('member_id'))
     serializer = MemberSerializer(users, many=True)
     return Response(serializer.data)
     
