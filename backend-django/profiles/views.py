@@ -1,3 +1,4 @@
+import datetime
 from django.db.models import Count, Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from accounts.models import User, Tag
+from .models import Weight
 from .serializers import (
     FollowBarSerializer,
     FollowListSerializer,
@@ -50,13 +52,16 @@ def modify_profile(request, user_pk):
         if request.user.pk == found_user.pk:
             serializer = ProfileModifySerializer(found_user, data=request.data, partial=True)
             if serializer.is_valid():
-                # 프로필 데이터 중 몸무게 데이터 따로 저장
+                # 프로필 데이터 중 몸무게 데이터, 목표 체중 데이터 따로 저장
                 context = {
                 'user' : user_pk,
                 'weight' : serializer.validated_data.get('user_weight'),
+                'object_weight' : serializer.validated_data.get('object_weight')
                 }
                 weight_serializer = WeightSerializer(data=context)
                 if weight_serializer.is_valid():
+                    past_data = Weight.objects.filter(user_id=user_pk, date=datetime.date.today())
+                    past_data.delete()
                     weight_serializer.save()
                 serializer.save()
                 return Response(data=serializer.data, status=status.HTTP_200_OK)

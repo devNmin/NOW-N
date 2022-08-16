@@ -97,13 +97,24 @@ WSGI_APPLICATION = 'BE.wsgi.application'
 #    }
 #}
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'nown',
+#         'USER': 'HH',
+#         'PASSWORD': 'Teams_08',
+#         'HOST': 'i7b108.p.ssafy.io',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'nown',
-        'USER': 'HH',
-        'PASSWORD': 'Teams_08',
-        'HOST': 'i7b108.p.ssafy.io',
+        'USER': 'root',
+        'PASSWORD': 'ssafy',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

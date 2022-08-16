@@ -1,20 +1,40 @@
+from unicodedata import category
 from django.db import models
 from accounts.models import User
 from trainer.models import Member_Coach
 
-# 다이어리
-class Diary(models.Model):
-    userID=models.ForeignKey(User, on_delete=models.CASCADE)
-    date=models.DateField() # 다이어리 해당일
-    calories=models.IntegerField() # 해당일 칼로리
-
 # 식단
 class Diet(models.Model):
-    diaryID=models.ForeignKey(Diary, on_delete=models.CASCADE)# 식단 정보가 입력될 다이어리 PK
-    moment=models.CharField(max_length=50)# 식단 입력 시간 (아침, 점심, 저녁, 간식)
-    time=models.DateTimeField()# 식단 입력 시각
-    picture=models.TextField()
-    comment=models.CharField(max_length=500)
+    userID=models.ForeignKey(User, on_delete=models.CASCADE )# 유저 PK
+    picture=models.TextField(null=True)
+    category=models.CharField(max_length=20) # 분류필드 : 아침, 점심, 저녁 ...
+    date=models.CharField(max_length=20) # 날짜 : 20220816
+    time=models.CharField(max_length=100) # 시간 : 1250AM
+    comment=models.TextField(null=True)
+    total_calorie=models.FloatField(null=True)
+    new_date=models.DateField(null=True)
+
+# 음식
+class Food(models.Model):
+    category=models.CharField(max_length=50)
+    name=models.CharField(max_length=100)
+    serving_size=models.IntegerField(null=True)
+    unit=models.CharField(max_length=10)
+    kcal=models.FloatField(null=True)
+    water=models.FloatField(null=True)
+    protein=models.FloatField(null=True)
+    fat=models.FloatField(null=True)
+    carbohydrate=models.FloatField(null=True)
+    sugar=models.FloatField(null=True)
+    glucose=models.FloatField(null=True)
+    calcium=models.FloatField(null=True)
+    natrium=models.FloatField(null=True)
+
+# 식단_음식 관계
+class Diet_Food(models.Model):
+    diet=models.ForeignKey(Diet, on_delete=models.CASCADE)
+    food=models.ForeignKey(Food, on_delete=models.CASCADE)
+    size=models.IntegerField(null=True)
 
 # 트레이닝 이력
 class Training_History(models.Model):
@@ -25,6 +45,6 @@ class Training_History(models.Model):
 # 스케줄
 class Schedule(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
-    day=models.IntegerField() # 0~6 : 월 ~ 일
-    start_time=models.IntegerField()
-    end_time=models.IntegerField()
+    day=models.IntegerField(null=True) # 0~6 : 월 ~ 일
+    start_time=models.IntegerField(null=True)
+    end_time=models.IntegerField(null=True)
