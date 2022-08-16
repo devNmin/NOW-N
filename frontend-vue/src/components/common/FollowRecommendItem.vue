@@ -4,8 +4,7 @@
       <div>
         <img class="follow-img" alt="이미지">
       </div>
-        <div class="follow-item-info-box">{{recommendData.nickname}}</div>
-        <div class="follow-item-info-box">팔로워 수 : {{}}</div>
+        <div class="follow-item-info-box2">{{recommendData.nickname}}</div>
     </div>
   </router-link>
 </template>
@@ -43,10 +42,9 @@ export default {
   border-radius: 50%;
 
 }
-.follow-item-info-box {
+.follow-item-info-box2 {
   padding: 5px;
-  margin: 5px 5px 5px 5px;
-  width: 85px;
+  margin: auto;
   height: 50px;
 }
 </style>
