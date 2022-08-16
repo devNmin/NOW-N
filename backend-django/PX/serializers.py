@@ -3,14 +3,20 @@ from GX.models import Conference, User_Conference
 from trainer.models import Counsel, Member_Coach
 from .models import Diet, Diet_Food, Food, Schedule, Training_History
 
+# 음식 그램수 정보
+class FoodSizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diet_Food
+        fields = ['size']
+
 # 음식 간단 정보
 class FoodSimpleSerializer(serializers.ModelSerializer):
-    food_pk = serializers.IntegerField()
-    food_size = serializers.IntegerField()
+    class Meta:
+        model = Food
+        fields = ['name']
 
 # 식단 정보
 class DietSerializer(serializers.ModelSerializer):
-    foods = FoodSimpleSerializer(many=True)
     class Meta:
         model = Diet
         fields = '__all__'

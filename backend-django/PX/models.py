@@ -5,14 +5,14 @@ from trainer.models import Member_Coach
 
 # 식단
 class Diet(models.Model):
-    userID=models.ForeignKey(User, on_delete=models.CASCADE )# 유저 PK
-    picture=models.TextField(null=True)
+    userID=models.ForeignKey(User, on_delete=models.CASCADE)# 유저 PK
+    picture=models.TextField(null=True, blank=True)
     category=models.CharField(max_length=20) # 분류필드 : 아침, 점심, 저녁 ...
     date=models.CharField(max_length=20) # 날짜 : 20220816
     time=models.CharField(max_length=100) # 시간 : 1250AM
-    comment=models.TextField(null=True)
-    total_calorie=models.FloatField(null=True)
-    new_date=models.DateField(null=True)
+    comment=models.TextField(null=True, blank=True)
+    total_calorie=models.FloatField(null=True, blank=True)
+    new_date=models.DateField(null=True, blank=True)
 
 # 음식
 class Food(models.Model):
