@@ -16,34 +16,24 @@
 import LineChart from '@/components/px/Chart/LineChart.vue'
 
 export default {
-  components: {
-    LineChart
-  },
-  data () {
-    return {
-      datacollection: null
-    }
-  },
-  created () {
-    this.fillData()
-  },
-  methods: {
-    fillData () {
-      this.datacollection = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            // Data for the x-axis of the chart
-            data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
-      }
-    },
-    getRandomInt () {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-    }
+  components: { LineChart },
+  setup () {
+    const caoptions = [
+      { id: 'bmi', value: 'bmi 지수' },
+      { id: 'kcal', value: '칼로리' },
+      { id: 'nutrient', value: '영양소' }
+    ]
+    const cyoptions = [
+      { id: 'daily', value: '일별' },
+      { id: 'weekly', value: '주별' },
+      { id: 'montly', value: '월별' }
+    ]
+    const data = reactive({
+      cycle: '',
+      category: ''
+    })
+
+    return { data, caoptions, cyoptions }
   }
 }
 </script>

@@ -104,7 +104,7 @@ export default {
     const uploadFile = (e) => {
       const storage = getStorage()
       const file = e.target.files[0]
-      console.log(file)
+      console.log(roomInfo.owner_id)
       const storageRef = ref(storage, 'rooms/' + roomInfo.owner_id + '_' + roomInfo.title)
       uploadBytes(storageRef, file).then(() => {
         console.log('Uploaded a blob or file!')
@@ -121,7 +121,7 @@ export default {
 
       const conference = store.state.room.roomInfo
       console.log(conference)
-      router.push({ path: `/gx/conferences/${conference.id}`, params: { conference_id: conference.id } })
+      router.push({ path: `/gx/conferences/${conference.id}`, params: { conference_id: conference.id, title: conference.title } })
     }
 
     function moveToGxRoom () {
