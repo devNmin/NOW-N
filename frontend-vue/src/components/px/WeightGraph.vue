@@ -38,6 +38,7 @@ export default {
       cycle: '',
       category: ''
     })
+
     return { data, caoptions, cyoptions }
   }
 }

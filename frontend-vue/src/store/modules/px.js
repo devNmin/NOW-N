@@ -4,7 +4,8 @@ import drf from '@/api/drf'
 export default {
   state: {
     dietList: [], // 해당 날짜 식단 리스트
-    user_trainer: [] // 현재 유저의 트레이너
+    user_trainer: [], // 현재 유저의 트레이너
+    weightList: [] // 현재 유저의 weight data
   },
   getters: {
   },
@@ -22,6 +23,11 @@ export default {
     // 현재 유저의 트레이너 저장
     SET_USER_TRAINER (state, info) {
       state.user_trainer = info
+    },
+
+    // 현재 유저의 weight 저장
+    SET_USER_WEIGHT (state, weightList) {
+      state.weightList = weightList
     }
   },
   actions: {
@@ -52,6 +58,18 @@ export default {
         }).then(info => {
           commit('SET_USER_TRAINER', info)
         })
+      })
+    },
+
+    // 체중 그래프 데이터 조회
+    getWeight ({ commit }, userPk) {
+      axios({
+        url: drf.px.weight(userPk),
+        method: 'get',
+        data: userPk,
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      }).then(res => {
+        commit('SET_USER_WEIGHT', res.data)
       })
     }
   }
