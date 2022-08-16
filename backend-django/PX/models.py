@@ -32,6 +32,7 @@ class Food(models.Model):
 class Diet_Food(models.Model):
     diet=models.ForeignKey(Diet, on_delete=models.CASCADE)
     food=models.ForeignKey(Food, on_delete=models.CASCADE)
+    size=models.IntegerField()
 
 # 트레이닝 이력
 class Training_History(models.Model):

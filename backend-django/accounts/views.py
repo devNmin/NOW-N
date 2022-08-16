@@ -35,7 +35,6 @@ class RegistrationAPIView(APIView):
                     'title': serializer.data.get('name'),
                     'description': '자동 생성된 1:1 코칭룸입니다. 방 정보를 수정하세요. (초기 비밀번호 : 1111)',
                     'max_user': 2,
-                    'thumnail': 'https://ibb.co/qg4XZZP',
                     'is_active': False,
                 }
                 conference = ConferenceSerializer(data=context)

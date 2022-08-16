@@ -88,8 +88,4 @@ class ProfileModifySerializer(serializers.ModelSerializer):
 class WeightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Weight
-        fields = [
-            'id',
-            'user',
-            'weight',
-        ]
+        fields = '__all__'

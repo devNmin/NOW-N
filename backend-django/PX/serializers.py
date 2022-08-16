@@ -1,13 +1,24 @@
 from rest_framework import serializers
 from GX.models import Conference, User_Conference
-
 from trainer.models import Counsel, Member_Coach
-from .models import Diet, Food, Schedule, Training_History
+from .models import Diet, Diet_Food, Food, Schedule, Training_History
+
+# 음식 간단 정보
+class FoodSimpleSerializer(serializers.ModelSerializer):
+    food_pk = serializers.IntegerField()
+    food_size = serializers.IntegerField()
 
 # 식단 정보
 class DietSerializer(serializers.ModelSerializer):
+    foods = FoodSimpleSerializer(many=True)
     class Meta:
         model = Diet
+        fields = '__all__'
+
+# 식단-음식 관계
+class DietFoodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diet_Food
         fields = '__all__'
 
 # 음식

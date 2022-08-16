@@ -1,4 +1,5 @@
-from functools import partial
+import datetime
+from dateutil.relativedelta import relativedelta
 from multiprocessing import context
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from rest_framework.decorators import api_view
@@ -11,12 +12,15 @@ from rest_framework.status import (
 from GX.serializers import ConferenceSerializer
 from accounts.models import User
 from accounts.serializers import UserSerializer
+from profiles.serializers import WeightSerializer
+from profiles.models import Weight
 from trainer.models import Counsel, Member_Coach
 from .models import Diet, Food, Schedule, Training_History
 from GX.models import Conference
 from .serializers import (
     ConferenceParticipateSerializer,
     CounselHistorySerializer,
+    DietFoodSerializer,
     DietSerializer,
     FoodSerializer,
     MemberCoachPKSerializer,
@@ -41,7 +45,24 @@ def today_diets(request, today_date):
 # 식단 다이어리 - 오늘의 식단 정보 작성하기
 @api_view(['POST'])
 def create_diets(request):
-    
+    # 들어온 식단 정보 저장
+    serializer = DietSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        # 들어온 식단 정보 중 음식 정보를 Diet와 관계 매핑
+        dietPK = serializer.data.get('pk')
+        for food in serializer.foods:
+            foodPK = food.food_pk
+            size = food.food_size
+            context = {
+                'diet': dietPK,
+                'food': foodPK,
+                'size': size
+            }
+            dfs = DietFoodSerializer(data=context)
+            if dfs.is_valid():
+                dfs.save()
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 # 식단 다이어리 - 음식 정보 PK로 조회
 @api_view(['GET'])
@@ -205,8 +226,81 @@ def schedule_detail(request, pk):
             serializer.save()
         return Response(serializer.data, status=HTTP_201_CREATED)
 
-# 그래프 - 일
+# 체중 / 목표 체중 그래프 - 일
+@api_view(['GET'])
+def weight_graph_day(request):
+    weights = Weight.objects.filter(user_id=request.user.id).order_by('-date')[:7]
+    serializer = WeightSerializer(weights, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
-# 그래프 - 주
+# 체중 / 목표 체중 그래프 - 주
+@api_view(['GET'])
+def weight_graph_week(request):
+    # 가장 최근에 저장된 날짜 가져오기
+    weights = Weight.objects.filter(user_id=request.user.pk)
+    latest = weights.last()
+    latest_date = latest.date
+    week_data = list()
+    week_data.append(latest_date)
+    # 1~6주 전 데이터까지 가져오기
+    for i in range(1, 6):
+        week_date = latest_date - datetime.timedelta(weeks=i)
+        week_data.append(week_date)
+    week_weights = Weight.objects.filter(date__in=week_data)
+    serializer = WeightSerializer(week_weights, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
-# 그래프 - 월
+# 체중 / 목표 체중 그래프 - 월
+@api_view(['GET'])
+def weight_graph_month(request):
+    # 가장 최근에 저장된 날짜 가져오기
+    weights = Weight.objects.filter(user_id=request.user.pk)
+    latest = weights.last()
+    latest_date = latest.date
+    week_data = list()
+    week_data.append(latest_date)
+    # 1~6달 전 데이터까지 가져오기
+    for i in range(1, 6):
+        week_date = latest_date - relativedelta(months=i)
+        week_data.append(week_date)
+    week_weights = Weight.objects.filter(date__in=week_data)
+    serializer = WeightSerializer(week_weights, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+# 칼로리 그래프 - 일
+@api_view(['GET'])
+def calorie_graph_day(request):
+    # 식단 정보 가져오기
+    diets = Diet.objects.filter(userID=request.user.pk)
+    latest_diet = diets.last()
+    latest_diet.date
+    diet_list = list()
+    diet_list.append(latest_diet.date)
+    print("diet_list : ", diet_list)
+    pass
+        
+
+# 칼로리 그래프 - 주
+@api_view(['GET'])
+def calorie_graph_week(request):
+    pass
+
+# 칼로리 그래프 - 월
+@api_view(['GET'])
+def calorie_graph_month(request):
+    pass
+
+# 영양소 그래프 - 일
+@api_view(['GET'])
+def nutrient_graph_day(request):
+    pass
+
+# 영양소 그래프 - 주
+@api_view(['GET'])
+def nutrient_graph_week(request):
+    pass
+
+# 영양소 그래프 - 월
+@api_view(['GET'])
+def nutrient_graph_month(request):
+    pass

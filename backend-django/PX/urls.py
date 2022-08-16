@@ -38,9 +38,30 @@ urlpatterns = [
     # 1:1 코칭룸 - 스케쥴 (주간 스케쥴 확인 / 스케쥴 추가)
     path('schedule/<int:pk>', views.schedule_detail),
 
-    # 그래프 - 일
+    # 체중 / 목표 체중 그래프 - 일
+    path('weightgraph/day', views.weight_graph_day),
 
-    # 그래프 - 주
+    # 체중 / 목표 체중 그래프 - 주
+    path('weightgraph/week', views.weight_graph_week),
 
-    # 그래프 - 월
+    # 체중 / 목표 체중 그래프 - 월
+    path('weightgraph/month', views.weight_graph_month),
+
+    # 칼로리 그래프 - 일
+    path('caloriegraph/day', views.calorie_graph_day),
+
+    # 칼로리 그래프 - 주
+    path('caloriegraph/week', views.calorie_graph_week),
+
+    # 칼로리 그래프 - 월
+    path('caloriegraph/month', views.calorie_graph_month),
+
+    # 영양소 그래프 - 일
+    path('nutrientgraph/day', views.nutrient_graph_day),
+
+    # 영양소 그래프 - 주
+    path('nutrientgraph/week', views.nutrient_graph_week),
+
+    # 영양소 그래프 - 월
+    path('nutrientgraph/month', views.nutrient_graph_month),
 ]
