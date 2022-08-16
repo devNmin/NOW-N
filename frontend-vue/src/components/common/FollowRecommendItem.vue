@@ -4,26 +4,26 @@
       <div>
         <img class="follow-img" alt="이미지">
       </div>
-        <div class="follow-item-info-box">{{followData.name}}</div>
-        <div class="follow-item-info-box">팔로워 수 : {{followData.follow_count}}</div>
+        <div class="follow-item-info-box">{{recommendData.nickname}}</div>
+        <div class="follow-item-info-box">팔로워 수 : {{}}</div>
     </div>
   </router-link>
 </template>
 
 <script>
 import { computed, ref } from '@vue/runtime-core'
-
 export default {
   props: {
-    followData: {
+    recommendData: {
       type: Object
     }
   },
   setup (props) {
-    const followItemData = ref(computed(() => props.followData))
+    const recommendItemData = ref(computed(() => props.recommendData)
 
+    )
     return {
-      followItemData
+      recommendItemData
     }
   }
 }

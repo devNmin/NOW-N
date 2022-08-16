@@ -59,6 +59,9 @@ export default {
       }).then(res => {
         commit('CREATE_ROOM_INFO', res.data)
       })
+        .catch(err => {
+          console.error(err.response.data)
+        })
     },
 
     //  gx룸 삭제
@@ -72,6 +75,9 @@ export default {
         commit('DELETE_ROOM_INFO', roomId)
         router.push({ name: 'gxConferences' })
       })
+        .catch(err => {
+          console.error(err.response.data)
+        })
     }
   }
 }

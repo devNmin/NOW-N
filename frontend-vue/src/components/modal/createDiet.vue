@@ -9,9 +9,11 @@
             </div>
             <fieldset class="diet-moment">
                 <legend>분 류</legend>
-                <div class="radio" v-for="item in options" :key="item.value">
-                    <input type="radio" name="radio" :value="item.value" v-model="DietInfo.moment" :id="item.id"/>
-                    <label :for="item.id">{{item.value}}</label>
+                <div v-for="item in options" :key="item.value" style="margin-top:7px">
+                    <label>
+                    <input type="radio" v-model="DietInfo.moment" :value="item.value" />
+                    {{item.text}}
+                    </label>
                 </div>
             </fieldset>
 
@@ -70,11 +72,11 @@ export default {
     })
 
     const options = [
-      { id: '아침', value: '아침' },
-      { id: '점심', value: '점심' },
-      { id: '저녁', value: '저녁' },
-      { id: '간식', value: '간식' },
-      { id: '야식', value: '야식' }
+      { text: '아침', value: '아침' },
+      { text: '점심', value: '점심' },
+      { text: '저녁', value: '저녁' },
+      { text: '간식', value: '간식' },
+      { text: '야식', value: '야식' }
     ]
 
     const time = reactive({
@@ -200,27 +202,5 @@ export default {
   display: flex;
   justify-content: flex-end;
   gap: 50px;
-}
-
-.diet-moment .radio label {
-  font-size: 18px;
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 0.5rem 1.25rem;
-  border-radius: 50px;
-  cursor: pointer;
-  color: #444;
-  transition: box-shadow 400ms ease;
-}
-.diet-moment .radio label:hover {
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-.diet-moment .radio input[type=radio] {
-  display: none;
-}
-.diet-moment .radio input[type=radio]:checked + label {
-  background: #2196F3;
-  color: #fff;
-  border-color: #2196F3;
 }
 </style>

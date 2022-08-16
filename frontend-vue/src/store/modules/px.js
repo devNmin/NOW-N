@@ -4,9 +4,15 @@ import drf from '@/api/drf'
 export default {
   state: {
     dietList: [], // 해당 날짜 식단 리스트
-    user_trainer: [] // 현재 유저의 트레이너
+    infomations: {
+      coach: {},
+      trainhistory: {},
+      counselhistory: {},
+      schedule: {}
+    }
   },
   getters: {
+    infomations: (state) => state.infomations
   },
   mutations: {
     // 해당 날짜 리스트 설정
@@ -19,10 +25,16 @@ export default {
       state.dietList.push(dietInfo)
     },
 
-    // 현재 유저의 트레이너 저장
-    SET_USER_TRAINER (state, info) {
-      state.user_trainer = info
-    }
+    // 룸 삭제
+    DELETE_DIET_INFO (state, dietId) {
+      state.dietList = state.dietList.filter(
+        diet => diet.id !== dietId
+      )
+    },
+    SET_INFOMATION_COACH (state, coach) { state.infomations.coach = coach },
+    SET_INFOMATION_TR_HISTORY (state, trainhistory) { state.infomations.trainhistory = trainhistory },
+    SET_INFOMATION_CS_HISTORY (state, counselhistory) { state.infomations.counselhistory = counselhistory },
+    SET_INFOMATION_SCHEDULE (state, schedule) { state.infomations.schedule = schedule }
   },
   actions: {
     // 해당 날짜 식단 리스트 조회
@@ -36,23 +48,64 @@ export default {
       commit('SET_DIET_LIST', data)
     },
 
-    // 코치 정보 조회
-    getTrainerId ({ commit }, userPk) {
-      axios({
-        url: drf.px.trainerId(userPk),
-        method: 'get',
-        data: userPk,
+    //  gx룸 삭제
+    async deleteRoomInfo ({ commit }, roomId) {
+      console.log(drf.rooms.room + `${roomId}/`)
+      console.log(drf.trainer.requestDetail)
+      await axios({
+        url: drf.rooms.room + `${roomId}`,
+        method: 'delete',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       }).then(res => {
-        axios({
-          url: drf.px.trainerInfo(res.data),
-          method: 'get',
-          data: res.data,
-          headers: { Authorization: 'JWT ' + localStorage.accessToken }
-        }).then(info => {
-          commit('SET_USER_TRAINER', info)
-        })
+        commit('DELETE_ROOM_INFO', roomId)
       })
+    },
+    getCoachInfo ({ commit }, coachPK) {
+      axios({
+        url: drf.px.info.coachInfo(coachPK),
+        method: 'get',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          console.log(res.data)
+          commit('SET_INFOMATION_COACH', res.data)
+        })
+        .catch(err => {
+          console.error(err.response.data)
+        })
+      axios({
+        url: drf.px.info.trainhistory(coachPK),
+        method: 'get',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          commit('SET_INFOMATION_TR_HISTORY', res.data)
+        })
+        .catch(err => {
+          console.error(err.response.data)
+        })
+      axios({
+        url: drf.px.info.counselhistory(coachPK),
+        method: 'get',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          commit('SET_INFOMATION_CS_HISTORY', res.data)
+        })
+        .catch(err => {
+          console.error(err.response.data)
+        })
+      axios({
+        url: drf.px.info.schedule(coachPK),
+        method: 'get',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          commit('SET_INFOMATION_SCHEDULE', res.data)
+        })
+        .catch(err => {
+          console.error(err.response.data)
+        })
     }
   }
 }

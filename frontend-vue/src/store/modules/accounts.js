@@ -120,5 +120,19 @@ export default {
           commit('SET_AUTH_ERROR', err.response.data)
         })
     }
+    // changePw ({ commit }, userPk) {
+    //   axios({
+    //     url: drf.accounts.changePw(userPk),
+    //     method: 'post',
+    //     data: credentials
+    //   })
+    //     .then(res => {
+    //       router.push({ name: 'login' })
+    //     })
+    //     .catch(err => {
+    //       console.error(err.response.data)
+    //       commit('SET_AUTH_ERROR', err.response.data)
+    //     })
+    // }
   }
 }
