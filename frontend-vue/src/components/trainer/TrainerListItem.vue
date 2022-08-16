@@ -3,32 +3,22 @@
     <div class="trainer-list-box2" v-show="hide">
       <div class="trainer-list-deco-box"></div>
       <div class="div1-noPadding"><img class="trainer-list-img" :src="imgData" alt=""></div>
-      <div class="div2 item-padding">{{nameData}}</div>
-      <div class="div3 item-padding">{{exerciseData}}</div>
-      <div class="div3 item-padding">{{priceData}}</div>
+      <div class="div2 item-padding">{{trainerItemData.name}}</div>
+      <div class="div3 item-padding">{{trainerItemData.exercise_category}}</div>
+      <div class="div3 item-padding">{{trainerItemData.exercise_price}} / {{trainerItemData.diet_price}}</div>
       <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">신청</button></div>
       <div class="trainer-list-deco-box"></div>
     </div>
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import { computed } from '@vue/runtime-core'
 export default {
   props: {
-    imgData: {
-      type: String
-    },
-    nameData: {
-      type: String
-    },
-    exerciseData: {
-      type: String
-    },
-    priceData: {
-      type: String
-    },
-    trainer: {
-      type: Number
+    trainerData: {
+      type: Object
     },
     hide: {
       type: Boolean
@@ -36,15 +26,10 @@ export default {
   },
   setup (props, { emit }) {
     const store = useStore()
-    const trainerItemData = {
-      imgdata: props.imgData,
-      namedata: props.nameData,
-      exerciseData: props.exerciseData,
-      priceData: props.priceData,
-      hide: props.hide
-    }
+    const trainerItemData = ref(computed(() => props.trainerData))
     function toggleModal () {
-      store.dispatch('requestTrainerDetail', props.trainer)
+      store.dispatch('requestTrainerDetail', trainerItemData.value.id)
+      store.dispatch('isFollow', trainerItemData.value.id)
       emit('toggleModal', true)
     }
     return {
@@ -84,7 +69,7 @@ export default {
   font-family: 'MaruBuriOTF';
   font-style: normal;
   padding: 5px 15px;
-  border: 1px solid #6dcef5;
+  border: 2px solid #6dcef5;
   gap: 10px;
   border-radius: 25px;
   background-color: #FFF;

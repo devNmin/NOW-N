@@ -31,6 +31,12 @@ const routes = [
     name: 'profile',
     component: () => import('@/views/user/UserProfileView.vue')
   },
+  {
+    // 트레이너 정보변경
+    path: '/updateTrainer',
+    name: 'update',
+    component: () => import('@/views/user/UpdateTrainer.vue')
+  },
 
   // ------------ GX 페이지 Start ---------------
   {
@@ -50,6 +56,12 @@ const routes = [
         path: 'community',
         name: 'GXcommunity',
         component: () => import('@/components/gx/GXcommunity.vue')
+      },
+      {
+        // GX 커뮤니티
+        path: 'createArticle',
+        name: 'GXCreateArticle',
+        component: () => import('@/components/gx/GXCreateArticle.vue')
       }
     ]
   },
@@ -79,18 +91,6 @@ const routes = [
     path: '/trainer/detail',
     name: 'trainerDetail',
     component: () => import('@/views/trainer/TrainerDetailView.vue')
-  },
-  {
-    // 트레이너 신청
-    path: '/trainer/apply',
-    name: 'trainerApply',
-    component: () => import('@/views/trainer/TrainerApplyView.vue')
-  },
-  {
-    // 트레이너 스케쥴
-    path: '/trainer/schedule',
-    name: 'trainerSchedule',
-    component: () => import('@/views/trainer/TrainerScheduleView.vue')
   },
   // ------------ 트레이너 페이지 end ----------
   // ------------ PX 페이지 Start ---------------
@@ -135,10 +135,28 @@ const routes = [
     // counsel 유저 리스트
     path: '/counselting',
     name: 'counselting',
-    component: () => import('@/views/counselting/CounseltingView.vue')
-  }
+    component: () => import('@/views/counselting/CounseltingClientView.vue')
+  },
   // ------------ PX 페이지 End ---------------
   // ------------ counselting 페이지 start ----------
+  {
+    // counsel 유저 리스트
+    path: '/counseltingApplicant',
+    name: 'counseltingApplicant',
+    component: () => import('@/views/counselting/CounseltingApplicantView.vue')
+  },
+  {
+    // counsel 유저 리스트
+    path: '/counseltingClient',
+    name: 'counseltingClient',
+    component: () => import('@/views/counselting/CounseltingClientView.vue')
+  },
+  {
+    // counsel 페이지
+    path: '/counselting/apply',
+    name: 'counseltingApply',
+    component: () => import('@/components/counselting/applicant/CounseltingApplyRoom.vue')
+  }
 ]
 
 const router = createRouter({

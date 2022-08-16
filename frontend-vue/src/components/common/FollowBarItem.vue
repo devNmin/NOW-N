@@ -1,32 +1,27 @@
 <template>
-  <div class="follow-item-box">
-    <div>
-      <img class="follow-img" :src="followItemData.imgdata" alt="이미지">
+  <router-link to="/trainer">
+    <div class="follow-item-box">
+      <div>
+        <img class="follow-img" alt="이미지">
+      </div>
+        <div class="follow-item-info-box">{{followData.name}}</div>
+        <div class="follow-item-info-box">팔로워 수 : {{followData.follow_count}}</div>
     </div>
-      <div class="follow-item-info-box">{{followItemData.namedata}}</div>
-      <div class="follow-item-info-box">팔로워 수 : {{followItemData.followNumdata}}</div>
-  </div>
+  </router-link>
 </template>
 
 <script>
+import { computed, ref } from '@vue/runtime-core'
+
 export default {
   props: {
-    imgdata: {
-      type: String
-    },
-    namedata: {
-      type: String
-    },
-    followNumdata: {
-      type: String
+    followData: {
+      type: Object
     }
   },
   setup (props) {
-    const followItemData = {
-      imgdata: props.imgdata,
-      namedata: props.namedata,
-      followNumdata: props.followNumdata
-    }
+    const followItemData = ref(computed(() => props.followData))
+
     return {
       followItemData
     }
