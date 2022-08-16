@@ -14,7 +14,7 @@
 
 <script>
 import LineChart from '@/components/px/Chart/LineChart.vue'
-
+import { reactive } from 'vue'
 export default {
   components: { LineChart },
   setup () {
