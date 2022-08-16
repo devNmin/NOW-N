@@ -59,17 +59,8 @@ export default {
   flex-direction: column;
   gap: 10px;
   padding: 48px;
-  margin-top: 5px;
-}
-form {
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 48px;
-  background-color: rgba(255, 255, 255, 0.8);
-  /* backdrop-filter: blur(4px); */
   margin: auto;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .form-actions {

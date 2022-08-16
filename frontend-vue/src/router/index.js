@@ -126,6 +126,12 @@ const routes = [
     component: () => import('@/components/modal/createDiet.vue')
   },
   {
+    // px룸
+    path: '/px/personalroom',
+    name: 'pxPersonal',
+    component: () => import('@/views/room/PxRoom.vue')
+  },
+  {
     // counsel 유저 리스트
     path: '/counselting',
     name: 'counselting',

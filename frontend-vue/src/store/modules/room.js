@@ -15,6 +15,10 @@ export default {
       state.roomList = roomList
     },
 
+    SET_ROOM_INFO (state, roomInfo) {
+      state.roomInfo = roomInfo
+    },
+
     // 룸 생성시 리스트, 현재 룸을 State에 저장
     CREATE_ROOM_INFO (state, roomInfo) {
       state.roomList.push(roomInfo)
@@ -31,12 +35,15 @@ export default {
   actions: {
     // gx룸 상세 조회
     async getRoomInfo ({ commit }, roomId) {
-      const { data } = await axios({
+      await axios({
         url: drf.rooms.room() + `${roomId}`,
         method: 'get',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      }).then(res => {
+        console.log('getRoomInfo')
+        console.log(res.data)
+        commit('SET_ROOM_INFO', res.data)
       })
-      commit('SET_ROOM_INFO', data)
     },
 
     // gx룸 리스트 조회
