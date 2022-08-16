@@ -15,7 +15,7 @@ urlpatterns = [
     path('selectfoodbypk/<int:food_pk>', views.select_food_by_pk),
 
     # 식단 다이어리 - 음식 정보 이름으로 검색
-    path('selectfoodbyname/<str:food_name>', views.select_food_by_name),
+    path('selectfoodbyname', views.select_food_by_name),
 
     # 1:1 코칭룸 - 나의 트레이너 정보 가져오기
     path('mytrainer/<int:pk>', views.mytrainer),
