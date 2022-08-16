@@ -50,6 +50,12 @@ const routes = [
         path: 'community',
         name: 'GXcommunity',
         component: () => import('@/components/gx/GXcommunity.vue')
+      },
+      {
+        // GX 커뮤니티
+        path: 'createArticle',
+        name: 'GXCreateArticle',
+        component: () => import('@/components/gx/GXCreateArticle.vue')
       }
     ]
   },

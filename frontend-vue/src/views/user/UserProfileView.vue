@@ -1,7 +1,8 @@
 <template>
   <div>
   <div class="middlebox">
-      <div class="userName"> {{ UserInfoP.name }}<img src="@/assets/info_icon.png" @click="toggleModalInfo" style="margin-left: 10px; vertical-align:middle;" alt="123" width="35"> </div>
+      <div class="userName" v-if="UserInfoP.myinfo.nickname ==false" > {{ UserInfoP.myinfo.name }}<img src="@/assets/info_icon.png" @click="toggleModalInfo" style="margin-left: 10px; vertical-align:middle;" alt="123" width="35"> </div>
+      <div class="userName" v-else > {{ UserInfoP.myinfo.nickname }}<img src="@/assets/info_icon.png" @click="toggleModalInfo" style="margin-left: 10px; vertical-align:middle;" alt="123" width="35"> </div>
         <label for="img">
           <img class="userProfileImg" :src="state.ProfileUrl" alt="유저프로필URL">
         </label>
@@ -9,30 +10,38 @@
         <div style="display:flex; justify-content: space-between; ">
           <div style="display:flex;margin-top:-65px; margin-left:480px; font-weight: bolder; ">
             <div>
-              <div style="margin: 0;" >팔로워</div><div style="text-align:center;"> {{ UserInfoP.follower }}</div>
+              <div style="margin: 0;" >팔로워</div><div style="text-align:center;"> {{ UserInfoP.myinfo.followers }}</div>
             </div>
             <div style="margin-left:20px;">
-              <div style="margin: 0;" >팔로잉</div><div style="text-align:center;"> {{ UserInfoP.following }}</div>
+              <div style="margin: 0;" >팔로잉</div><div style="text-align:center;"> {{ UserInfoP.myinfo.followings }}</div>
             </div>
           </div>
         </div>
-      <div class="userTextbox" style="margin-top:1px">
-        <div class="userText">{{ UserInfoP.information }}</div>
+      <div class="userTextbox" style="margin-top:1px display:flex;">
+        <div class="userText">
+          <div v-for='hash in UserInfoP.myinfo.hashtag' :key="hash.id" :hash="hash" >
+            <a href=""><div style="margin-right:15px;">#{{hash.hashtag}}</div></a>
+          </div>
+          </div>
       </div>
       <button type="button" class='graphBtn' @click="toggleModalChart" ><img src="@/assets/radar_icon2.png" style="margin:auto;" width="40" alt="그래프아이콘"><div style="margin:auto;">운동 그래프</div></button>
     </div>
   <div class="modal__background">
   <div class="modalMyInfo">
-    <div class="modalBox">
-      <div style="display:flex;"><h1 >{{ UserInfoP.name }}</h1><img src="@/assets/boy.png" alt="성별아이콘" width="40" height="40" style="display:flex; margin-left:20px;margin-top:20px; "></div>
+    <div class="modalBox" v-if="state.isModify === false">
+      <div style="display:flex;">
+        <h1 v-if="UserInfoP.myinfo.nickname ==false">{{UserInfoP.myinfo.name}}</h1>
+        <h1 v-else>{{UserInfoP.myinfo.nickname}}</h1>
+        <img src="@/assets/boy.png" alt="성별아이콘" width="40" height="40" style="display:flex; margin-left:20px;margin-top:20px; ">
+      </div>
       <div class="MyInfoText">
         <div style="display: flex; justify-content: space-between; margin-bottom:10px">
-          <div>신장 </div>
-          <div>{{UserInfoP.height}} cm</div>
+          <div> 신장</div>
+          <div>{{UserInfoP.myinfo.height}}cm</div>
           <div>체중</div>
-          <div>{{UserInfoP.weight}} kg</div>
+          <div>{{UserInfoP.myinfo.weight}} kg</div>
         </div>
-      <img src="@/assets/run.png" class="bmiIcon" style="width: 5%; height:5%" id="bmiId">
+      <img src="@/assets/run.png" class="bmiIcon" id="bmiId">
       <div style=" display: flex; height: 20%; margin-top:2px; ">
         <div>&nbsp;</div>
         <div class="box1"></div>
@@ -40,15 +49,46 @@
         <div class="box3"></div>
         <div class="box4"></div>
       </div>
-      <div style="text-align: right; font-size:10px; margin-top:2px;">체질량지수:{{(UserInfoP.weight / ((UserInfoP.height / 100) * (UserInfoP.height / 100))).toFixed(2)}}</div>
+      <div style="text-align: right; font-size:10px; margin-top:2px;">체질량지수:{{(UserInfoP.myinfo.weight / ((UserInfoP.myinfo.height / 100) * (UserInfoP.myinfo.height / 100))).toFixed(2)}}</div>
         <div style=" display: flex; justify-content: space-between; " >
-          <div style="margin-top:20px">목표체중 {{UserInfoP.weight2}} kg </div>
-          <div style="margin-top:20px"> {{UserInfoP.weight - UserInfoP.weight2}} kg </div>
+          <div style="margin-top:20px">목표체중 {{UserInfoP.myinfo.object_weight}} kg </div>
         </div>
-      <div class="bottomButton">
-        <button style="margin-right:5px" >수정 </button>
-        <button @click="toggleModalInfo" >닫기</button>
+        <div class="modButton">
+          <button  style="margin-right:5px" @click="modClick" >수정 </button>
+          <button @click="toggleModalInfo" >닫기</button>
+        </div>
+    </div>
+    </div>
+    <!-- 수정페이지  -->
+    <div  v-else>
+    <div class="modalBox">
+      <div style="display:flex;"><h1 ><input type="text" v-model="credentials.nickname" label="nickname" :placeholder="UserInfoP.myinfo.nickname" ></h1><img src="@/assets/boy.png" alt="성별아이콘" width="40" height="40" style="display:flex; margin-left:20px;margin-top:20px; "></div>
+      <div class="MyInfoText">
+        <div style="display: flex; justify-content: space-between; margin-bottom:10px">
+          <div> 신장</div>
+          <div><input type="text" v-model="credentials.height" label="신장" size="5" :placeholder="UserInfoP.myinfo.height"> cm</div>
+          <div>체중</div>
+          <div><input type="text" v-model="credentials.user_weight" label="체중" size="4" :placeholder="UserInfoP.myinfo.user_weight" > kg</div>
+        </div>
+      <img src="@/assets/run.png" class="bmiIcon" id="bmiId">
+      <div style=" display: flex; height: 20%; margin-top:2px; ">
+        <div>&nbsp;</div>
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+        <div class="box4"></div>
       </div>
+      <div style="text-align: right; font-size:10px; margin-top:2px;">체질량지수:{{(UserInfoP.myinfo.weight / ((UserInfoP.myinfo.height / 100) * (UserInfoP.myinfo.height / 100))).toFixed(2)}}</div>
+        <div style=" display: flex; justify-content: space-between; " >
+          <div style="margin-top:20px">목표체중
+            <input type="text" v-model="credentials.object_weight" label="목표체중" size="4" :placeholder="UserInfoP.myinfo.object_weight" > kg
+          </div>
+        </div>
+        <div class="modButton">
+          <button  style="margin-right:5px" @click="modify(credentials)" >완료 </button>
+          <button  @click="toggleModalInfo" >취소 </button>
+        </div>
+    </div>
     </div>
     </div>
   </div>
@@ -64,52 +104,87 @@
 </template>
 
 <script>
+import router from '@/router'
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import { getStorage, uploadBytes, ref, getDownloadURL } from 'firebase/storage'
 import RadarChart from '../../components/user/RadarChart.vue'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, onUpdated } from '@vue/runtime-core'
 
 export default {
   components: {
     RadarChart
   },
   setup () {
+    // 변수 선언
     const store = useStore()
-    const UserInfoP = store.state.profile.UserInfo
     const storage = getStorage()
-    const state = reactive({ ProfileUrl: '' })
-    const saveName = 'profiles/' + UserInfoP.name
+    const state = reactive({ ProfileUrl: '', isModify: false })
+    const UserInfoP = store.state.profile
+    console.log(UserInfoP)
+    console.log(UserInfoP.myinfo)
+    const saveName = 'profiles/' + UserInfoP.myinfo.name
     const storageRef = ref(storage, saveName)
-    onMounted(() => {
-      getDownloadURL(storageRef)
-        .then((url) => {
-          state.ProfileUrl = url
-        })
-      const bmiTag = document.getElementById('bmiId')
-      const bmiData = UserInfoP.weight / ((UserInfoP.height / 100) * (UserInfoP.height / 100))
-      bmiTag.style.setProperty('left', (bmiData * 2) + 10 + '%')
+    const genderIcon = '@/assets/boy.png'
+    const credentials = reactive({
+      nickname: UserInfoP.myinfo.nickname,
+      img: UserInfoP.myinfo.name,
+      age: UserInfoP.myinfo.age,
+      gender: UserInfoP.myinfo.gender,
+      height: UserInfoP.myinfo.height,
+      user_weight: UserInfoP.myinfo.weight,
+      object_weight: UserInfoP.myinfo.object_weight
     })
-    const uploadFile = (e) => {
+    function uploadFile (e) {
       const file = e.target.files[0]
       uploadBytes(storageRef, file).then(() => {
-        console.log('Uploaded a blob or file!')
         getDownloadURL(ref(storage, saveName))
           .then((url) => {
             state.ProfileUrl = url
           })
       })
     }
-    function toggleModalInfo () {
+    // functions
+    function modClick () { // 수정버튼 토글
+      state.isModify = true
+    }
+    function modify (credentials) { // 수정하기(axios put 요청)
+      store.dispatch('modify', credentials)
+      toggleModalInfo()
+      router.go()
+    }
+    function toggleModalInfo () { // 수정모달 토글
       document.querySelector('.modalMyInfo').classList.toggle('open')
       document.querySelector('.modal__background').classList.toggle('open')
+      state.isModify = false
     }
-    function toggleModalChart () {
+    function toggleModalChart () { // 차트모달 토글
       document.querySelector('.modalChart').classList.toggle('open')
       document.querySelector('.modal__background').classList.toggle('open')
     }
+    // Mounted
+    onMounted(() => {
+      store.dispatch('profile', localStorage.getItem('userPk')) // load user profile
+      getDownloadURL(storageRef) // firebase에서 프로필 URL 가져와서 저장
+        .then((url) => {
+          state.ProfileUrl = url
+          console.log('onMounted')
+        })
+    })
+    // Updated
+    onUpdated(() => {
+      getDownloadURL(storageRef) // firebase에서 프로필 URL 가져와서 저장
+        .then((url) => {
+          state.ProfileUrl = url
+          console.log('onUpdated')
+        })
+      // BMI 계산
+      const BMIValue = (UserInfoP.myinfo.weight / ((UserInfoP.myinfo.height / 100) * (UserInfoP.myinfo.height / 100))).toFixed(2)
+      const bmiTag = document.getElementById('bmiId')
+      bmiTag.style.setProperty('left', (BMIValue * 2) + 10 + '%')
+    })
     return {
-      uploadFile, UserInfoP, toggleModalInfo, toggleModalChart, state
+      credentials, UserInfoP, state, genderIcon, modClick, modify, uploadFile, toggleModalInfo, toggleModalChart
     }
   }
 }
@@ -140,6 +215,8 @@ export default {
 }
 .bmiIcon {
   position:relative;
+  width: 5%;
+  height: 5%
 }
 .box1 {
   width: 37%;
@@ -161,8 +238,6 @@ export default {
 }
 
 .MyInfoText {
-  display: flex;
-  flex-direction: column;
   margin-top: 25px;
   font-size: 20px;
   font-weight: bolder;
@@ -183,10 +258,15 @@ button{
   text-align: center;
   font-weight: bold;
 }
-.bottomButton {
+.modButton {
   position: relative;
   margin-top: 35px;
   left: 85%;
+}
+.exitButton {
+  position: absolute;
+  left: 88%;
+  bottom: 38px;
 }
 .modalMyInfo {
   min-height: 315px;
@@ -201,9 +281,6 @@ button{
   width: 40%;
   height: 40%;
   background-color: rgba(255,255,255,1 );
-  /* background-color: rgba( 191, 229, 255, 0.7 ); */
-  /* background-color: rgba(109, 188, 230, 0.99); */
-  /* background-color: rgba(191, 239, 255, 1); */
   border: 1px solid #6dcef5;
   border-radius: 15px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -264,14 +341,16 @@ button{
 }
 .userTextbox{
   display: flex;
-  margin-top: -30px;
   align-items: center;
-  text-align: center;
   justify-content: center;
   width: 35vw;
   height: 10vh;
   background-color: rgba( 191, 229, 255, 0.4 );
   border-radius: 50px;
   font-size: 20px;
+}
+.userText{
+  display: flex;
+  justify-content: space-between;
 }
 </style>

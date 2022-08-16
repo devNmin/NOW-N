@@ -1,4 +1,5 @@
 <template>
+  <FollowBar></FollowBar>
   <div class="create-conference">
     <div class="gx-make-modal">
       <div class="gx-title">
@@ -70,7 +71,11 @@ import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { getStorage, uploadBytes, ref } from 'firebase/storage'
+import FollowBar from '@/components/common/FollowBar.vue'
 export default {
+  components: {
+    FollowBar
+  },
   setup () {
     const store = useStore()
     const router = useRouter()
@@ -98,7 +103,7 @@ export default {
       title: null,
       description: '',
       max_user: 1,
-      thumnail: 'https://ibb.co/qg4XZZP',
+      thumnail: '',
       is_active: false
     })
     const uploadFile = (e) => {
@@ -135,9 +140,8 @@ export default {
 
 <style scoped>
 .create-conference{
-  position: absolute;
-  top: 250px;
-  left: 600px;
+  margin-left: 500px;
+  margin-top: 100px;
 }
 
 .gx-make-modal{

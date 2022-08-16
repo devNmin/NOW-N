@@ -7,15 +7,15 @@
 
 <script>
 import Vue3ChartJs from '@j-t-mcc/vue3-chartjs'
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
 export default {
   name: 'RadarChart',
   components: {
     Vue3ChartJs
   },
   setup () {
-    const store = useStore()
-    const UserInfoP = store.state.profile.UserInfo
+    // const store = useStore()
+    // const UserInfoP = store.state.profile.UserInfo
     const RadarChart = {
       type: 'radar',
       options: {
@@ -56,12 +56,12 @@ export default {
           {
             label: '운동 정보',
             data: [
-              UserInfoP.exercise.Yoga,
-              UserInfoP.exercise.Pilates,
-              UserInfoP.exercise.FullBody,
-              UserInfoP.exercise.Stretching,
-              UserInfoP.exercise.Machine,
-              UserInfoP.exercise.Etc
+              5,
+              7,
+              4,
+              2,
+              5,
+              5
             ],
             borderColor: 'rgba(255, 99, 132, 0.5)',
             backgroundColor: 'rgba(255, 99, 132, 0.5)',

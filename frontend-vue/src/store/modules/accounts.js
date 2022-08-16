@@ -8,7 +8,6 @@ export default {
   state: {
     currentUser: {},
     currentUserPk: localStorage.getItem('userPk') || '',
-    profile: {},
     authError: null,
     reduplication: false,
     accessToken: localStorage.getItem('accessToken') || '',
@@ -20,7 +19,6 @@ export default {
     isLoggedIn: state => !!state.accessToken,
     currentUser: state => state.currentUser,
     currentUserPk: state => state.currentUserPk,
-    profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.accessToken}` }),
     loginViewCase: state => state.loginViewCase,
@@ -31,7 +29,6 @@ export default {
     SET_ACCESSTOKEN: (state, accessToken) => { state.accessToken = accessToken },
     SET_REFRESHTOKEN: (state, refreshToken) => { state.refreshToken = refreshToken },
     SET_CURRENT_USER: (state, user) => { state.currentUser = user },
-    // SET_PROFILE: (state, profile) => state.profile = profile,
     SET_REDUPLICATION (state, redup) {
       state.reduplication = redup
     },
@@ -86,6 +83,7 @@ export default {
         data: credentials
       })
         .then(res => {
+          console.log('(res.data(res.data(res.data', res.data)
           const accessToken = res.data.token.access
           const refreshToken = res.data.token.refresh
           const Token = {
