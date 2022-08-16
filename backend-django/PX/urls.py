@@ -12,7 +12,7 @@ urlpatterns = [
     path('creatediets/', views.create_diets),
 
     # 식단 다이어리 - 음식 정보 PK로 조회
-    path('selectfoodbypk/<int:food_pk>/<int:food_size>', views.select_food_by_pk),
+    path('selectfoodbypk/<int:food_pk>', views.select_food_by_pk),
 
     # 식단 다이어리 - 음식 정보 이름으로 검색
     path('selectfoodbyname/<str:food_name>', views.select_food_by_name),
@@ -55,13 +55,4 @@ urlpatterns = [
 
     # 칼로리 그래프 - 월
     path('caloriegraph/month', views.calorie_graph_month),
-
-    # 영양소 그래프 - 일
-    path('nutrientgraph/day', views.nutrient_graph_day),
-
-    # 영양소 그래프 - 주
-    path('nutrientgraph/week', views.nutrient_graph_week),
-
-    # 영양소 그래프 - 월
-    path('nutrientgraph/month', views.nutrient_graph_month),
 ]

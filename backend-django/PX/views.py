@@ -46,47 +46,34 @@ def today_diets(request, today_date):
 @api_view(['POST'])
 def create_diets(request):
     # 들어온 식단 정보 저장
-    serializer = DietSerializer(data=request.data)
+    diet_data = DietSerializer(request.data)
+    calories = 0
+    for food in diet_data.foods:
+        food_data = get_object_or_404(object, id=food.food_pk)
+        multiple = food.food_size / food_data.serving_size
+        calories += food_data.kcal * multiple
+    context = {
+        'userID': request.user.pk,
+        'picture': diet_data.data.get('picture'),
+        'category': diet_data.data.get('category'),
+        'date': diet_data.data.get('date'),
+        'time': diet_data.data.get('time'),
+        'comment': diet_data.data.get('comment'),
+        'total_calorie': calories,
+        'new_date': diet_data.data.get('new_date'),
+        'foods': diet_data.data.get('foods'),
+    }
+    serializer = DietSerializer(data=context)
     if serializer.is_valid():
         serializer.save()
-        # 들어온 식단 정보 중 음식 정보를 Diet와 관계 매핑
-        dietPK = serializer.data.get('pk')
-        for food in serializer.foods:
-            foodPK = food.food_pk
-            size = food.food_size
-            context = {
-                'diet': dietPK,
-                'food': foodPK,
-                'size': size
-            }
-            dfs = DietFoodSerializer(data=context)
-            if dfs.is_valid():
-                dfs.save()
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 # 식단 다이어리 - 음식 정보 PK로 조회
 @api_view(['GET'])
-def select_food_by_pk(request, food_pk, food_size):
+def select_food_by_pk(request, food_pk):
     food = get_object_or_404(Food, pk=food_pk)
-    fs = FoodSerializer(food)
-    multiple = food_size / fs.data.get('serving_size')
-    context = {
-        'id': food_pk,
-        'category': fs.data.get('category'),
-        'name': fs.data.get('name'),
-        'serving_size': food_size,
-        'unit': fs.data.get('unit'),
-        'kcal': fs.data.get('kcal') * multiple,
-        'water': fs.data.get('water') * multiple,
-        'protein': fs.data.get('protein') * multiple,
-        'fat': fs.data.get('fat') * multiple,
-        'carbohydrate': fs.data.get('carbohydrate') * multiple,
-        'sugar': fs.data.get('sugar') * multiple,
-        'glucose': fs.data.get('glucose') * multiple,
-        'calcium': fs.data.get('calcium') * multiple,
-        'natrium': fs.data.get('natrium') * multiple,
-    }
-    serializer = FoodSerializer(context)
+    serializer = FoodSerializer(food)
     return Response(serializer.data)
     
 
@@ -270,14 +257,33 @@ def weight_graph_month(request):
 # 칼로리 그래프 - 일
 @api_view(['GET'])
 def calorie_graph_day(request):
-    # 식단 정보 가져오기
+    # 최신 식단 정보 가져오기
     diets = Diet.objects.filter(userID=request.user.pk)
-    latest_diet = diets.last()
-    latest_diet.date
-    diet_list = list()
-    diet_list.append(latest_diet.date)
-    print("diet_list : ", diet_list)
-    pass
+    latest = diets.last()
+    latest_date = latest.new_date
+    diet_list = Diet.objects.filter(userID=request.user.pk, new_date=latest_date)
+    calories = 0
+    for a in diet_list:
+        calories += a.total_calorie
+    calorie_data = list()
+    context = {
+        'new_date': latest_date,
+        'sum_calorie': calories,
+    }
+    calorie_data.append(context)
+    # 1~6일 전 칼로리 정보도 저장
+    for i in range(1, 6):
+        days_date = latest_date - datetime.timedelta(days=i)
+        days_list = Diet.objects.filter(userID=request.user.pk, new_date=days_date)
+        days_calorie = 0
+        for day in days_list:
+            days_calorie += day.total_calorie
+        days_data = {
+            'new_date': days_date,
+            'sum_calorie': days_calorie,
+        }
+        calorie_data.append(days_data)
+    return JsonResponse(calorie_data)
         
 
 # 칼로리 그래프 - 주
@@ -288,19 +294,4 @@ def calorie_graph_week(request):
 # 칼로리 그래프 - 월
 @api_view(['GET'])
 def calorie_graph_month(request):
-    pass
-
-# 영양소 그래프 - 일
-@api_view(['GET'])
-def nutrient_graph_day(request):
-    pass
-
-# 영양소 그래프 - 주
-@api_view(['GET'])
-def nutrient_graph_week(request):
-    pass
-
-# 영양소 그래프 - 월
-@api_view(['GET'])
-def nutrient_graph_month(request):
     pass

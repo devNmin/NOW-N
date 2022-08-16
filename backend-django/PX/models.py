@@ -6,11 +6,13 @@ from trainer.models import Member_Coach
 # 식단
 class Diet(models.Model):
     userID=models.ForeignKey(User, on_delete=models.CASCADE )# 유저 PK
-    picture=models.TextField()
+    picture=models.TextField(null=True)
     category=models.CharField(max_length=20) # 분류필드 : 아침, 점심, 저녁 ...
     date=models.CharField(max_length=20) # 날짜 : 20220816
     time=models.CharField(max_length=100) # 시간 : 1250AM
-    comment=models.TextField()
+    comment=models.TextField(null=True)
+    total_calorie=models.FloatField(null=True)
+    new_date=models.DateField(null=True)
 
 # 음식
 class Food(models.Model):
@@ -32,7 +34,7 @@ class Food(models.Model):
 class Diet_Food(models.Model):
     diet=models.ForeignKey(Diet, on_delete=models.CASCADE)
     food=models.ForeignKey(Food, on_delete=models.CASCADE)
-    size=models.IntegerField()
+    size=models.IntegerField(null=True)
 
 # 트레이닝 이력
 class Training_History(models.Model):
@@ -43,6 +45,6 @@ class Training_History(models.Model):
 # 스케줄
 class Schedule(models.Model):
     user_id=models.ForeignKey(User, on_delete=models.CASCADE)
-    day=models.IntegerField() # 0~6 : 월 ~ 일
-    start_time=models.IntegerField()
-    end_time=models.IntegerField()
+    day=models.IntegerField(null=True) # 0~6 : 월 ~ 일
+    start_time=models.IntegerField(null=True)
+    end_time=models.IntegerField(null=True)
