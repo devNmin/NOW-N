@@ -2,29 +2,30 @@
   <div class="modal-background" @click="toggleModal">
     <div class="modal open">
       <div class="modal-box">
-        <div class="modal-name-box">name: {{data.name}}</div>
+        <div class="modal-name-box">name: {{currentTrainer.name}}</div>
         <div class="modal-img-box"><img style="object-fit: cover;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
         <div @click="toggleModal" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
         <div class="modal-follow-box">
           <div></div>
-          <div>follower:{{data.followers}}</div>
+          <div> &nbsp; {{currentTrainer.followers}}</div>
+          <div @click="follow"><i class="fa-solid fa-heart" style="color: red;" v-show="isFollow">&nbsp;팔로우 취소</i><i class="fa-regular fa-heart" v-show="!isFollow">&nbsp;팔로우</i></div>
           <div></div>
         </div>
         <div class="detail-deco-bar"></div>
         <div class="trainer-detail-info-box">
           <div class="split-box-info1">
-            <div class="modal-info">나이: {{data.age}}</div>
-            <div class="modal-info">트레이닝 비용: {{data.exercise_price}}</div>
-            <div class="modal-info">코멘트: {{data.comment}}</div>
+            <div class="modal-info">나이: {{currentTrainer.age}}</div>
+            <div class="modal-info">트레이닝 비용: {{currentTrainer.exercise_price}}</div>
+            <div class="modal-info">코멘트: {{currentTrainer.comment}}</div>
           </div>
           <div class="split-box-info2">
-            <div class="modal-info">경력: {{data.career}}</div>
-            <div class="modal-info">식단관리 비용: {{data.diet_price}}</div>
+            <div class="modal-info">경력: {{currentTrainer.career}}</div>
+            <div class="modal-info">식단관리 비용: {{currentTrainer.diet_price}}</div>
           </div>
         </div>
         <div class="modal-view-button">
           <div></div>
-          <router-link to="/trainer/apply" class="trainer-apply-style">신청하기</router-link>
+          <button type="button" class="trainer-apply-style" @click="onClick">신청하기</button>
           <div></div>
         </div>
       </div>
@@ -42,14 +43,26 @@ export default {
     const backgroundData = reactive({
       back: false
     })
-    const data = ref(computed(() => store.getters.currentTrainer))
+    const currentTrainer = ref(computed(() => store.getters.currentTrainer))
+    const getIsFollow = store.dispatch('isFollow', localStorage.getItem('coachPk'))
+    const isFollow = ref(computed(() => store.getters.isFollow))
     function toggleModal () {
       emit('toggleModal', false)
     }
+    function onClick () {
+      store.dispatch('applyCounselting', store.getters.currentTrainerPk)
+    }
+    function follow () {
+      store.dispatch('doFollow', localStorage.getItem('coachPk'))
+    }
     return {
       backgroundData,
-      data,
-      toggleModal
+      currentTrainer,
+      getIsFollow,
+      isFollow,
+      toggleModal,
+      follow,
+      onClick
     }
   }
 }

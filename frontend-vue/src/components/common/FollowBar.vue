@@ -1,26 +1,36 @@
 <template>
   <div>
     <div class="followbar">
-      <div class="follow-list">
-        <div class="followbar-title">
-          <div>팔로우 중인 채널</div>
+      <div class="follow-list"  v-if="hide">
+        <div>
+          <div class="followbar-title">
+            <div>팔로우 중인 채널</div>
+          </div>
+          <FollowBarItem
+          v-for="(followItem, i) in followData.followlist"
+          :key="i"
+          :followData="followItem"
+          @click="onClick (followItem.pk)" />
         </div>
-        <FollowBarItem
-        v-for="likeI in followData.likeNum"
-        :key="likeI"
-        :imgdata="followData.img[likeI - 1]"
-        :namedata="followData.name[likeI - 1]"
-        :followNumdata="followData.followNum[likeI - 1]"
-        />
+        <div v-if="followData.followings < 8">
+          <div class="followbar-title">
+            <div>추천 채널</div>
+          </div>
+          <FollowRecommendItem
+          v-for="(recommendItem, i) in recommendData"
+          :key="i"
+          :recommendData="recommendItem"
+          @click="onClick (recommendItem.id)"
+          />
+        </div>
       </div>
-      <div @click="changeView" class="follow-hide-bar">
-        <div class="hide-icon">
-          <i class="fa-solid fa-angle-left"></i>
-        <div
-    class="hide-icon-position"
-    @click="changeView">
-      <i class="fa-solid fa-angle-right"></i>
-    </div>
+      <div @click="hideBar" class="follow-hide-bar">
+        <div class="hide-icon" >
+          <i class="fa-solid fa-angle-left" v-show="hide"></i>
+          <div
+          class="hide-icon-position">
+          <i class="fa-solid fa-angle-right" v-show="!hide"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -28,27 +38,37 @@
 </template>
 <script>
 import FollowBarItem from '@/components/common/FollowBarItem.vue'
+import FollowRecommendItem from '@/components/common/FollowRecommendItem.vue'
 import { useStore } from 'vuex'
+import { ref } from '@vue/reactivity'
+import { computed } from '@vue/runtime-core'
 export default {
   name: 'FollowBar',
   components: {
-    FollowBarItem
+    FollowBarItem,
+    FollowRecommendItem
   },
   setup (props, { emit }) {
     const store = useStore()
-    const followData = {
-      img: [1, 2],
-      name: ['승', '주'],
-      followNum: ['1', '2'],
-      likeNum: 2
-    }
-    function changeView () {
-      emit('hideFollow')
+    const getFollowList = store.dispatch('followList', localStorage.getItem('userPk'))
+    const getRecommendList = store.dispatch('recommendList')
+    const followData = ref(computed(() => store.getters.followList))
+    const recommendData = ref(computed(() => store.getters.recommendList))
+    const hide = ref(computed(() => store.getters.hideFollow))
+    function hideBar () {
       store.dispatch('hide')
     }
+    function onClick (data) {
+      store.commit('SET_MODAL_DATA', data)
+    }
     return {
+      getFollowList,
+      getRecommendList,
       followData,
-      changeView
+      recommendData,
+      hide,
+      hideBar,
+      onClick
     }
   }
 }
@@ -56,16 +76,17 @@ export default {
 <style>
 .followbar{
   /* background-color: #EFEFF1; */
+  top: 88px;
   background: linear-gradient(to right,rgba(202, 217, 218, 0.5),rgba(255,255,255, 0.5));
-  width: 15% ;
-  height: 980px;
+  height: 978px;
   position: fixed;
   display: flex;
 }
 .follow-hide-bar {
+  top: 88px;
   display: flex;
   width: 20px;
-  height: 980px;
+  height: 975px;
   margin: 0px;
 }
 .follow-list {
@@ -75,6 +96,7 @@ export default {
 
 .followbar-title{
   display: flex;
+  justify-content: center;
   font-size:20px;
   font-weight: bold;
   text-align: center;

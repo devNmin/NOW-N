@@ -2,16 +2,29 @@
     <div class="create-diet">
         <div class="regist-diet-container">
             <div class="diet-img">
-                <label for="img">
-                  <img class="food-img" :src="DietInfo.food_url" alt="식단 사진">
-                </label>
-                <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile">
+              <label for="img">
+                <img class="food-img" :src="DietInfo.food_url" alt="식단 사진">
+              </label>
+              <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile">
+            </div>
+            <div>
+              <fieldset class="food-search">
+                <legend>음식 검색</legend>
+                <input type="text" placeholder="음식이름을 입력하세요"><button>검색</button>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+              </fieldset>
             </div>
             <fieldset class="diet-moment">
                 <legend>분 류</legend>
-                <div class="radio" v-for="item in options" :key="item.value">
-                    <input type="radio" name="radio" :value="item.value" v-model="DietInfo.moment" :id="item.id"/>
-                    <label :for="item.id">{{item.value}}</label>
+                <div v-for="item in options" :key="item.value" style="margin-top:7px">
+                    <label>
+                    <input type="radio" v-model="DietInfo.moment" :value="item.value" />
+                    {{item.text}}
+                    </label>
                 </div>
             </fieldset>
 
@@ -64,23 +77,23 @@ export default {
     const DietInfo = reactive({
       moment: '아침',
       time: new Date(),
-      picture: 'https://ibb.co/qg4XZZP',
+      picture: '',
       comment: '',
       food_url: require('@/assets/food4.jpg')
     })
 
     const options = [
-      { id: '아침', value: '아침' },
-      { id: '점심', value: '점심' },
-      { id: '저녁', value: '저녁' },
-      { id: '간식', value: '간식' },
-      { id: '야식', value: '야식' }
+      { text: '아침', value: '아침' },
+      { text: '점심', value: '점심' },
+      { text: '저녁', value: '저녁' },
+      { text: '간식', value: '간식' },
+      { text: '야식', value: '야식' }
     ]
 
     const time = reactive({
       meridiem: [
-        { text: 'A.M', value: 0 },
-        { text: 'P.M', value: 12 }
+        { text: 'A.M', value: 'AM' },
+        { text: 'P.M', value: 'PM' }
       ],
       hour: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       minute: ['0', '10', '20', '30', '40', '50']
@@ -118,6 +131,7 @@ export default {
 
     async function regist () {
       const userPk = store.state.accounts.currentUserPk
+      console.log('DietInfoDietInfo', DietInfo)
       await store.dispatch('getDietList', userPk, DietInfo)
       router.push({ name: 'pxDiaries' })
     }
@@ -146,7 +160,7 @@ export default {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 3fr 1fr 1fr 1fr 0.3fr;
     grid-template-areas:
-    "diet-img diet-img"
+    "diet-img food-search"
     "diet-moment diet-moment"
     "diet-time diet-comment"
     "diet-category diet-category"
@@ -164,8 +178,8 @@ export default {
 .food-img{
     display: flex;
     Justify-content: center;
-    width:30%;
     margin: auto;
+    width:50%;
     border-radius: 20px;
 }
 
@@ -200,27 +214,5 @@ export default {
   display: flex;
   justify-content: flex-end;
   gap: 50px;
-}
-
-.diet-moment .radio label {
-  font-size: 18px;
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 0.5rem 1.25rem;
-  border-radius: 50px;
-  cursor: pointer;
-  color: #444;
-  transition: box-shadow 400ms ease;
-}
-.diet-moment .radio label:hover {
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-.diet-moment .radio input[type=radio] {
-  display: none;
-}
-.diet-moment .radio input[type=radio]:checked + label {
-  background: #2196F3;
-  color: #fff;
-  border-color: #2196F3;
 }
 </style>

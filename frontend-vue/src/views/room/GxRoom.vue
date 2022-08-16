@@ -1,48 +1,11 @@
 <template>
-  <div class="gxroom-container">
-    <div id="join" v-if="!session">
-      <div id="join-dialog" class="jumbotron vertical-center">
-        <h1>Join a video session</h1>
-        <div class="form-group">
-          <p>
-            <label>Participant</label>
-            <input
-              v-model="myUserName"
-              class="form-control"
-              type="text"
-              required
-            />
-          </p>
-          <p>
-            <label>Session</label>
-            <input
-              v-model="mySessionId"
-              class="form-control"
-              type="text"
-              required
-            />
-          </p>
-          <p class="text-center">
-            <button class="btn btn-lg btn-success" @click="joinSession()">
-              Join!
-            </button>
-          </p>
-        </div>
-      </div>
-    </div>
-
+  <div class="gxroom-container" style="width:100%; height:100%">
     <div class="session" v-if="session">
       <div class="session-header">
-        <h1 id="session-title">{{ mySessionId }}</h1>
         <h1 id="session-title">{{ mySessiontitle }}</h1>
       </div>
-      <!-- 방장 얼굴
-            <div id="main-video" class="col-md-6">
-                <user-video :stream-manager="mainStreamManager" />
-            </div> -->
 
-      <!-- 입장 인원 화면 -->
-      <div class="session-video" style="background-color: gray">
+      <div class="session-video">
         <user-video :stream-manager="publisher" />
         <user-video
           v-for="sub in subscribers"
@@ -52,23 +15,41 @@
       </div>
 
       <div class="session-chat">
-        <UserChat
-          ref="chat"
-          @message="sendMessage"
-          :subscribers="subscribers"
-        ></UserChat>
+        <div>
+          <span>채팅창</span>
+        </div>
+        <div class="messages" v-html="messages" id="messages">
+        </div>
+        <form class="chatFooter" onsubmit="return false">
+          <input class="chat_input" id="msg" type="text" autocomplete="off" placeholder="메세지를 입력하세요."/>
+          <button id="submitBtn" type="submit" @click="sendMessage">Enter</button>
+        </form>
       </div>
 
       <div class="session-footer">
-        <input type="button" value="cam"/>
-        <input type="button" value="mic"/>
-        <input type="button" value="캡쳐"/>
+        <div class="button">
+          <button v-bind:class="{'green': audio, 'red': !audio}" @click="muteAudio">
+            <i v-show="audio" class="fas fa-microphone fa-2x" style="font-size:2rem; margin-right:15px; margin-left:5px;"></i>
+            <i v-show="!audio" class="fas fa-microphone-slash fa-2x" style="font-size:2rem;"></i>
+            <span>{{audioMsg}}</span>
+          </button>
+        </div>
+        <div class="button">
+          <button :class="{'green': video, 'red': !video}" @click="muteVideo">
+            <i v-show="video" class="fas fa-video" style="font-size:2rem; margin-right:15px; margin-left:5px;"></i>
+            <i v-show="!video" class="fas fa-video-slash fa-2x" style="font-size:2rem;"></i>
+            <span>{{videoMsg}}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="session-exit">
         <input
           class="gxroom-button"
           type="button"
           id="buttonLeaveSession"
           @click="leaveSession"
-          value="Leave session"
+          value="O U T"
         />
       </div>
     </div>
@@ -79,20 +60,16 @@
 import axios from 'axios'
 import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/components/room/UserVideo'
-import { reactive, toRefs } from 'vue'
-import { UserChat } from '@/components/room/UserChat.vue'
+import { ref, toRefs, reactive, computed, watch, nextTick } from 'vue'
 import { useStore } from 'vuex'
 // import { useRouter } from 'vue-router'
-// import { useStore } from 'vuex'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 const OPENVIDU_SERVER_URL = 'https://' + 'i7b108.p.ssafy.io:8443'
 const OPENVIDU_SERVER_SECRET = 'ssafy'
 export default {
-  name: 'App',
   components: {
-    UserVideo,
-    UserChat
+    UserVideo
   },
 
   props: {
@@ -100,12 +77,16 @@ export default {
       type: Number
     },
     title: {
-      type: Number
+      type: String
     }
   },
 
   setup (props) {
     const store = useStore()
+
+    const roomInfo = ref(computed(() => store.state.room.roomInfo))
+
+    const messages = ref('')
 
     const state = reactive({
       OV: undefined,
@@ -113,16 +94,46 @@ export default {
       publisher: undefined,
       subscribers: [],
       mySessionId: props.conference_id,
-      mySessiontitle: props.title,
-      myUserName: store.state.accounts.currentUser.name
-      // router: useRouter(),
+      mySessiontitle: roomInfo.value.title,
+      myUserName: store.state.accounts.currentUser.name,
+      audio: true,
+      video: true,
+      audioMsg: '마이크 ON',
+      videoMsg: '비디오 ON'
+
     })
 
-    function joinSession () {
+    async function joinSession () {
+      // 현재 방 정보 가져오기
+      await this.$store.dispatch('getRoomInfo', state.mySessionId)
+      state.mySessiontitle = roomInfo.value.title
+      state.myUserName = store.state.accounts.currentUser.name
+      console.log('이름')
+      console.log(state.myUserName)
+
       // --- Get an OpenVidu object ---
       state.OV = new OpenVidu()
       // --- Init a session ---
       state.session = state.OV.initSession()
+
+      // 같은 session 내에서 텍스트 채팅을 위한 signal
+      state.session.on('signal:my-chat', (event) => {
+        const message = event.data.split('&$')
+        console.log('>>>>>>>>>>>>>> message : ', message)
+        if (message === '') {
+          messages.value += ''
+        } else {
+          console.log('저장된 : ', '현재 : ', message[0])
+          if (message[0] === state.myUserName) {
+            console.log(messages.value)
+            console.log('내가 쓴 메시지')
+            messages.value += '<div align="right">' + '<div style="padding: 10px; margin-bottom: 10px; width: 60%; background-color: #fff; border-radius: 10px;  word-wrap: break-word;"">' + '<div style="font-weight: 900;">' + message[0] + ' 님의 메시지: </div>' + '<div>' + message[1] + ' </div>' + '</div>' + '</div>'
+          } else {
+            console.log('니가 쓴 메시지')
+            messages.value += '<div align="left">' + '<div style="padding: 10px; margin-bottom: 10px; width: 60%; background-color: #6363bf; color: #fff; border-radius: 10px;  word-wrap: break-word;"">' + '<div style="font-weight: 900;">' + message[0] + ' 님의 메시지: </div>' + '<div class="mb-3">' + message[1] + ' </div>' + '</div>'
+          }
+        }
+      })
 
       // --- Specify the actions when events take place in the session ---
       // On every new Stream received...
@@ -160,8 +171,8 @@ export default {
             const publisher = state.OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: undefined, // The source of video. If undefined default webcam
-              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-              publishVideo: true, // Whether you want to start publishing with your video enabled or not
+              publishAudio: state.audio, // Whether you want to start publishing with your audio unmuted or not
+              publishVideo: state.video, // Whether you want to start publishing with your video enabled or not
               resolution: '640x480', // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
@@ -270,13 +281,63 @@ export default {
       })
     }
 
+    function muteAudio () {
+      state.audio = !state.audio
+      if (state.audio === true) state.audioMsg = '마이크 ON'
+      else state.audioMsg = '마이크 OFF'
+      state.publisher.publishAudio(state.audio)
+    }
+
+    function muteVideo () {
+      state.video = !state.video
+      if (state.video === true) state.videoMsg = '비디오 ON'
+      else state.videoMsg = '비디오 OFF'
+      state.publisher.publishVideo(state.video)
+    }
+
+    function sendMessage () {
+      const message = document.getElementById('msg').value
+      if (message !== '') {
+        console.log('message ', message)
+
+        state.session.signal({
+          data: state.myUserName + '&$' + message,
+          to: [],
+          type: 'my-chat'
+        })
+          .then(() => {
+            console.log('message sent successfully!!')
+            document.getElementById('msg').value = ''
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      }
+    }
+
+    watch(() => messages.value, (newM, pre) => {
+      console.log('와치')
+      console.log(newM)
+      nextTick(() => {
+        const msg = document.getElementById('messages')
+        console.log('메시지')
+        console.log(msg)
+        msg.scrollTo({ top: msg.scrollHeight, behavior: 'smooth' })
+      })
+    })
+
     return {
       ...toRefs(state),
       joinSession,
       leaveSession,
       getToken,
       createSession,
-      createToken
+      createToken,
+      muteAudio,
+      muteVideo,
+      roomInfo,
+      sendMessage,
+      messages
     }
   },
 
@@ -290,39 +351,159 @@ export default {
 <style>
 .session {
   width: 100%;
-  height: 750px;
+  height: 100%;
   display: grid;
-  margin: 20px;
-  grid-template-rows: 15% 75% 10%;
-  grid-template-columns: 66% 34%;
+  grid-template-rows: 2fr 7fr 1fr;
+  grid-template-columns: 2fr 1fr;
   grid-gap: 1rem;
 }
 
 .session-header {
   grid-column: 1/3;
   grid-row: 1/2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .session-video{
+  padding: 20px;
   display:grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(3, 1fr);
+  background-color: #D9D9D9;
+  border-radius: 20px;
+  margin-left:30px;
+}
+
+.session-chat{
+  grid-column: 2/3;
+  grid-row: 2/3;
+  display:flex;
+  flex-direction: column;
 }
 
 .session-footer{
-  grid-column: 1/3;
+  grid-column: 1/2;
   grid-row: 3/4;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  /* border-radius: 10px;
+  background-color: #6dcef5; */
 }
 
-.session-footer
+.session-footer .button{
+  width: 15%;
+}
+
+.session-exit{
+  width:100%;
+  height:100%;
+  grid-column:2/3;
+  grid-row:3/4;
+  display:flex;
+  justify-content: center;
+}
 .gxroom-button {
+  font-size:20px;
+  width:15%;
+  height:40%;
   background-color: red;
+  border-radius: 5px;
   color: white;
   border: none;
 }
 
 .gxroom-button:hover {
   background-color: firebrick;
+}
+
+.green{
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 20px;
+  border-color: rgb(20, 220, 47);
+  background-color:rgb(20, 220, 47);
+}
+
+.red{
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 20px;
+  border-color: rgb(245, 88, 71);
+  background-color:rgb(245, 88, 71);
+}
+
+.messages {
+  flex-grow: 1;
+  padding: 10px 20px;
+  overflow: auto;
+  height: 90%;
+  /* background-color: #ccc; */
+  background-color: #8cd5f2;
+  /* /* border: 5px #ccc solid; */
+  border-radius: 5px;
+  /* box-shadow: 5px 5px 5px rgb(235, 235, 235); */
+  font-size: 18px;
+  word-break: break-all;
+  font-family: "BMJua";
+  position: relative;
+}
+
+.messages::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background-color: rgb(255, 255, 255);
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: rgb(126, 125, 125);
+}
+
+.messages::-webkit-scrollbar-button {
+  display: none;
+}
+
+.chatFooter {
+  height:10%;
+  display: flex;
+}
+
+#msg {
+  height: 5.5%;
+}
+#submitBtn {
+  width: 55px;
+  height: 5.5%;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+  position: absolute;
+  right: 0%;
+  background-color: #6363bf;
+  border-radius: 5px;
+  color: #fff;
+}
+
+#submitBtn:hover {
+  background-color: #fff;
+  color: #6363bf;
+}
+
+.chat_input{
+  width:500px;
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  padding-left: 15px;
+  border-radius: 5px;
+  background: transparent;
+  font-size: 16px;
+  position: absolute;
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <FollowBar></FollowBar>
   <div class="create-conference">
     <div class="gx-make-modal">
       <div class="gx-title">
@@ -70,7 +71,11 @@ import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import { getStorage, uploadBytes, ref } from 'firebase/storage'
+import FollowBar from '@/components/common/FollowBar.vue'
 export default {
+  components: {
+    FollowBar
+  },
   setup () {
     const store = useStore()
     const router = useRouter()
@@ -98,13 +103,13 @@ export default {
       title: null,
       description: '',
       max_user: 1,
-      thumnail: 'https://ibb.co/qg4XZZP',
+      thumnail: '',
       is_active: false
     })
     const uploadFile = (e) => {
       const storage = getStorage()
       const file = e.target.files[0]
-      console.log(file)
+      console.log(roomInfo.owner_id)
       const storageRef = ref(storage, 'rooms/' + roomInfo.owner_id + '_' + roomInfo.title)
       uploadBytes(storageRef, file).then(() => {
         console.log('Uploaded a blob or file!')
@@ -121,7 +126,7 @@ export default {
 
       const conference = store.state.room.roomInfo
       console.log(conference)
-      router.push({ path: `/gx/conferences/${conference.id}`, params: { conference_id: conference.id } })
+      router.push({ path: `/gx/conferences/${conference.id}`, params: { conference_id: conference.id, title: conference.title } })
     }
 
     function moveToGxRoom () {
@@ -135,9 +140,8 @@ export default {
 
 <style scoped>
 .create-conference{
-  position: absolute;
-  top: 250px;
-  left: 600px;
+  margin-left: 500px;
+  margin-top: 100px;
 }
 
 .gx-make-modal{

@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <div style="display:flex; justify-content:flex-end; margin-left: 150px;"><i>아이콘넣기</i><div>{{genere}}</div></div>
+  <div style="margin:0 50px;">
+    <div >
+      <div style="display:flex; justify-content: space-between; margin-bottom:5px; ">
+        <div>{{room.title}}</div>
+        <div>{{genere}}</div>
+      </div>
+    </div>
   <router-link :to="`/gx/conferences/${room.id}`" class="room-item" v-if="room" :room="room">
-    <img :src="state.imgUrl" alt="testImg" width="300" style="margin-left: 50px; margin-right: 50px;" >
+    <img :src="state.imgUrl" alt="testImg" width="300" class='roomImg' >
   </router-link>
   <div>
-    <div style="display:flex; justify-content:space-between;">
-    <div>{{room.title}}</div>
-    <div>참가자수{{room.participate_count}}/ {{room.max_user}}</div>
+    <div style="display:flex; justify-content:flex-end; align-items: center; ">
+      <img src="@/assets/people.png" alt=" 아이콘넣기" width="20"> {{room.participate_count}}/ {{room.max_user}}
     </div>
     <!-- <div>{{room.thumnail}}</div> -->
   </div>
@@ -59,17 +63,12 @@ export default {
     }
     return { genere, state }
   }
-}
+} // people.png
 </script>
 
 <style>
-.thumbnail1{
-  margin:auto;
-  /* grid-area: thumbnail; */
+.roomImg{
   box-sizing: border-box;
-  width: 300px;
-  height: 240px;
-  background: url(http://cdn.kormedi.com/wp-content/uploads/2021/09/08_014.jpg);
   border: 1px solid #000000;
   border-radius: 20px;
 }

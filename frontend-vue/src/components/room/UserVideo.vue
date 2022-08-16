@@ -1,9 +1,7 @@
 <template>
   <div class="video" v-if="streamManager">
+    <p class="userName">{{ clientData }}</p>
     <ov-video class="user-video" :stream-manager="streamManager" />
-    <div>
-      <p style="color:white;">{{ clientData }}</p>
-    </div>
   </div>
 </template>
 
@@ -40,7 +38,21 @@ export default {
 
 <style>
 .user-video{
-  height:290px;
-  width:290px;
+  height:100%;
+  width:100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.userName{
+  padding:5px;
+  background-color:white;
+  position:absolute;
+}
+
+/* .video{
+  display:flex;
+  justify-content: center;
+} */
 </style>

@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import ScheduleDateInput from '@/components/trainer/scheduleDateInput.vue'
-import PurposeInput from '@/components/trainer/purposeInput.vue'
+import ScheduleDateInput from '@/components/counselting/scheduleDateInput.vue'
+import PurposeInput from '@/components/counselting/purposeInput.vue'
 import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import { computed } from '@vue/runtime-core'
