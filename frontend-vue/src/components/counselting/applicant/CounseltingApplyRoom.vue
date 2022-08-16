@@ -1,13 +1,13 @@
 <template>
   <div class="trainer-first">
     <div class=""></div>
-    <div class="around-box">
+    <div class="around-box2">
 
    </div>
   <div class="apply-box">
     <div class="apply-info-box">
       <img class="apply-img" src="@/assets/paper.png" alt="">
-    <form @submit.prevent="apply(credentials)">
+    <form @submit.prevent="apply(credentials)" >
       <div class="apply-form">
       <PurposeInput @purposechange="purposechange"/>
       <div class="apply-info-box">
@@ -55,8 +55,8 @@ export default {
       is_exercise: true,
       is_diet: false,
       times: '1',
-      start_date: '01.02',
-      end_date: '01.01',
+      start_date: '0102',
+      end_date: '0101',
       comment: ''
     })
     function purposechange (purposeData) {
@@ -64,7 +64,7 @@ export default {
       applyData.is_diet = purposeData.is_diet
     }
     function apply () {
-      store.dispatch('requestAdvice', { applyData })
+      store.dispatch('acceptCounselting', [applyData, localStorage.getItem('applicantUserPk')])
     }
 
     return {
@@ -106,7 +106,7 @@ export default {
   margin: 0px;
   z-index: 1;
 }
-.around-box {
+.around-box2 {
   padding: 20px;
   display: flex;
   justify-content: space-between;

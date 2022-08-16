@@ -3,10 +3,13 @@
     <div class="trainer-list-box2" v-show="hide">
       <div class="trainer-list-deco-box"></div>
       <div class="div1-noPadding"><img class="trainer-list-img" :src="imgData" alt=""></div>
-      <div class="div2 item-padding">{{trainerItemData.name}}</div>
-      <div class="div3 item-padding">{{trainerItemData.exercise_category}}</div>
-      <div class="div3 item-padding">{{trainerItemData.exercise_price}} / {{trainerItemData.diet_price}}</div>
-      <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">신청</button></div>
+      <div class="div2 item-padding">{{applycantItemData.name}}</div>
+      <div class="div3 item-padding">{{applycantItemData.gender}}</div>
+      <div class="div3 item-padding">{{applycantItemData.height}} / {{applycantItemData.user_weight}}</div>
+      <div class="div4 item-padding2">
+<router-link to="/counselting/apply" class="trainer-apply-style2" @click="accept" type="button">수락</router-link>
+<button class="trainer-apply-style2 reject" type="button" @click="reject">거절</button>
+      </div>
       <div class="trainer-list-deco-box"></div>
     </div>
 </template>
@@ -17,24 +20,26 @@ import { useStore } from 'vuex'
 import { computed } from '@vue/runtime-core'
 export default {
   props: {
-    trainerData: {
+    applycantData: {
       type: Object
     },
     hide: {
       type: Boolean
     }
   },
-  setup (props, { emit }) {
+  setup (props) {
     const store = useStore()
-    const trainerItemData = ref(computed(() => props.trainerData))
-    function toggleModal () {
-      store.dispatch('requestTrainerDetail', trainerItemData.value.id)
-      store.dispatch('isFollow', trainerItemData.value.id)
-      emit('toggleModal', true)
+    const applycantItemData = ref(computed(() => props.applycantData))
+    function accept () {
+      localStorage.setItem('applicantUserPk', applycantItemData.value.id)
+    }
+    function reject () {
+      store.dispatch('rejectCounselting', applycantItemData.value.id)
     }
     return {
-      trainerItemData,
-      toggleModal
+      applycantItemData,
+      accept,
+      reject
     }
   }
 }
@@ -61,9 +66,9 @@ export default {
   border-radius: 30% 20%;
   object-fit: cover;
 }
-.trainer-apply-style {
+.trainer-apply-style2 {
   box-sizing: border-box;
-  width: 100px;
+
   height: 30px;
   font-size: 16px;
   font-family: 'MaruBuriOTF';
@@ -77,7 +82,11 @@ export default {
   text-decoration-line: none;
   text-align: center;
 }
-.trainer-apply-style:hover {
+.reject {
+  border: 2px solid red;
+  color: red;
+}
+.trainer-apply-style2:hover {
   cursor: pointer;
 }
 .deco-bar2 {
@@ -89,6 +98,14 @@ export default {
 .item-padding {
   box-sizing: border-box;
   display: flex;
+  justify-content: center;
+  padding: 40px 15px;
+}
+
+.item-padding2 {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
   justify-content: center;
   padding: 40px 15px;
 }

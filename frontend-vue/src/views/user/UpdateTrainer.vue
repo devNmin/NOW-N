@@ -1,26 +1,28 @@
 <template>
-  <div class="modal-background" @click="toggleModal">
-    <div class="modal open">
+  <div class="modal open">
       <div class="modal-box">
-        <div class="modal-name-box">name: {{currentTrainer.name}}</div>
+        <div class="modal-name-box">nickname: <input type="text" v-model="updateData.nickname"></div>
         <div class="modal-img-box"><img style="object-fit: cover;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ6yI5v-1UCyMx8CdTpABg9QzItPHcPLZh7_1ZnzOpTg&s" alt=""></div>
         <div @click="toggleModal" class="modal-x-button"><i class="fa-solid fa-xmark"></i></div>
         <div class="modal-follow-box">
           <div></div>
-          <div> &nbsp; {{currentTrainer.followers}}</div>
-          <div @click="follow"><i class="fa-solid fa-heart" style="color: red;" v-show="isFollow">&nbsp;팔로우 취소</i><i class="fa-regular fa-heart" v-show="!isFollow">&nbsp;팔로우</i></div>
           <div></div>
         </div>
         <div class="detail-deco-bar"></div>
         <div class="trainer-detail-info-box">
           <div class="split-box-info1">
-            <div class="modal-info">나이: {{currentTrainer.age}}</div>
-            <div class="modal-info">트레이닝 비용: {{currentTrainer.exercise_price}}</div>
-            <div class="modal-info">코멘트: {{currentTrainer.comment}}</div>
+            <div class="modal-info">나이: <input type="number" v-model="updateData.age"> 성별:<input type="number" v-model="updateData.gender"> </div>
+            <div class="modal-info">
+              신장 <input type="number" v-model="updateData.height">
+              무게: <input type="number" v-model="updateData.user_weight">
+              목표 무게: <input type="number" v-model="updateData.object_weight">
+            </div>
+            <div class="modal-info">트레이닝 비용: <input type="number" v-model="updateData.exercise_price"></div>
+            <div class="modal-info">코멘트: <input type="text" v-model="updateData.comment"></div>
           </div>
           <div class="split-box-info2">
-            <div class="modal-info">경력: {{currentTrainer.career}}</div>
-            <div class="modal-info">식단관리 비용: {{currentTrainer.diet_price}}</div>
+            <div class="modal-info">경력: <input type="text" v-model="updateData.career"></div>
+            <div class="modal-info">식단관리 비용: <input type="number" v-model="updateData.diet_price"></div>
           </div>
         </div>
         <div class="modal-view-button">
@@ -30,38 +32,34 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
-import { reactive, ref } from '@vue/reactivity'
+import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import { computed } from '@vue/runtime-core'
 export default {
-  setup (props, { emit }) {
+  setup () {
     const store = useStore()
-    const backgroundData = reactive({
-      back: false
+    const getUpdate = store.dispatch('updateTrainer')
+    const updateData = reactive({
+      age: null,
+      gender: null,
+      height: null,
+      user_weight: null,
+      object_weight: null,
+      exercise_category: null,
+      career: null,
+      diet_price: null,
+      exercise_price: null,
+      comment: null
     })
-    const currentTrainer = ref(computed(() => store.getters.currentTrainer))
-    const getIsFollow = store.dispatch('isFollow', localStorage.getItem('coachPk'))
-    const isFollow = ref(computed(() => store.getters.isFollow))
-    function toggleModal () {
-      emit('toggleModal', false)
-    }
     function onClick () {
-      store.dispatch('applyCounselting', store.getters.currentTrainerPk)
-    }
-    function follow () {
-      store.dispatch('doFollow', localStorage.getItem('coachPk'))
+      store.dispatch('updateTrainer', updateData)
     }
     return {
-      backgroundData,
-      currentTrainer,
-      getIsFollow,
-      isFollow,
-      toggleModal,
-      follow,
+      store,
+      getUpdate,
+      updateData,
       onClick
     }
   }
@@ -69,11 +67,6 @@ export default {
 </script>
 
 <style>
-.modal-background {
-  position: fixed;
-  top:0; left: 0; bottom: 0; right: 0;
-  background: rgba(0, 0, 0, 0.8);
-}
 .modal {
   min-height: 315px;
   font-size: 16px;
