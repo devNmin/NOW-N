@@ -20,7 +20,6 @@ from GX.models import Conference
 from .serializers import (
     ConferenceParticipateSerializer,
     CounselHistorySerializer,
-    DietFoodSerializer,
     DietSerializer,
     FoodSerializer,
     MemberCoachPKSerializer,
@@ -52,6 +51,7 @@ def create_diets(request):
         food_data = get_object_or_404(object, id=food.food_pk)
         multiple = food.food_size / food_data.serving_size
         calories += food_data.kcal * multiple
+
     context = {
         'userID': request.user.pk,
         'picture': diet_data.data.get('picture'),
@@ -63,11 +63,14 @@ def create_diets(request):
         'new_date': diet_data.data.get('new_date'),
         'foods': diet_data.data.get('foods'),
     }
+
     serializer = DietSerializer(data=context)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    serializer.is_valid(raise_exception=True)
+
+    serializer.save()
+
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # 식단 다이어리 - 음식 정보 PK로 조회
 @api_view(['GET'])
@@ -79,7 +82,8 @@ def select_food_by_pk(request, food_pk):
 
 # 식단 다이어리 - 음식 정보 이름으로 검색
 @api_view(['GET'])
-def select_food_by_name(reqeust, food_name):
+def select_food_by_name(request):
+    food_name = request.data.get('name')
     foods = Food.objects.filter(name__contains=food_name)[:5]
     serializer = FoodSerializer(foods, many=True)
     return Response(serializer.data)
@@ -289,9 +293,61 @@ def calorie_graph_day(request):
 # 칼로리 그래프 - 주
 @api_view(['GET'])
 def calorie_graph_week(request):
-    pass
+    # 최신 식단 정보 가져오기
+    diets = Diet.objects.filter(userID=request.user.pk)
+    latest = diets.last()
+    latest_date = latest.new_date
+    diet_list = Diet.objects.filter(userID=request.user.pk, new_date=latest_date)
+    calories = 0
+    for a in diet_list:
+        calories += a.total_calorie
+    calorie_data = list()
+    context = {
+        'new_date': latest_date,
+        'sum_calorie': calories,
+    }
+    calorie_data.append(context)
+    # 1~6일 전 칼로리 정보도 저장
+    for i in range(1, 6):
+        days_date = latest_date - datetime.timedelta(weeks=i)
+        days_list = Diet.objects.filter(userID=request.user.pk, new_date=days_date)
+        days_calorie = 0
+        for day in days_list:
+            days_calorie += day.total_calorie
+        days_data = {
+            'new_date': days_date,
+            'sum_calorie': days_calorie,
+        }
+        calorie_data.append(days_data)
+    return JsonResponse(calorie_data)
 
 # 칼로리 그래프 - 월
 @api_view(['GET'])
 def calorie_graph_month(request):
-    pass
+    # 최신 식단 정보 가져오기
+    diets = Diet.objects.filter(userID=request.user.pk)
+    latest = diets.last()
+    latest_date = latest.new_date
+    diet_list = Diet.objects.filter(userID=request.user.pk, new_date=latest_date)
+    calories = 0
+    for a in diet_list:
+        calories += a.total_calorie
+    calorie_data = list()
+    context = {
+        'new_date': latest_date,
+        'sum_calorie': calories,
+    }
+    calorie_data.append(context)
+    # 1~6일 전 칼로리 정보도 저장
+    for i in range(1, 6):
+        days_date = latest_date - relativedelta(months=i)
+        days_list = Diet.objects.filter(userID=request.user.pk, new_date=days_date)
+        days_calorie = 0
+        for day in days_list:
+            days_calorie += day.total_calorie
+        days_data = {
+            'new_date': days_date,
+            'sum_calorie': days_calorie,
+        }
+        calorie_data.append(days_data)
+    return JsonResponse(calorie_data)
