@@ -40,15 +40,18 @@
             </router-link>
           </div>
         <div class="dropdown">
-        <router-link class="dropbtn headerItem" to="/counselting">
+        <router-link class="dropbtn headerItem" to="/counseltingApplicant">
           Consulting
           </router-link>
         <div class="dropdown-content">
-          <router-link class='' to="/counselting">
-          Consulting1
+          <router-link class='' to="/counseltingApplicant">
+          Applicant
           </router-link>
-          <router-link class='' to="/counselting">
-          Consulting2
+          <router-link class='' to="/counseltingClient">
+          Client
+          </router-link>
+          <router-link class='' to="/updateTrainer">
+          Updata
           </router-link>
         </div>
       </div>

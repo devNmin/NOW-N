@@ -3,10 +3,10 @@
     <div class="trainer-list-box2" v-show="hide">
       <div class="trainer-list-deco-box"></div>
       <div class="div1-noPadding"><img class="trainer-list-img" :src="imgData" alt=""></div>
-      <div class="div2 item-padding">{{trainerItemData.name}}</div>
-      <div class="div3 item-padding">{{trainerItemData.exercise_category}}</div>
-      <div class="div3 item-padding">{{trainerItemData.exercise_price}} / {{trainerItemData.diet_price}}</div>
-      <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">신청</button></div>
+      <div class="div2 item-padding">{{clientItemData.name}}</div>
+      <div class="div3 item-padding">{{clientItemData.gender}}</div>
+      <div class="div3 item-padding">{{clientItemData.height}} / {{clientItemData.user_weight}}</div>
+      <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">상담 내역</button></div>
       <div class="trainer-list-deco-box"></div>
     </div>
 </template>
@@ -17,7 +17,7 @@ import { useStore } from 'vuex'
 import { computed } from '@vue/runtime-core'
 export default {
   props: {
-    trainerData: {
+    clientListData: {
       type: Object
     },
     hide: {
@@ -26,14 +26,13 @@ export default {
   },
   setup (props, { emit }) {
     const store = useStore()
-    const trainerItemData = ref(computed(() => props.trainerData))
+    const clientItemData = ref(computed(() => props.clientListData))
     function toggleModal () {
-      store.dispatch('requestTrainerDetail', trainerItemData.value.id)
-      store.dispatch('isFollow', trainerItemData.value.id)
+      store.dispatch('requestTrainerDetail', clientItemData.value.id)
       emit('toggleModal', true)
     }
     return {
-      trainerItemData,
+      clientItemData,
       toggleModal
     }
   }
@@ -69,7 +68,7 @@ export default {
   font-family: 'MaruBuriOTF';
   font-style: normal;
   padding: 5px 15px;
-  border: 2px solid #6dcef5;
+  border: 1px solid #6dcef5;
   gap: 10px;
   border-radius: 25px;
   background-color: #FFF;
