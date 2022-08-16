@@ -2,13 +2,20 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # 회원 다이어리 가져오기
-    path('diaries/<int:userID>', views.diary_list),
+    # 식단 정보 한달 치 가져오기
+    path('dietmonth/<str:current_month>', views.diet_month_list),
 
     # 식단 다이어리 - 오늘의 식단 정보 가져오기
-    path('todaydiets/<int:diaryID>', views.today_diets),
+    path('todaydiets/<str:today_date>', views.today_diets),
 
     # 식단 다이어리 - 오늘의 식단 정보 작성하기
+    path('creatediets/', views.create_diets),
+
+    # 식단 다이어리 - 음식 정보 PK로 조회
+    path('selectfoodbypk/<int:food_pk>/<int:food_size>', views.select_food_by_pk),
+
+    # 식단 다이어리 - 음식 정보 이름으로 검색
+    path('selectfoodbyname/<str:food_name>', views.select_food_by_name),
 
     # 1:1 코칭룸 - 나의 트레이너 정보 가져오기
     path('mytrainer/<int:pk>', views.mytrainer),

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from GX.models import Conference, User_Conference
 
 from trainer.models import Counsel, Member_Coach
-from .models import Diary, Diet, Schedule, Training_History
+from .models import Diet, Food, Schedule, Training_History
 
 # 식단 정보
 class DietSerializer(serializers.ModelSerializer):
@@ -10,12 +10,10 @@ class DietSerializer(serializers.ModelSerializer):
         model = Diet
         fields = '__all__'
 
-# 다이어리
-class DiarySerializer(serializers.ModelSerializer):
-    # 오늘의 식단 정보 포함
-    diets = DietSerializer(many=True)
+# 음식
+class FoodSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Diary
+        model = Food
         fields = '__all__'
 
 # 나의 트레이너 PK만

@@ -1,4 +1,5 @@
 from functools import partial
+from multiprocessing import context
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -11,35 +12,70 @@ from GX.serializers import ConferenceSerializer
 from accounts.models import User
 from accounts.serializers import UserSerializer
 from trainer.models import Counsel, Member_Coach
-from .models import Diary, Schedule, Training_History
+from .models import Diet, Food, Schedule, Training_History
 from GX.models import Conference
 from .serializers import (
     ConferenceParticipateSerializer,
     CounselHistorySerializer,
-    DiarySerializer,
     DietSerializer,
+    FoodSerializer,
     MemberCoachPKSerializer,
     ScheduleSerializer,
     TrainingHistorySerializer,
 )
 
-# 회원 다이어리 가져오기
+# 식단 정보 한달치 가져오기
 @api_view(['GET'])
-def diary_list(request, userID):
-    diaries = get_list_or_404(Diary, userID=userID)
-    serializer = DiarySerializer(diaries, many=True)
+def diet_month_list(request, current_month):
+    diets = Diet.objects.filter(userID=request.user.pk, date__startswith=current_month)
+    serializer = DietSerializer(diets, many=True)
     return Response(serializer.data)
 
 # 식단 다이어리 - 오늘의 식단 정보 가져오기
 @api_view(['GET'])
-def today_diets(request, diaryID):
-    diets = get_list_or_404(Diary, diaryID=diaryID)
+def today_diets(request, today_date):
+    diets = Diet.objects.filter(userID=request.user.pk, date=today_date)
     serializer = DietSerializer(diets, many=True)
     return Response(serializer.data)
 
-# 식단 다이어리 - 오늘의 식단 정보 작성하기 (음식 카테고리 선택)
+# 식단 다이어리 - 오늘의 식단 정보 작성하기
+@api_view(['POST'])
+def create_diets(request):
+    
 
-# 식단 다이어리 - 오늘의 식단 정보 작성하기 (음식 검색하기)
+# 식단 다이어리 - 음식 정보 PK로 조회
+@api_view(['GET'])
+def select_food_by_pk(request, food_pk, food_size):
+    food = get_object_or_404(Food, pk=food_pk)
+    fs = FoodSerializer(food)
+    multiple = food_size / fs.data.get('serving_size')
+    context = {
+        'id': food_pk,
+        'category': fs.data.get('category'),
+        'name': fs.data.get('name'),
+        'serving_size': food_size,
+        'unit': fs.data.get('unit'),
+        'kcal': fs.data.get('kcal') * multiple,
+        'water': fs.data.get('water') * multiple,
+        'protein': fs.data.get('protein') * multiple,
+        'fat': fs.data.get('fat') * multiple,
+        'carbohydrate': fs.data.get('carbohydrate') * multiple,
+        'sugar': fs.data.get('sugar') * multiple,
+        'glucose': fs.data.get('glucose') * multiple,
+        'calcium': fs.data.get('calcium') * multiple,
+        'natrium': fs.data.get('natrium') * multiple,
+    }
+    serializer = FoodSerializer(context)
+    return Response(serializer.data)
+    
+
+# 식단 다이어리 - 음식 정보 이름으로 검색
+@api_view(['GET'])
+def select_food_by_name(reqeust, food_name):
+    foods = Food.objects.filter(name__contains=food_name)[:5]
+    serializer = FoodSerializer(foods, many=True)
+    return Response(serializer.data)
+
 
 # 1:1 코칭룸 - 나의 트레이너 정보 가져오기
 @api_view(['GET'])
