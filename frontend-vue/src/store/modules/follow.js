@@ -71,9 +71,6 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log('1')
-          console.log(res.data.value)
-          console.log('2')
           commit('SET_IS_FOLLOW', res.data.value)
         }).catch(err => {
           console.error(err.response.data)

@@ -31,7 +31,9 @@ export default {
     acceptCounselting: (userPk) => HOST + '/trainer/savecounsel/' + `${userPk}`,
     rejectCounselting: (userPk) => HOST + '/trainer/deleterequest/' + `${userPk}`,
     getmemberlist: (coachPk) => HOST + '/trainer/getmemberlist/' + `${coachPk}`,
-    updateTrainer: (userPk) => HOST + '/trainer/modify/' + `${userPk}`
+    updateTrainer: (userPk) => HOST + '/trainer/modify/' + `${userPk}`,
+    getCounselList: (anotherPk) => HOST + '/trainer/getmembercounsellist/' + `${anotherPk}`,
+    getCounselDetail: (counselPk) => HOST + '/trainer/getmembercounsel/' + `${counselPk}`
   },
   // 프로필
   profiles: {

@@ -11,12 +11,16 @@ export default {
   getters: {
     listMode: (state) => state.listMode,
     applicantList: (state) => state.applicantList,
-    clientList: (state) => state.clientList
+    clientList: (state) => state.clientList,
+    counselList: state => state.counselList,
+    counselDetail: state => state.counselDetail
   },
   mutations: {
     SET_LIST_MODE: (state) => { state.listMode = !state.listMode },
     SET_APPLICANT_LIST: (state, applicantList) => { state.applicantList = applicantList },
-    SET_CLIENT_LIST: (state, clientList) => { state.clientList = clientList }
+    SET_CLIENT_LIST: (state, clientList) => { state.clientList = clientList },
+    SET_COUNSEL_LIST: (state, counselList) => (state.counselList = counselList),
+    SET_COUNSEL_DETATIL: (state, counselDetail) => (state.counselDetail = counselDetail)
   },
   actions: {
     // 상담신청
@@ -40,7 +44,6 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log(res.data)
           commit('SET_APPLICANT_LIST', res.data)
         }).catch(err => {
           console.error(err.response.data)
@@ -48,14 +51,12 @@ export default {
     },
     // 트레이닝 멤버 목록
     getClientList ({ commit }, coachPK) {
-      console.log('adf')
       axios({
         url: drf.trainer.getmemberlist(coachPK),
         method: 'get',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log(res.data)
           commit('SET_CLIENT_LIST', res.data)
         }).catch(err => {
           console.error(err.response.data)
@@ -70,7 +71,6 @@ export default {
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log(res.data)
           dispatch('getApplycantList')
         }).catch(err => {
           console.error(err.response.data)
@@ -91,6 +91,34 @@ export default {
           localStorage.removeItem('applicantUserPk')
           router.push({ name: 'home' })
         }).catch(err => {
+          console.error(err.response.data)
+        })
+    },
+    getCounselList ({ commit }, userPk) {
+      axios({
+        url: drf.trainer.getCounselList(userPk),
+        method: 'get',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          commit('SET_COUNSEL_LIST', res.data)
+        })
+        .catch(err => {
+          console.error(err.response.data)
+        })
+    },
+    getCounselDetail ({ commit }) {
+      const userPk = localStorage.getItem('userPk')
+      axios({
+        url: drf.trainer.getCounselDetail(userPk),
+        method: 'get',
+        headers: { Authorization: 'JWT ' + localStorage.accessToken }
+      })
+        .then(res => {
+          console.log('디테일')
+          console.log(res)
+        })
+        .catch(err => {
           console.error(err.response.data)
         })
     }

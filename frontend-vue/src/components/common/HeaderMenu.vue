@@ -53,6 +53,7 @@
           <router-link class='' to="/updateTrainer">
           Updata
           </router-link>
+
         </div>
       </div>
         </div>

@@ -16,13 +16,13 @@
   @toggleModal="toggleModal"/>
   <div class="deco-bar"></div>
   <div class="trainer-page-nation"><PageNation :maxCount="trainerListCount" :countGap="4" @changePage="changePage"/></div>
-  <TrainerDetailModal v-show="data.is_modal" :trainer="data.trainerId" @toggleModal="toggleModal"/>
+  <CounseltingDetailModal v-show="data.is_modal" :trainer="data.trainerId" @toggleModal="toggleModal"/>
 </div>
 
 </template>
 
 <script>
-import TrainerDetailModal from '@/components/trainer/TrainerDetailModal.vue'
+import CounseltingDetailModal from '@/components/counselting/client/CounseltingDetailModal.vue'
 import SearchBar from '@/components/common/SearchBar.vue'
 import ClientListEx from '@/components/counselting/client/clientListEx.vue'
 import ClientListItem from '@/components/counselting/client/clientListItem.vue'
@@ -32,7 +32,7 @@ import { computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 export default {
   name: 'CounseltongApplicantView',
-  components: { SearchBar, ClientListEx, ClientListItem, PageNation, TrainerDetailModal, FollowBar },
+  components: { SearchBar, ClientListEx, ClientListItem, PageNation, CounseltingDetailModal, FollowBar },
   setup () {
     const store = useStore()
     const clientList = ref(computed(() => store.getters.clientList))

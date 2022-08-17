@@ -7,7 +7,9 @@ export default {
     trainerListCount: 0,
     currentTrainerPk: localStorage.getItem('coachPk') || '',
     currentTrainer: {},
-    applyStamp: false
+    applyStamp: false,
+    counselList: {},
+    counselDetail: {}
   },
   getters: {
     trainerList: state => state.trainerList,
