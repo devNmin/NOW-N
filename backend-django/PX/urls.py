@@ -2,13 +2,23 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # 회원 다이어리 가져오기
-    path('diaries/<int:userID>', views.diary_list),
+    # 식단 정보 한달 치 가져오기
+    path('dietmonth/<str:current_month>', views.diet_month_list),
 
     # 식단 다이어리 - 오늘의 식단 정보 가져오기
-    path('todaydiets/<int:diaryID>', views.today_diets),
+    path('todaydiets/<str:today_date>', views.today_diets),
 
     # 식단 다이어리 - 오늘의 식단 정보 작성하기
+    path('creatediets/', views.create_diets),
+
+    # 식단 다이어리 - 식단 정보 삭제
+    path('deletediets/<int:diet_pk>', views.delete_diet),
+
+    # 식단 다이어리 - 음식 정보 PK로 조회
+    path('selectfoodbypk/<int:food_pk>', views.select_food_by_pk),
+
+    # 식단 다이어리 - 음식 정보 이름으로 검색
+    path('selectfoodbyname', views.select_food_by_name),
 
     # 1:1 코칭룸 - 나의 트레이너 정보 가져오기
     path('mytrainer/<int:pk>', views.mytrainer),
@@ -31,9 +41,21 @@ urlpatterns = [
     # 1:1 코칭룸 - 스케쥴 (주간 스케쥴 확인 / 스케쥴 추가)
     path('schedule/<int:pk>', views.schedule_detail),
 
-    # 그래프 - 일
+    # 체중 / 목표 체중 그래프 - 일
+    path('weightgraph/day', views.weight_graph_day),
 
-    # 그래프 - 주
+    # 체중 / 목표 체중 그래프 - 주
+    path('weightgraph/week', views.weight_graph_week),
 
-    # 그래프 - 월
+    # 체중 / 목표 체중 그래프 - 월
+    path('weightgraph/month', views.weight_graph_month),
+
+    # 칼로리 그래프 - 일
+    path('caloriegraph/day', views.calorie_graph_day),
+
+    # 칼로리 그래프 - 주
+    path('caloriegraph/week', views.calorie_graph_week),
+
+    # 칼로리 그래프 - 월
+    path('caloriegraph/month', views.calorie_graph_month),
 ]
