@@ -74,7 +74,7 @@ def exit_room(request, pk):
     return Response(msg, status=status.HTTP_200_OK)
 
 # 방 상세 정보 조회 / 수정 / 삭제
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GEt', 'PUT', 'DELETE'])
 def conference_detail(request, pk):
     conference = get_object_or_404(Conference, pk=pk)
     # 조회

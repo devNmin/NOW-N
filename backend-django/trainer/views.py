@@ -140,21 +140,27 @@ def get_request_list(request):
 @api_view(['POST'])
 def save_counsel(request, member_pk):
     
-    if Request_Counsel.objects.filter(coach_id=request.user.pk, member_id=member_pk).exists():
+    if Request_Counsel.objects.filter(coach=request.user.pk, member=member_pk).exists():
         member = User.objects.get(pk=member_pk)
         member.alarm = True
         member.save()
 
         # 트레이너-회원 관계 설정
+        is_exist = Member_Coach.objects.filter(member=member_pk, coach=request.user.pk)
+        print("Is_Exist : ", is_exist)
+        if is_exist.exists():
+            is_exist.delete()
+        
         coaching = {
             'member': member_pk,
             'coach': request.user.pk,
         }
+
         coachserializer = CoachingSerializer(data=coaching)
 
         if coachserializer.is_valid():
             coachserializer.save()
-
+            
         # 트레이너-회원 관계 PK 가져오기
         coachingPK = get_object_or_404(Member_Coach, member_id=member_pk, coach_id=request.user.pk)
         print(coachingPK)

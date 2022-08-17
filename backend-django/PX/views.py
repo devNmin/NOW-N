@@ -92,7 +92,8 @@ def create_diets(request):
         current_data = {
             'diet': dietPK,
             'food': current_food.id,
-            'size': food.get('size')
+            'size': food.get('size'),
+            'name': food.get('name'),
         }
         food_list.append(current_data)
     diet_food_serializer = DietFoodSerializer(data=food_list, many=True)
