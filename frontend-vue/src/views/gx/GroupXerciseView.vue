@@ -22,18 +22,14 @@ export default {
 <style scoped>
 
 .GX-container{
-  height: 85%;
-  position: relative;
-  width: 85%;
-  left: 15%;
+  height: 100%;
+  width: calc(100%-290px);
+  margin-left: 290px;
 }
 
 .GX-content{
-  flex-direction: column;
-  justify-content: flex-end;
   height: 100%;
-  width: 85%;
-  margin-top: 50px
+  width: 100%;
 }
 
 </style>

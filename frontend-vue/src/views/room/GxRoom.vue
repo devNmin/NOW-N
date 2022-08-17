@@ -62,7 +62,8 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/components/room/UserVideo'
 import { ref, toRefs, reactive, computed, watch, nextTick } from 'vue'
 import { useStore } from 'vuex'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { onMounted } from '@vue/runtime-core'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 const OPENVIDU_SERVER_URL = 'https://' + 'i7b108.p.ssafy.io:8443'
@@ -83,10 +84,13 @@ export default {
 
   setup (props) {
     const store = useStore()
+    const router = useRouter()
 
     const roomInfo = ref(computed(() => store.state.room.roomInfo))
 
     const messages = ref('')
+
+    const userInfo = ref(computed(() => store.state.profile.myinfo))
 
     const state = reactive({
       OV: undefined,
@@ -95,21 +99,28 @@ export default {
       subscribers: [],
       mySessionId: props.conference_id,
       mySessiontitle: roomInfo.value.title,
-      myUserName: store.state.accounts.currentUser.name,
+      myUserName: userInfo.value.name,
       audio: true,
       video: true,
       audioMsg: '마이크 ON',
       videoMsg: '비디오 ON'
+    })
 
+    onMounted(() => {
+      joinSession()
     })
 
     async function joinSession () {
+      console.log('joinSession')
       // 현재 방 정보 가져오기
-      await this.$store.dispatch('getRoomInfo', state.mySessionId)
+      await store.dispatch('getRoomInfo', state.mySessionId)
       state.mySessiontitle = roomInfo.value.title
-      state.myUserName = store.state.accounts.currentUser.name
-      console.log('이름')
-      console.log(state.myUserName)
+      console.log('title ' + state.mySessiontitle)
+
+      // 현재 유저 정보 가져오기
+      await store.dispatch('profile', localStorage.getItem('userPk')) // load user profile
+      state.myUserName = userInfo.value.name
+      console.log(userInfo.value.name)
 
       // --- Get an OpenVidu object ---
       state.OV = new OpenVidu()
@@ -139,7 +150,6 @@ export default {
       // On every new Stream received...
       state.session.on('streamCreated', ({ stream }) => {
         const subscriber = state.session.subscribe(stream)
-        subscriber.userId = state.myUserName // subscriber에 user추가
         state.subscribers.push(subscriber)
       })
 
@@ -193,9 +203,12 @@ export default {
       window.addEventListener('beforeunload', leaveSession)
     }
 
-    async function leaveSession () {
-      console.log(props.conference_id)
-      await store.dispatch('deleteRoomInfo', props.conference_id)
+    function leaveSession () {
+      console.log('몇명인지')
+      console.log(state.subscribers.length)
+      if (state.subscribers.length === 0) {
+        store.dispatch('deleteRoomInfo', props.conference_id)
+      }
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (state.session) state.session.disconnect()
       state.session = undefined
@@ -204,6 +217,7 @@ export default {
       state.OV = undefined
 
       window.removeEventListener('beforeunload', leaveSession)
+      router.push({ name: 'gxConferences' })
     }
 
     /**
@@ -339,11 +353,6 @@ export default {
       sendMessage,
       messages
     }
-  },
-
-  mounted () {
-    console.log('mounted')
-    this.joinSession()
   }
 }
 </script>

@@ -16,8 +16,8 @@ export default {
     SET_PROFILE: (state, myinfo) => { state.myinfo = myinfo }
   },
   actions: {
-    profile ({ commit }, userPk) {
-      axios({
+    async profile ({ commit }, userPk) {
+      await axios({
         url: drf.profiles.profiles(userPk),
         method: 'get',
         data: userPk,
@@ -28,11 +28,11 @@ export default {
         }
         )
     },
-    modify ({ commit }, credentials) {
+    async modify ({ commit }, credentials) {
       console.log('drf.profiles.modify(userPk)', localStorage.getItem('userPk'))
       console.log('drf.profilescredentials', credentials)
 
-      axios({
+      await axios({
         url: drf.profiles.modify(localStorage.getItem('userPk')),
         method: 'put',
         data: credentials,
