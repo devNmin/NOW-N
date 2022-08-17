@@ -11,6 +11,9 @@ urlpatterns = [
     # 식단 다이어리 - 오늘의 식단 정보 작성하기
     path('creatediets/', views.create_diets),
 
+    # 식단 다이어리 - 식단 정보 삭제
+    path('deletediets/<int:diet_pk>', views.delete_diet),
+
     # 식단 다이어리 - 음식 정보 PK로 조회
     path('selectfoodbypk/<int:food_pk>', views.select_food_by_pk),
 

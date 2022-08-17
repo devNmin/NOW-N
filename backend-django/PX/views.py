@@ -15,13 +15,15 @@ from accounts.serializers import UserSerializer
 from profiles.serializers import WeightSerializer
 from profiles.models import Weight
 from trainer.models import Counsel, Member_Coach
-from .models import Diet, Food, Schedule, Training_History
+from .models import Diet, Diet_Food, Food, Schedule, Training_History
 from GX.models import Conference
 from .serializers import (
     ConferenceParticipateSerializer,
     CounselHistorySerializer,
+    DietFoodSerializer,
     DietSerializer,
     FoodSerializer,
+    FoodSimpleSerializer,
     MemberCoachPKSerializer,
     ScheduleSerializer,
     TrainingHistorySerializer,
@@ -39,30 +41,39 @@ def diet_month_list(request, current_month):
 def today_diets(request, today_date):
     diets = Diet.objects.filter(userID=request.user.pk, date=today_date)
     serializer = DietSerializer(diets, many=True)
-    return Response(serializer.data)
+    print("Diets : ", diets)
+    foods_list = list()
+    for diet in diets:
+        print("Diet : ", diet.id)
+        foods_data = Diet_Food.objects.filter(diet=diet.id)
+        foods_serializer = DietFoodSerializer(data=foods_data, many=True)
+        foods_serializer.is_valid()
+        foods_list.append(foods_serializer.data)
+    print("Foods List : ", foods_list)
+    context = {
+        'diet_data': serializer.data,
+        'foods_data': foods_list,
+    }
+    return JsonResponse(context)
 
 # 식단 다이어리 - 오늘의 식단 정보 작성하기
 @api_view(['POST'])
 def create_diets(request):
-    # 들어온 식단 정보 저장
-    diet_data = DietSerializer(request.data)
-    calories = 0
-    for food in diet_data.foods:
-        food_data = get_object_or_404(object, id=food.food_pk)
-        multiple = food.food_size / food_data.serving_size
-        calories += food_data.kcal * multiple
-
+    # 입력된 식단 정보 저장
     context = {
-        'userID': request.user.pk,
-        'picture': diet_data.data.get('picture'),
-        'category': diet_data.data.get('category'),
-        'date': diet_data.data.get('date'),
-        'time': diet_data.data.get('time'),
-        'comment': diet_data.data.get('comment'),
-        'total_calorie': calories,
-        'new_date': diet_data.data.get('new_date'),
-        'foods': diet_data.data.get('foods'),
+        'userID': request.data.get('userID'),
+        'picture': request.data.get('picture'),
+        'category': request.data.get('category'),
+        'date': request.data.get('date'),
+        'time': request.data.get('time'),
+        'comment': request.data.get('comment'),
+        'total_calorie': request.data.get('total_calorie'),
+        'new_date': request.data.get('new_date'),
     }
+    
+    # 중복된 시간의 식단 데이터는 삭제처리
+    if Diet.objects.filter(userID=request.user.pk, date=request.data.get('date'), time=request.data.get('time')).exists:
+        Diet.objects.filter(userID=request.user.pk, date=request.data.get('date'), time=request.data.get('time')).delete()
 
     serializer = DietSerializer(data=context)
 
@@ -70,7 +81,39 @@ def create_diets(request):
 
     serializer.save()
 
+    # 입력된 식단 정보 저장 후 PK 값 추출
+    current_diet = get_object_or_404(Diet, userID=request.user.pk, date=request.data.get('date'), time=request.data.get('time'))
+    dietPK = current_diet.pk
+    print("foods : ", request.data.get('foods'))
+    food_list = list()
+    for food in request.data.get('foods'):
+        current_food = get_object_or_404(Food, name=food.get('name'))
+        print('current : ', current_food)
+        current_data = {
+            'diet': dietPK,
+            'food': current_food.id,
+            'size': food.get('size')
+        }
+        food_list.append(current_data)
+    diet_food_serializer = DietFoodSerializer(data=food_list, many=True)
+
+    diet_food_serializer.is_valid(raise_exception=True)
+    
+    diet_food_serializer.save()
+
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# 식단 다이어리 - 식단 정보 삭제
+@api_view(['DELETE'])
+def delete_diet(request, diet_pk):
+    diet = get_object_or_404(Diet, id=diet_pk)
+    if diet is None:
+        msg = "삭제 실패 : 존재하지 않는 식단입니다."
+        return Response(msg, status=status.HTTP_400_BAD_REQUEST)
+    diet.delete()
+    msg = "삭제 성공 : 삭제되었습니다."
+    return Response(msg, status=status.HTTP_200_OK)
+
 
 # 식단 다이어리 - 음식 정보 PK로 조회
 @api_view(['GET'])
