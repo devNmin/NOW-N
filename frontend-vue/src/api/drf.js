@@ -45,7 +45,14 @@ export default {
   },
   // px
   px: {
+    getWeightDay: () => HOST + '/PX/weightgraph/day',
+    getWeightWeek: () => HOST + '/PX/weightgraph/week',
+    getWeightMonth: () => HOST + '/PX/weightgraph/month',
     dietList: (userPk) => HOST + '/PX/diaries/' + `${userPk}`,
+    createDiet: () => HOST + 'PX/creatediets/',
+    searchDietName: () => HOST + 'PX/selectfoodbyname',
+    searchDietPk: (foodPk) => HOST + 'PX/selectfoodbypk/' + `${foodPk}`,
+    todaydiets: (todayDate) => HOST + 'PX/todaydiets/' + `${todayDate}`,
     info: {
       coachInfo: (coachPk) => HOST + '/PX/mytrainer/' + `${coachPk}`,
       trainhistory: (coachPk) => HOST + '/PX/trainhistory/' + `${coachPk}`,
