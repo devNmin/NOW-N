@@ -6,7 +6,7 @@
       <div class="div2 item-padding">{{clientItemData.name}}</div>
       <div class="div3 item-padding">{{clientItemData.gender}}</div>
       <div class="div3 item-padding">{{clientItemData.height}} / {{clientItemData.user_weight}}</div>
-      <div class="div4 item-padding"><button class="trainer-apply-style" type="button" @click="toggleModal">상담 내역</button></div>
+      <div class="div4 item-padding"><button class="trainer-apply-style3" type="button" @click="toggleModal">상담 내역</button></div>
       <div class="trainer-list-deco-box"></div>
     </div>
 </template>
@@ -28,6 +28,7 @@ export default {
     const store = useStore()
     const clientItemData = ref(computed(() => props.clientListData))
     function toggleModal () {
+      store.dispatch('getCounselList', clientItemData.value.id)
       store.dispatch('requestTrainerDetail', clientItemData.value.id)
       emit('toggleModal', true)
     }
@@ -60,15 +61,15 @@ export default {
   border-radius: 30% 20%;
   object-fit: cover;
 }
-.trainer-apply-style {
+.trainer-apply-style3 {
   box-sizing: border-box;
   width: 100px;
   height: 30px;
-  font-size: 16px;
+  font-size: 12px;
   font-family: 'MaruBuriOTF';
   font-style: normal;
   padding: 5px 15px;
-  border: 1px solid #6dcef5;
+  border: 2px solid #6dcef5;
   gap: 10px;
   border-radius: 25px;
   background-color: #FFF;
@@ -76,7 +77,7 @@ export default {
   text-decoration-line: none;
   text-align: center;
 }
-.trainer-apply-style:hover {
+.trainer-apply-style3:hover {
   cursor: pointer;
 }
 .deco-bar2 {
