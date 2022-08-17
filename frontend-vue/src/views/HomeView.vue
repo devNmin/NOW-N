@@ -177,7 +177,8 @@ ol, li {
   flex: 0 0 100%;
   width: 100%;
   height: 100%;
-  background-image: url("@/assets/main4.jpg");
+  background-image: url("@/assets/main5.jpg");
+  /* 커버쓰면됨 */
   /* background-image: url("@/assets/home1.jpg"); */
   background-repeat: no-repeat;
   background-size: 100%;

@@ -13,7 +13,10 @@ export default {
   // 룸 정보
   rooms: {
     room: () => HOST + '/GX/conferences/',
-    createRoom: () => HOST + '/GX/createconference/'
+    createRoom: () => HOST + '/GX/createconference/',
+    articleList: (articleCategory) => HOST + `/community/${articleCategory}/`, // 1 전체 2 공지 3 자유 4 질문
+    article: () => HOST + '/community/article/',
+    articleDelete: (articleId) => HOST + '/community/article/' + `${articleId}/`
   },
   // 트레이너
   trainer: {
@@ -28,14 +31,19 @@ export default {
     acceptCounselting: (userPk) => HOST + '/trainer/savecounsel/' + `${userPk}`,
     rejectCounselting: (userPk) => HOST + '/trainer/deleterequest/' + `${userPk}`,
     getmemberlist: (coachPk) => HOST + '/trainer/getmemberlist/' + `${coachPk}`,
-    updateTrainer: (userPk) => HOST + '/trainer/modify/' + `${userPk}`
+    updateTrainer: (userPk) => HOST + '/trainer/modify/' + `${userPk}`,
+    getCounselList: (anotherPk) => HOST + '/trainer/getmembercounsellist/' + `${anotherPk}`,
+    getCounselDetail: (counselPk) => HOST + '/trainer/getmembercounsel/' + `${counselPk}`
   },
   // 프로필
-  profiels: {
+  profiles: {
     doFollow: (anotherPk) => HOST + '/profiles/select/' + `${anotherPk}` + '/follow',
     followList: (userPk) => HOST + '/profiles/followlist/' + `${userPk}`,
     followRecommend: () => HOST + '/profiles/recommendlist',
-    isFollow: (anotherPk) => HOST + '/profiles/checkfollow/' + `${anotherPk}`
+    isFollow: (anotherPk) => HOST + '/profiles/checkfollow/' + `${anotherPk}`,
+    // http://127.0.0.1:8000/profiles/select/1
+    profiles: (userPk) => HOST + '/profiles/select/' + `${userPk}`,
+    modify: (userPk) => HOST + '/profiles/modify/' + `${userPk}`
   },
   // px
   px: {
@@ -47,4 +55,5 @@ export default {
       schedule: (coachPk) => HOST + '/PX/schedule/' + `${coachPk}`
     }
   }
+
 }

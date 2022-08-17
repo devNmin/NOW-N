@@ -30,7 +30,7 @@ export default {
     },
     doFollow ({ commit }, anotherPK) {
       axios({
-        url: drf.profiels.doFollow(anotherPK),
+        url: drf.profiles.doFollow(anotherPK),
         method: 'post',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
@@ -42,7 +42,7 @@ export default {
     },
     followList ({ commit }, userPk) {
       axios({
-        url: drf.profiels.followList(userPk),
+        url: drf.profiles.followList(userPk),
         method: 'get',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
@@ -54,7 +54,7 @@ export default {
     },
     recommendList ({ commit }) {
       axios({
-        url: drf.profiels.followRecommend(),
+        url: drf.profiles.followRecommend(),
         method: 'get',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
@@ -66,14 +66,11 @@ export default {
     },
     isFollow ({ commit }, anotherPk) {
       axios({
-        url: drf.profiels.isFollow(anotherPk),
+        url: drf.profiles.isFollow(anotherPk),
         method: 'get',
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log('1')
-          console.log(res.data.value)
-          console.log('2')
           commit('SET_IS_FOLLOW', res.data.value)
         }).catch(err => {
           console.error(err.response.data)

@@ -8,7 +8,6 @@
     <div class="div4">신청</div>
     <div class="trainer-list-deco-box"></div>
   </div>
-  <div></div>
 </template>
 
 <script>

@@ -7,6 +7,7 @@
             <div>팔로우 중인 채널</div>
           </div>
           <FollowBarItem
+          class="followLink"
           v-for="(followItem, i) in followData.followlist"
           :key="i"
           :followData="followItem"
@@ -17,6 +18,7 @@
             <div>추천 채널</div>
           </div>
           <FollowRecommendItem
+          class="followLink"
           v-for="(recommendItem, i) in recommendData"
           :key="i"
           :recommendData="recommendItem"
@@ -142,5 +144,11 @@ export default {
 }
 .hide-icon-position {
   top: 500px;
+}
+
+.followLink {
+  color: #6dcef5 !important;
+  cursor: pointer;
+  text-decoration: none  !important;;
 }
 </style>

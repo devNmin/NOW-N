@@ -35,28 +35,31 @@ def select(request):
 @api_view(['GET'])
 def detail(request, pk):
     trainer = get_object_or_404(User, id=pk)
+    if trainer.grade == '일반유저':
+        return Response('트레이너가 아닙니다.', status=status.HTTP_400_BAD_REQUEST)
 
-    coaching = Member_Coach.objects.filter(coach=pk)
-    if coaching is None:
-        member_count = 0
-    else:
-        member_count = coaching.count()
+    else:    
+        coaching = Member_Coach.objects.filter(coach=pk)
+        if coaching is None:
+            member_count = 0
+        else:
+            member_count = coaching.count()
 
-    context = {
-        'name' : trainer.name,
-        'nickname' : trainer.nickname,
-        'exercise_category' : trainer.exercise_category,
-        'followers' : trainer.followers.count(),
-        'age' : trainer.age,
-        'gender' : trainer.gender,
-        'career' : trainer.career,
-        'members' : member_count,
-        'diet_price' : trainer.diet_price,
-        'exercise_price' : trainer.exercise_price,
-        'comment' : trainer.comment,
-    }
+        context = {
+            'name' : trainer.name,
+            'nickname' : trainer.nickname,
+            'exercise_category' : trainer.exercise_category,
+            'followers' : trainer.followers.count(),
+            'age' : trainer.age,
+            'gender' : trainer.gender,
+            'career' : trainer.career,
+            'members' : member_count,
+            'diet_price' : trainer.diet_price,
+            'exercise_price' : trainer.exercise_price,
+            'comment' : trainer.comment,
+        }
 
-    return JsonResponse(context)
+        return JsonResponse(context)
 
 # 트레이너 상세 정보 수정
 @api_view(['PUT'])
@@ -136,42 +139,44 @@ def get_request_list(request):
 # 상담 신청 수락 - 트레이너-유저 간 조율 후 상담 내용 저장
 @api_view(['POST'])
 def save_counsel(request, member_pk):
-    member = User.objects.get(pk=member_pk)
-    member.alarm = True
-    member.save()
+    
+    if Request_Counsel.objects.filter(coach_id=request.user.pk, member_id=member_pk).exists():
+        member = User.objects.get(pk=member_pk)
+        member.alarm = True
+        member.save()
 
-    # 트레이너-회원 관계 설정
-    print("TrainerID : ", request.user.pk)
-    coaching = {
-        'member': member_pk,
-        'coach': request.user.pk,
-    }
-    coachserializer = CoachingSerializer(data=coaching)
-    if coachserializer.is_valid():
-        coachserializer.save()
-    print("Coaching : ", coachserializer.data)
+        # 트레이너-회원 관계 설정
+        coaching = {
+            'member': member_pk,
+            'coach': request.user.pk,
+        }
+        coachserializer = CoachingSerializer(data=coaching)
 
-    # 트레이너-회원 관계 PK 가져오기
-    coachingPK = get_object_or_404(Member_Coach, member_id=member_pk, coach_id=request.user.pk)
-    print("Coaching PK : ", coachingPK.pk)
-    serial = CounselWithoutCoachingPKSerializer(request.data)
-    context = {
-        'coaching_id': coachingPK.pk,
-        'is_exercise': serial.data.get('is_exercise'),
-        'is_diet': serial.data.get('is_diet'),
-        'times': serial.data.get('times'),
-        'start_date': serial.data.get('start_date'),
-        'end_date': serial.data.get('end_date'),
-        'comment': serial.data.get('comment'),
-    }
-    serializer = CounselSerializer(data=context)
-    if serializer.is_valid():
-        serializer.save()
-        # 상담 신청 내역 삭제
-        req = Request_Counsel.objects.filter(member_id=member_pk, coach_id=request.user.pk)
-        req.delete()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if coachserializer.is_valid():
+            coachserializer.save()
+
+        # 트레이너-회원 관계 PK 가져오기
+        coachingPK = get_object_or_404(Member_Coach, member_id=member_pk, coach_id=request.user.pk)
+        print(coachingPK)
+        serial = CounselWithoutCoachingPKSerializer(request.data)
+        context = {
+            'coaching_id': coachingPK.pk,
+            'is_exercise': serial.data.get('is_exercise'),
+            'is_diet': serial.data.get('is_diet'),
+            'times': serial.data.get('times'),
+            'start_date': serial.data.get('start_date'),
+            'end_date': serial.data.get('end_date'),
+            'comment': serial.data.get('comment'),
+        }
+        serializer = CounselSerializer(data=context)
+        if serializer.is_valid():
+            serializer.save()
+            # 상담 신청 내역 삭제
+            req = Request_Counsel.objects.filter(member_id=member_pk, coach_id=request.user.pk)
+            req.delete()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response('상담 신청이 없습니다.', status=status.HTTP_400_BAD_REQUEST)
 
 # 상담 신청 거절 - 상담 신청 내역 삭제
 @api_view(['DELETE'])
@@ -184,14 +189,16 @@ def delete_request(request, member_pk):
     msg = '상담 신청을 거절하였습니다.'
     return Response(msg, status=status.HTTP_200_OK)
 
+
 # 트레이너 회원 목록 가져오기
 @api_view(['GET'])
 def get_member_list(request, coach_pk):
     # 요청 coach_pk가 coach_id인 유저 목록 가져오기
     members = Member_Coach.objects.filter(coach_id=coach_pk)
-    users = User.objects.filter(pk__in=members)
+    users = User.objects.filter(pk__in=members.values('member_id'))
     serializer = MemberSerializer(users, many=True)
     return Response(serializer.data)
+  
     
 # 트레이너-유저 간 상담 이력 조회
 @api_view(['GET'])
@@ -200,6 +207,7 @@ def get_member_counsel_list(request, member_pk):
     counsel = Counsel.objects.filter(coaching_id=coaching.pk)
     serializer = CounselSerializer(counsel, many=True)
     return Response(serializer.data)
+
 
 # 트레이너-유저 간 상담 내용 상세 조회
 @api_view(['GET'])

@@ -116,7 +116,7 @@ export default {
 .modal-x-button {
   position: absolute;
   top: 3%;
-  left: 95%;
+  left: 92%;
 }
 .detail-deco-bar {
   position: relative;

@@ -2,10 +2,21 @@
     <div class="create-diet">
         <div class="regist-diet-container">
             <div class="diet-img">
-                <label for="img">
-                  <img class="food-img" :src="DietInfo.food_url" alt="식단 사진">
-                </label>
-                <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile">
+              <label for="img">
+                <img class="food-img" :src="DietInfo.food_url" alt="식단 사진">
+              </label>
+              <input type="file" style="visibility:hidden;" id="img" multiple="multiple" @change="uploadFile">
+            </div>
+            <div>
+              <fieldset class="food-search">
+                <legend>음식 검색</legend>
+                <input type="text" placeholder="음식이름을 입력하세요"><button>검색</button>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+              </fieldset>
             </div>
             <fieldset class="diet-moment">
                 <legend>분 류</legend>
@@ -66,7 +77,7 @@ export default {
     const DietInfo = reactive({
       moment: '아침',
       time: new Date(),
-      picture: 'https://ibb.co/qg4XZZP',
+      picture: '',
       comment: '',
       food_url: require('@/assets/food4.jpg')
     })
@@ -81,8 +92,8 @@ export default {
 
     const time = reactive({
       meridiem: [
-        { text: 'A.M', value: 0 },
-        { text: 'P.M', value: 12 }
+        { text: 'A.M', value: 'AM' },
+        { text: 'P.M', value: 'PM' }
       ],
       hour: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
       minute: ['0', '10', '20', '30', '40', '50']
@@ -120,6 +131,7 @@ export default {
 
     async function regist () {
       const userPk = store.state.accounts.currentUserPk
+      console.log('DietInfoDietInfo', DietInfo)
       await store.dispatch('getDietList', userPk, DietInfo)
       router.push({ name: 'pxDiaries' })
     }
@@ -148,7 +160,7 @@ export default {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 3fr 1fr 1fr 1fr 0.3fr;
     grid-template-areas:
-    "diet-img diet-img"
+    "diet-img food-search"
     "diet-moment diet-moment"
     "diet-time diet-comment"
     "diet-category diet-category"
@@ -166,8 +178,8 @@ export default {
 .food-img{
     display: flex;
     Justify-content: center;
-    width:30%;
     margin: auto;
+    width:50%;
     border-radius: 20px;
 }
 
