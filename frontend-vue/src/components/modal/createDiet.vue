@@ -30,7 +30,7 @@
           <legend>분 류</legend>
           <div v-for="item in options" :key="item.value" style="margin-top:7px">
               <label>
-              <input type="radio" v-model="DietInfo.moment" :value="item.value" />
+              <input type="radio" v-model="DietInfo.category" :value="item.value" />
               {{item.text}}
               </label>
           </div>
@@ -38,27 +38,36 @@
 
       <fieldset class="diet-time">
           <legend>식사 시간</legend>
-          <select>
-            <option v-for="mer in time.meridiem" :key="mer.value" :value="mer.value">{{mer.text}}</option>
+          <select v-model="time2.input1">
+            <option v-for="option in time.meridiem"
+              :value="option.value" :key="option" >
+              {{option.text}}
+            </option>
           </select>
-          <select>
-            <option v-for="h in time.hour" :key="h" :value="h">{{h}}시</option>
+          <select v-model="time2.input2">
+            <option v-for="option in time.hour"
+              :value="option" :key="option" >
+              {{option}}시
+            </option>
           </select>
-          <select>
-            <option v-for="m in time.minute" :key="m" :value="m">{{m}}분</option>
+          <select v-model="time2.input3">
+            <option v-for="option in time.minute"
+              :value="option" :key="option" >
+              {{option}}분
+            </option>
           </select>
       </fieldset>
 
       <fieldset class="diet-comment">
           <legend>Comment</legend>
-          <input type="text" v-model="DietInfo.commet" style="width:98%; height:90%; font-size:25px;"/>
+          <input type="text" v-model="DietInfo.comment" style="width:98%; height:90%; font-size:25px;"/>
       </fieldset>
 
       <fieldset class="diet-category" >
           <legend>음식 종류</legend>
           <div style="text-align: center;" v-for=" (item, i) in DietInfo.foods" :key="i" :value="item">
-          <div>{{DietInfo.foods[i].foodName}}<button @click="DeleteFoodList(i)">삭제</button></div>
-          <div style="display:flex; justify-content:center;">{{DietInfo.foods[i].foodgram}}kcal</div>
+          <div>{{DietInfo.foods[i].name}}<button @click="DeleteFoodList(i)">삭제</button></div>
+          <div style="display:flex; justify-content:center;">{{DietInfo.foods[i].size}}kcal</div>
           </div>
       </fieldset>
       <div class="diet-button">
@@ -86,14 +95,35 @@ export default {
     const router = useRouter()
     const storage = getStorage()
     const searchFoodname = ''
+    const today = new Date()
+
+    const year = today.getFullYear()
+    const month = ('0' + (today.getMonth() + 1)).slice(-2)
+    const day = ('0' + today.getDate()).slice(-2)
+    const dateString = year + '-' + month + '-' + day
+    const time = reactive({
+      meridiem: [
+        { text: 'A.M', value: 'AM' },
+        { text: 'P.M', value: 'PM' }
+      ],
+      hour: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+      minute: ['0', '10', '20', '30', '40', '50']
+    })
+    const time2 = reactive({
+      input1: 'AM',
+      input2: '06',
+      input3: '30'
+    })
     const DietInfo = reactive({
       userID: store.state.accounts.currentUserPk,
-      moment: '아침',
-      time: '1250AM',
+      category: '아침',
+      time: time2.input2 + time2.input3 + time2.input1,
+      date: '20220817',
       picture: require('@/assets/food4.jpg'),
-      comment: 'test중',
-      total_calorie: 153.7,
-      foods: []
+      comment: '',
+      total_calorie: 1530,
+      foods: [],
+      new_date: dateString
     })
     onUpdated(() => {
     })
@@ -102,9 +132,9 @@ export default {
     function AIFlagBtn () {
       state.AIFlag = ~state.AIFlag
     }
-    function addClick (foodName, foodgram) {
+    function addClick (name, size) {
       if (DietInfo.foods.length < 6) {
-        DietInfo.foods.push({ foodName, foodgram })
+        DietInfo.foods.push({ name, size })
       }
     }
     function DeleteFoodList (i) {
@@ -122,15 +152,6 @@ export default {
       { text: '간식', value: '간식' },
       { text: '야식', value: '야식' }
     ]
-
-    const time = reactive({
-      meridiem: [
-        { text: 'A.M', value: 'AM' },
-        { text: 'P.M', value: 'PM' }
-      ],
-      hour: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-      minute: ['0', '10', '20', '30', '40', '50']
-    })
     const test = () => {
       document.querySelector('.modal__background').classList.toggle('open')
     }
@@ -155,6 +176,7 @@ export default {
             }
           }).then(res => {
             // DietInfo.picture
+            console.log('res.data', res.data)
             DietInfo.picture = 'data:image/png;base64,' + `${res.data}`
           })
         }
@@ -172,14 +194,18 @@ export default {
       }
     }
     function regist () {
+      console.log(DietInfo)
+      DietInfo.time = time2.input2 + time2.input3 + time2.input1
+      console.log(DietInfo)
       store.dispatch('createDiet', DietInfo)
-      router.push({ name: 'pxDiaries' })
+      // http://127.0.0.1:8000/PX/creatediets/
+      // router.push({ name: 'pxDiaries' })
     }
 
     function moveToDietDiary () {
       router.push({ name: 'pxDiaries' })
     }
-    return { searchFoodname, AIFlagBtn, state, DeleteFoodList, addClick, DietInfo, testData, onClick, regist, moveToDietDiary, options, uploadFile, time, test }
+    return { time2, searchFoodname, AIFlagBtn, state, DeleteFoodList, addClick, DietInfo, testData, onClick, regist, moveToDietDiary, options, uploadFile, time, test }
   }
 }
 </script>
@@ -232,6 +258,9 @@ export default {
     height:70%;
     object-fit: fill;
     border-radius: 20px;
+}
+.food-img:hover{
+  transform: scale(1.5);
 }
 
 .diet-moment{

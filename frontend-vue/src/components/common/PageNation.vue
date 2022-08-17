@@ -48,7 +48,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .pn-icon-box {
   display: flex;
 

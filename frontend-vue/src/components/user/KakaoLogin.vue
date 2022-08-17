@@ -33,7 +33,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
 .kakao-button {
   border: 0px;
   padding: 0px;

@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .schedule-item {
 display: flex;
 box-sizing: border-box;

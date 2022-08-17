@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .follow-item-box {
   display: flex;
   width: 270px;

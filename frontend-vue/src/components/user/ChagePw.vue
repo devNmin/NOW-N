@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .margin-box {
   width: 10vw;
 }

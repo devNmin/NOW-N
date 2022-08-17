@@ -92,7 +92,8 @@ def create_diets(request):
         current_data = {
             'diet': dietPK,
             'food': current_food.id,
-            'size': food.get('size')
+            'size': food.get('size'),
+            'name': food.get('name'),
         }
         food_list.append(current_data)
     diet_food_serializer = DietFoodSerializer(data=food_list, many=True)
@@ -102,7 +103,6 @@ def create_diets(request):
     diet_food_serializer.save()
 
     return Response(serializer.data, status=status.HTTP_201_CREATED)
-
 # 식단 다이어리 - 식단 정보 삭제
 @api_view(['DELETE'])
 def delete_diet(request, diet_pk):
@@ -124,7 +124,7 @@ def select_food_by_pk(request, food_pk):
     
 
 # 식단 다이어리 - 음식 정보 이름으로 검색
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def select_food_by_name(request):
     food_name = request.data.get('name')
     foods = Food.objects.filter(name__contains=food_name)[:5]

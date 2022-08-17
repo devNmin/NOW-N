@@ -190,7 +190,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .modalBox{
   margin-left: 50px;
   margin-right: 50px;

@@ -117,7 +117,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 :root {
   --trainer-decoBar-color: #6DCEF5;
 }

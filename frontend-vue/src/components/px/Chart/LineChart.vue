@@ -1,17 +1,21 @@
 <template>
-<button @click="ClickBtn(1)">알별</button>
-<button @click="ClickBtn(2)">주별</button>
-<button @click="ClickBtn(3)">월별</button>
-  <Line
-    :chart-options="chartOptions"
-    :chart-data="SevenData.chartData"
-    :chart-id="chartId"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-  />
+  <div>
+    <div style="display: flex; justify-content:center; ">
+      <button style="margin-right:30px;" @click="ClickBtn(1)">알별</button>
+      <button style="margin-right:30px;" @click="ClickBtn(2)">주별</button>
+      <button style="margin-right:30px;" @click="ClickBtn(3)">월별</button>
+    </div>
+    <Line
+      :chart-options="chartOptions"
+      :chart-data="SevenData.chartData"
+      :chart-id="chartId"
+      :plugins="plugins"
+      :css-classes="cssClasses"
+      :styles="styles"
+      :width="width"
+      :height="height"
+    />
+</div>
 </template>
 
 <script>
@@ -52,11 +56,11 @@ export default {
     },
     width: {
       type: Number,
-      default: 700
+      default: 900
     },
     height: {
       type: Number,
-      default: 400
+      default: 600
     },
     cssClasses: {
       default: '',
@@ -83,7 +87,7 @@ export default {
           {
             label: '체중',
             backgroundColor: 'blue',
-            data: [55, 52, 51, 53, 55, 54, 53]
+            data: [65, 62, 59, 58, 65, 64, 61]
           },
           {
             label: '목표체중',
@@ -134,3 +138,39 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.button-container{
+  display:block;
+  margin:auto;
+  /* display:inline-block; */
+}
+button{
+  /* background-color: var(--color-grey-900); */
+  color: #6dcef5;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  font-family: 'MaruBuriOTF';
+  font-style: normal;
+  border-width: 0;
+  width: 70px;
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #6dcef5;
+  color: white;
+  font-weight: bold;
+}
+
+button.disabled{
+  cursor: default;
+  background-color: var(--color-grey-100);
+  border: 2px solid var(--color-grey-500);
+  color: var(--color-grey-500);
+}
+</style>

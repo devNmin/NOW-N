@@ -66,7 +66,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .modal {
   min-height: 315px;
   font-size: 16px;

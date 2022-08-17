@@ -50,7 +50,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .login-form {
   position: sticky;
   width: 400px;

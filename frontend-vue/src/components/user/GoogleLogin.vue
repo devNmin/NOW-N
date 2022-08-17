@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .abcRioButton {
   width: 300px !important;
   height: 45px !important;

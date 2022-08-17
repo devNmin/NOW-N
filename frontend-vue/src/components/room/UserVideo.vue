@@ -36,7 +36,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .user-video{
   height:100%;
   width:100%;

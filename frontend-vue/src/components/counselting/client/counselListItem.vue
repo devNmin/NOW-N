@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .trainer-list-box2 {
   display: flex;
   justify-content: center;

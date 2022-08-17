@@ -1,5 +1,6 @@
 import axios from 'axios'
 import drf from '@/api/drf'
+import router from '@/router'
 
 export default {
   state: {
@@ -13,9 +14,6 @@ export default {
   },
   mutations: {
     // 식단 등록 시 리스트 갱신
-    CREATE_DDIET_INFO (state, dietInfo) {
-      state.dietList.push(dietInfo)
-    },
     SET_SEARCH_LISTS: (state, searchingData) => { state.searchingLists = searchingData },
     SET_WEIGHT_LISTS: (state, weightSeven) => { state.weightSeven = weightSeven }
   },
@@ -59,16 +57,16 @@ export default {
       commit('SET_DIET_LIST', data)
     },
     createDiet ({ commit }, DietInfo) {
-      console.log('createDietcreateDiet', DietInfo)
       axios({
-        url: drf.px.createDiet(),
+        // url: drf.px.createDiet(),
+        url: 'http://127.0.0.1:8000/PX/creatediets/',
         method: 'POST',
         data: DietInfo,
         headers: { Authorization: 'JWT ' + localStorage.accessToken }
       })
         .then(res => {
-          console.log('MODIFY_PROFILE', res.data)
-          // commit('SET_PROFILE', res.data)
+          console.log('createDiet', res.data)
+          router.push({ name: 'pxDiaries' })
         }
         )
     },

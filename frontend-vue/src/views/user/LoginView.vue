@@ -8,7 +8,7 @@ export default {
   components: { LoginForm }
 }
 </script>
-<style>
+<style scope>
 
 div.background {
   background-size: cover;

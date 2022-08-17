@@ -77,7 +77,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .trainer-first {
   position: absolute;
   top: 10%;

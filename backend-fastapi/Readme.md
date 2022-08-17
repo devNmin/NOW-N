@@ -7,5 +7,5 @@
 ## main, test 옮기기 YOLOv6 폴더로
 
 ## cd YOLOv6
-
+### pip install python-multipart
 ## uvicorn main:router --reload --host=0.0.0.0 --port=8001

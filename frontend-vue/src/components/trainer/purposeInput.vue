@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .purpose-box {
   display: flex;
   justify-content: center;

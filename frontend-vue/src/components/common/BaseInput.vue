@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .input-box {
   font-family: 'MaruBuriOTF';
   font-style: normal;
