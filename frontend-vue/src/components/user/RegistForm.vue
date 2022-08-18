@@ -51,7 +51,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .regist-form {
   position: sticky;
   width: 400px;

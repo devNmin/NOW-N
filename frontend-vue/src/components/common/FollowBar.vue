@@ -75,7 +75,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
 .followbar{
   /* background-color: #EFEFF1; */
   top: 88px;

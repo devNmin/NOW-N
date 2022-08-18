@@ -48,7 +48,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
 .split-margin-box2 {
   display: flex;
   width: 40px;

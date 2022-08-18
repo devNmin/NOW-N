@@ -9,10 +9,21 @@
         tabindex="0"
         class="carousel__slide">
       <div class="carouselText">
-        <h1>Group Exercise</h1>
-        <h1>NOW:N</h1>
-        <h1>나랑, 운동할래?</h1>
+        <p class="text-Contents">
+          <span class="weight-bold">G . X </span><br/><br/>
+
+          <span class="sub">작심삼일...</span><br/>
+          <span class="text-underline">혼자 하는</span> 운동 힘들지 않으신가요?<br/><br/>
+
+          시간을 맞출 필요가 없습니다!<br/>
+          운동하러 이동하지 않아도 됩니다!<br/><br/>
+          <span class="text-red">언제, 어디서든</span>내가 운동하고 싶을때! 함께 운동해 보세요<br/><br/>
+          <span>다양한 정보들을 공유할 수 있고,</span><br/>
+          <span>사람들과 함께 즐겁게 운동이 가능해요!</span><br/>
+        </p>
       </div>
+      <!-- <div class="gx-main">
+      </div> -->
       <div class="carousel__snapper">
         <a href="#carousel__slide3"
            class="carousel__prev">Go to last slide</a>
@@ -24,10 +35,23 @@
         tabindex="0"
         class="carousel__slide">
       <div class="carouselText">
-        <h1>Personal Exercise</h1>
-        <h1>Personal Exercise</h1>
-        <h1>Personal Exercise</h1>
+        <p class="text-Contents">
+          <span class="weight-bold">P . X</span><br/>
+          <span class="sub">나만의 smart 다이어리</span><br/><br/>
+
+          매일하는 식단관리 귀찮으시죠?<br/>
+          <span style="color:#6dcef5; font-weight:bold;">NOW:N</span>에서 편리하고 꾸준하게 관리할 수 있습니다!<br/>
+
+          사진만 등록하면 자동으로 칼로리를 계산해줘요!<br/>
+          달력을 통해 기록을 한눈에 볼 수 있어요!<br/><br/>
+
+          내 몸의 변화가 궁굼하시다고요?<br/>
+          그래프를 통해 다양한 정보를 볼 수 있어요!<br/>
+          내가 운동을 잘하고 있는지, 기간별 확인이 가능<br/>
+        </p>
       </div>
+      <!-- <div class="px-main">
+      </div> -->
       <div class="carousel__snapper"></div>
       <a href="#carousel__slide1"
          class="carousel__prev">Go to previous slide</a>
@@ -38,9 +62,18 @@
         tabindex="0"
         class="carousel__slide">
       <div class="carouselText">
-        <h1>Trainer</h1>
-        <h1>Trainer</h1>
-        <h1>Trainer</h1>
+        <p class="text-Contents">
+          <span class="weight-bold">Trainer</span><br/>
+          <span class="sub">나에게 꼭 맞는 트레이너</span><br/><br/>
+
+          어떻게 운동해야 할지 모르겠다고요?<br/>
+          식단 관리가 어려우시다고요?<br/><br/>
+
+          내가 선택한 트레이너에게<br/>
+          전문적인 코칭을 온라인으로 경험해 보세요<br/>
+          오직 <span class="text-red">나에게 맞춘</span> 일정, 식단으로 효율적으로 운동할 수 있습니다<br/>
+          트레이너와 함께라면 누구나 쉽게 <span class="text-red">목표 달성!</span><br/>
+        </p>
       </div>
       <div class="carousel__snapper"></div>
       <a href="#carousel__slide2"
@@ -152,6 +185,31 @@ ol, li {
   padding: 0;
 }
 
+.text-Contents{
+  font-size: 20px;
+  font-weight:bold;
+}
+
+.sub{
+  font-size: 30px;
+}
+
+.weight-bold{
+  font-size: 40px;
+  font-weight:bold;
+}
+
+.text-underline{
+  text-decoration: underline gray;
+  text-underline-position: under;
+  bottom: 2px;
+}
+
+.text-red{
+  font-size: 25px;
+  color: red;
+}
+
 .carousel {
   position: relative;
   padding-top: 45%;
@@ -172,26 +230,59 @@ ol, li {
   scroll-snap-type: x mandatory;
 }
 
+.gx-main{
+  position:absolute;
+  width: 50%;
+  height: 58%;
+  top:30%;
+  left: 45%;
+  background-image: url("@/assets/gx_main.PNG");
+  background-size: 100%;
+}
+
+.px-main{
+  position:absolute;
+  width: 50%;
+  height: 58%;
+  top:30%;
+  left: 45%;
+  background-image: url("@/assets/px_main.PNG");
+  background-size: 100%;
+}
+
+.gx-main{
+  position:absolute;
+  width: 50%;
+  height: 58%;
+  top:30%;
+  left: 45%;
+  background-image: url("@/assets/gx_main.PNG");
+  background-size: 100%;
+}
+
 .carousel__slide {
   position: relative;
   flex: 0 0 100%;
   width: 100%;
   height: 100%;
-  background-image: url("@/assets/main5.jpg");
   /* 커버쓰면됨 */
   /* background-image: url("@/assets/home1.jpg"); */
   background-repeat: no-repeat;
   background-size: 100%;
   counter-increment: item;
+  /* background-color: #99f; */
+  background-image: url("@/assets/main5.jpg");
 }
 
 .carousel__slide:nth-child(even) {
-  background-color: #99f;
 }
 .carouselText {
+  /* background-color:white; */
+  /* border: solid; */
+  padding:30px;
   position: absolute;
-  top: 35%;
-  left: 25%;
+  top: 10%;
+  left: 10%;
 }
 
 .carousel__snapper {

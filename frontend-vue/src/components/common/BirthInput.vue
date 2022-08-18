@@ -72,7 +72,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .split-page {
   display: flex;
   justify-content: center;

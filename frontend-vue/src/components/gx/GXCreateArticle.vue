@@ -71,7 +71,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .GXPagenation {
   display: flex;
   justify-content: center;

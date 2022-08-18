@@ -9,7 +9,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .chatting{
   width: 300px;
   height: 600px;

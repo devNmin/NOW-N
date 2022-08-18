@@ -65,7 +65,7 @@
     </div>
 </template>
 
-<style>
+<style scope>
 .border-3 {
     border-width: 3px;
 }

@@ -11,7 +11,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 
 header.header-base{
   padding: 1rem;

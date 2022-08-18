@@ -29,7 +29,7 @@ export default {
 
 </script>
 
-<style>
+<style scope>
 
 .hover-pointer {
     width: 45px;

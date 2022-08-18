@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 .trainer-list-box1 {
   display: flex;
   justify-content: center;

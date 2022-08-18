@@ -64,7 +64,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 
 form {
   width: 400px;
