@@ -146,6 +146,10 @@ def save_counsel(request, member_pk):
         member.save()
 
         # 트레이너-회원 관계 설정
+        is_exist = Member_Coach.objects.filter(member=member_pk, coach=request.user.pk)
+        if is_exist.exists():
+            is_exist.delete()
+
         coaching = {
             'member': member_pk,
             'coach': request.user.pk,
