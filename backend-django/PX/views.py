@@ -280,7 +280,7 @@ def weight_graph_week(request):
     for i in range(1, 6):
         week_date = latest_date - datetime.timedelta(weeks=i)
         week_data.append(week_date)
-    week_weights = Weight.objects.filter(date__in=week_data)
+    week_weights = Weight.objects.filter(date__in=week_data, user_id=request.user.pk)
     serializer = WeightSerializer(week_weights, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -297,7 +297,7 @@ def weight_graph_month(request):
     for i in range(1, 6):
         week_date = latest_date - relativedelta(months=i)
         week_data.append(week_date)
-    week_weights = Weight.objects.filter(date__in=week_data)
+    week_weights = Weight.objects.filter(date__in=week_data, user_id=request.user.pk)
     serializer = WeightSerializer(week_weights, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
