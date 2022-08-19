@@ -8,12 +8,12 @@
 
 ## 팀원 소개
 
-- 조경민 : 팀장, INFRA, Back, AI
-- 박호현 : INFRA, Back, WebRTC
-- 당현찬 : INFRA, Back 
-- 김학준 : Front
-- 박승주 : Front
-- 안용현 : UCC
+- 조경민 : 팀장, INFRA, Back, AI, UCC 출연
+- 박호현 : INFRA, Back, WebRTC, UCC 출연
+- 당현찬 : INFRA, Back, UCC 출연
+- 김학준 : Front, UCC 출연
+- 박승주 : Front, UCC 편집
+- 안용현 :  UCC 출연
 
 
 
