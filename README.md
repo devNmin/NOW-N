@@ -9,11 +9,11 @@
 ## 팀원 소개
 
 - 조경민 : 팀장, INFRA, Back, AI
-- 박호현 : INFRA, BACK 
-- 당현찬 : INFRA, BACK 
-- 김학준 : Frpmt
+- 박호현 : INFRA, Back, WebRTC
+- 당현찬 : INFRA, Back 
+- 김학준 : Front
 - 박승주 : Front
-- 안용현 : Front
+- 안용현 : UCC
 
 
 
@@ -112,11 +112,8 @@ main
 #### 시스템 환경 및 구성도
 
 1. 이슈 관리 : JIRA 
-
 2. 형상 관리 : Gitlab 
-
 3. 커뮤니케이션 : MatterMost, Notion, Discord, Webex 
-
 4. 개발 환경 
 
    - OS : Window 10 
@@ -125,7 +122,6 @@ main
    - UI/UX : Figma 
    - DB MySQL Workbench 8.0.29 
    - Server AWS EC2 
-
 5. 개발 
 
    - Ubuntu 20.04.4 LTS 
@@ -136,9 +132,7 @@ main
      - openvidu 2.20.0
    - DB
      - MySQL 8.0.30
-
    - Front-End 
-     - Vue build file
      - HTML 5, CSS 3, JavaScript ES6 
      - Vue 3 
      - Vuex 3 
@@ -146,6 +140,7 @@ main
    - Back-End 
      - Python 3.9.12 
      - Django 3.2.13 
+     - Django Rest Framework 3.13.1
 
 ![시스템 구성도](README.md.assets/시스템 구성도.png)
 
